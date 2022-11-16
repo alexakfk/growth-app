@@ -17,7 +17,8 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.kesk.designcode-app"
+      "bundleIdentifier": "com.kesk.designcode-app",
+      "deploymentTarget": "13.0"
     },
     "android": {
       "adaptiveIcon": {

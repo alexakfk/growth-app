@@ -1,7 +1,7 @@
-2022-11-16 10:08:59.963 xcodebuild[23628:683534] [MT] IDEFileReferenceDebug: [Load] <IDESwiftPackageCore.IDESwiftPackageSpecialFolderFileReference, 0x7fd977374440: name:Docs.docc path:group:Docs.docc> Failed to load container at path: /Users/indres/Library/Developer/Xcode/DerivedData/designcodeapp-dcpiopmdtxcvzabmbeairoqvktpb/SourcePackages/checkouts/swift-protobuf/Sources/protoc-gen-swift/Docs.docc, Error: Error Domain=com.apple.dt.IDEContainerErrorDomain Code=6 "Cannot open "Docs.docc" as a "Swift Package Folder" because it is already open as a "Folder"." UserInfo={NSLocalizedDescription=Cannot open "Docs.docc" as a "Swift Package Folder" because it is already open as a "Folder".}
+2022-11-16 10:16:58.616 xcodebuild[24532:693927] [MT] IDEFileReferenceDebug: [Load] <IDESwiftPackageCore.IDESwiftPackageSpecialFolderFileReference, 0x7f846eb69270: name:Docs.docc path:group:Docs.docc> Failed to load container at path: /Users/indres/Library/Developer/Xcode/DerivedData/designcodeapp-dcpiopmdtxcvzabmbeairoqvktpb/SourcePackages/checkouts/swift-protobuf/Sources/protoc-gen-swift/Docs.docc, Error: Error Domain=com.apple.dt.IDEContainerErrorDomain Code=6 "Cannot open "Docs.docc" as a "Swift Package Folder" because it is already open as a "Folder"." UserInfo={NSLocalizedDescription=Cannot open "Docs.docc" as a "Swift Package Folder" because it is already open as a "Folder".}
 ** BUILD FAILED **
 
 
 The following build commands failed:
-	SwiftEmitModule normal x86_64 Emitting\ module\ for\ ExpoRandom (in target 'ExpoRandom' from project 'Pods')
+	SwiftEmitModule normal x86_64 Emitting\ module\ for\ ExpoWebBrowser (in target 'ExpoWebBrowser' from project 'Pods')
 (1 failure)
