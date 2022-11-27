@@ -4,6 +4,9 @@ import { Animated, TouchableOpacity, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons"
 import MenuItem from "./MenuItem";
 import { connect } from "react-redux";
+import auth from "@react-native-firebase/auth";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { Navigate } from "react-router";
 
 function mapStateToProps(state) {
     return { action: state.action };
@@ -20,6 +23,7 @@ function mapDispatchToProps(dispatch) {
 const screenHeight = Dimensions.get("window").height;
 
 class Menu extends React.Component {
+
     state = {
         top: new Animated.Value(screenHeight)
     };
@@ -62,9 +66,22 @@ class Menu extends React.Component {
                     </CloseView>
                 </TouchableOpacity>
                 <Content>
-                    {items.map((item, index) => (
-                        <MenuItem key={index} icon={item.icon} title={item.title} text={item.text}/>
-                    ))}
+                    <MenuItem icon={"ios-settings"} title={"Account"} text={"settings"}/>
+                    <MenuItem icon={"gift-outline"} title={"Donate"} text={"help us grow!"}/>
+                    <MenuItem icon={"ios-compass"} title={"About us"} text={"who we are"}/>
+                    <TouchableOpacity onPress={async () => {
+                        try {
+                            await GoogleSignin.signOut();
+                            await auth().signOut();
+                          } catch (error) {
+                            console.error(error);
+                          }     
+                        
+                          console.log("signed out!")                  
+                    }}>
+                        <MenuItem icon={"ios-exit"} title={"Log out"} text={"see you soon!"}/>
+                    </TouchableOpacity>
+
                 </Content>
             </AnimatedContainer>
         )

@@ -18,7 +18,8 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.kesk.designcode-app",
-      "deploymentTarget": "13.0"
+      "deploymentTarget": "13.0",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
@@ -35,6 +36,9 @@
         "projectId": "635656ee-eb27-46cc-b65d-08d31b1c95bf"
       }
     },
-    "plugins": ["@react-native-google-signin/google-signin"]
+    "plugins": [
+      "@react-native-google-signin/google-signin",
+      "@react-native-firebase/app"
+    ]
   }
 }

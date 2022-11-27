@@ -11,20 +11,31 @@ import {
   Animated
 } from "react-native";
 import auth from "@react-native-firebase/auth";
-import { GoogleSignin } from "@react-native-googlesignin/google-signin";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+
 
 GoogleSignin.configure({
   webClientId:
-    "122356695421-j1ikuhaaqtfuak1lkb6h5sr65sec31fh.apps.googleusercontent.com",
+    "122356695421-kvp2ng3f9dnjrv12g6etvqas2jiogmcp.apps.googleusercontent.com",
   offlineAccess: true,
 });
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation: { navigate } }) => {
   async function signinWithGoogle() {
     const { idToken } = await GoogleSignin.signIn();
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-    return auth().signInWithCredential(googleCredential);
+    const user_sign_in = auth().signInWithCredential(googleCredential);
+
+    user_sign_in.then(re=>{
+      console.log(re);
+      navigate("Home")
+    })
   }
+
+  isSignedIn = async () => {
+    const isSignedIn = await GoogleSignin.isSignedIn();
+    this.setState({ isLoginScreenPresented: !isSignedIn });
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>

@@ -126,7 +126,7 @@ export default function BehaviourScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "left",
+    justifyContent: "center",
     backgroundColor: "#f0f3f5",
     padding: 0,
     margin: 0,

@@ -126,7 +126,7 @@ const Close = styled.View`
   top: 150px;
   left: 20px;
   background-color: rgba(0, 109, 119, 0.1);
-  border-radius: 20%;
+
 `;
 
 const Text = styled.Text`
