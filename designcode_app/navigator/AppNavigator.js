@@ -4,7 +4,7 @@ import HomeScreen from "../screens/HomeScreen";
 import SectionScreen from "../screens/SectionScreen";
 import NewPatient from "../screens/NewPatient";
 import BehaviourScreen from "../screens/Behaviour";
-import ExerciseScreen from "../screens/Exercise";
+import SleepScreen from "../screens/Sleep";
 import BowelScreen from "../screens/Bowel";
 import MedicineScreen from "../screens/Medicine";
 import LoginScreen from "../screens/LoginScreen";
@@ -15,7 +15,7 @@ const AppNavigator = createStackNavigator({
   Section: SectionScreen,
   AddPatient: NewPatient,
   AddBehaviour: BehaviourScreen,
-  AddExercise: ExerciseScreen,
+  AddSleep: SleepScreen,
   AddBowel: BowelScreen,
   AddMedicine: MedicineScreen,
 },

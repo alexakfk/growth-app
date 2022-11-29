@@ -61,10 +61,10 @@ class SectionScreen extends React.Component {
           <Pressable
             style={styles.button}
             onPress={() => {
-              this.props.navigation.navigate("AddExercise");
+              this.props.navigation.navigate("AddSleep");
             }}
           >
-            <Text style={styles.text}>Exercise</Text>
+            <Text style={styles.text}>Sleep</Text>
           </Pressable>
           <Pressable
             style={styles.button}

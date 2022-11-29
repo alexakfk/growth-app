@@ -9,7 +9,7 @@ import {
   Button,
 } from "react-native";
 
-class ExerciseScreen extends React.Component {
+class SleepScreen extends React.Component {
   static navigationOptions = {
     headerShown: false,
   };
@@ -19,7 +19,7 @@ class ExerciseScreen extends React.Component {
       <SafeAreaView>
         <Container>
           <Button
-            title="Exercise Screen"
+            title="Sleep Screen"
             onPress={() => {
               this.props.navigation.navigate("Section");
             }}
@@ -30,6 +30,6 @@ class ExerciseScreen extends React.Component {
   }
 }
 
-export default ExerciseScreen;
+export default SleepScreen;
 
 const Container = styled.View``;

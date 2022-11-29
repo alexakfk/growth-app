@@ -9,6 +9,9 @@
     "web": "expo start --web",
     "eject": "expo eject"
   },
+  "resolutions": {
+    "styled-components": "^5"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
@@ -47,7 +50,7 @@
     "react-native": "0.68.2",
     "react-native-dropdown-picker": "^5.4.2",
     "react-native-dropdown-select-list": "^1.0.18",
-    "react-native-gesture-handler": "^2.8.0",
+    "react-native-gesture-handler": "~2.2.1",
     "react-native-gifted-charts": "^1.2.41",
     "react-native-google-signin": "^2.1.1",
     "react-native-googlesignin": "^0.8.2",
