@@ -21,13 +21,14 @@ export default function SleepScreen() {
   const [endDate, setEndDate] = useState(new Date());
   const [open2, setOpen2] = useState(false)
   const [note, setNote] = React.useState("");
+  var am_pm1 = startDate.getHours() >= 12 ? "PM" : "AM";
+  var am_pm2 = startDate.getHours() >= 12 ? "PM" : "AM";
 
   const cancel = () => {
     
   }
 
   const onPress = () => {
-
     console.log(startDate.getMonth() + '/' + startDate.getDate() + '/' + startDate.getFullYear())
     console.log(endDate.getMonth() + '/' + endDate.getDate() + '/' + startDate.getFullYear())
     console.log(startDate.getHours() + ':' + startDate.getMinutes())
@@ -53,6 +54,9 @@ export default function SleepScreen() {
           setOpen1(false)
         }}
       />
+      <View>
+        <Text>{startDate.getMonth() + '/' + startDate.getDate() + '/' + startDate.getFullYear()} {startDate.getHours() + ':' + startDate.getMinutes() + am_pm1}</Text>
+      </View>
      <Button title="Open" onPress={() => setOpen2(true)} />
       <DatePicker
         modal
@@ -66,6 +70,9 @@ export default function SleepScreen() {
           setOpen2(false)
         }}
       />
+      <View>
+        <Text>{endDate.getMonth() + '/' + endDate.getDate() + '/' + endDate.getFullYear()} {endDate.getHours() + ':' + endDate.getMinutes() + am_pm2}</Text>
+      </View>
 
       <TextInput
         value={note}
