@@ -10,7 +10,7 @@ import Patients from "../components/Patients";
 import Card from "../components/Card";
 import { Ionicons } from "@expo/vector-icons";
 import Menu from "../components/Menu";
-import auth from "@react-native-firebase/auth";
+import { connect } from "react-redux";
 
 function mapStateToProps(state) {
   return { action: state.action };
@@ -25,14 +25,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-let user = Auth.auth().currentUser
-  // The user's ID, unique to the Firebase project.
-  // Do NOT use this value to authenticate with your backend server,
-  // if you have one. Use getTokenWithCompletion:completion: instead.
-  let uid = user.uid
-  let email = user.email
-  let photoURL = user.photoURL
-  // ...
 
 class HomeScreen extends React.Component {
 
@@ -78,7 +70,7 @@ class HomeScreen extends React.Component {
                   <Avatar source={require("../assets/avatar.jpeg")} />
                 </TouchableOpacity>
                 <Title>Welcome back, </Title>
-                <Name>{uid}</Name>
+                <Name>Dr. Chock</Name>
                 <TouchableOpacity
                   style={{ position: "absolute", right: 30, top: 0 }}
                   onPress={() => {
