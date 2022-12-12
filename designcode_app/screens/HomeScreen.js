@@ -11,6 +11,7 @@ import Card from "../components/Card";
 import { Ionicons } from "@expo/vector-icons";
 import Menu from "../components/Menu";
 import { connect } from "react-redux";
+import auth from '@react-native-firebase/auth';
 
 function mapStateToProps(state) {
   return { action: state.action };
@@ -26,9 +27,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 
+
 class HomeScreen extends React.Component {
-
-
+  
   static navigationOptions = {
     headerShown: false,
   };
@@ -56,7 +57,9 @@ class HomeScreen extends React.Component {
   };
 
   render() {
+    const user = auth().currentUser;
     return (
+      
       <RootView>
         <Menu />
         <AnimatedContainer style={{ transform: [{ scale: this.state.scale }] }}>
@@ -67,12 +70,12 @@ class HomeScreen extends React.Component {
                   onPress={this.props.openMenu}
                   style={{ position: "absolute", top: 0, left: 20 }}
                 >
-                  <Avatar source={require("../assets/avatar.jpeg")} />
+                  <Avatar source={{uri:user.photoURL}} />
                 </TouchableOpacity>
                 <Title>Welcome back, </Title>
-                <Name>Dr. Chock</Name>
+                <Name>{user.displayName}</Name>
                 <TouchableOpacity
-                  style={{ position: "absolute", right: 30, top: 0 }}
+                  style={ { position: "absolute", right: 30, top: 0 }}
                   onPress={() => {
                     this.props.navigation.navigate("AddPatient");
                   }}

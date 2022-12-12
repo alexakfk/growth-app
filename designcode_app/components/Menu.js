@@ -8,6 +8,7 @@ import auth from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { Navigate } from "react-router";
 
+
 function mapStateToProps(state) {
     return { action: state.action };
 }
@@ -53,11 +54,12 @@ class Menu extends React.Component {
     }
 
     render() {
+        const user = auth().currentUser
         return (
             <AnimatedContainer style={{ top: this.state.top }}>
                 <Cover>
                     <Image source={require('../assets/background2.jpg')} />
-                    <Title>Dr. Chock</Title>
+                    <Title>{user.displayName}</Title>
                     <Subtitle>Kaiser Permanente</Subtitle>
                 </Cover>
                 <TouchableOpacity onPress={this.props.closeMenu} style={{ position: "absolute", top: 120, left: "50%", marginLeft: -22, zIndex: 1 }}>
