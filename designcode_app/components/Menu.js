@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import auth from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { Navigate } from "react-router";
-
+import firestore from '@react-native-firebase/firestore';
 
 function mapStateToProps(state) {
     return { action: state.action };
@@ -55,6 +55,16 @@ class Menu extends React.Component {
 
     render() {
         const user = auth().currentUser
+        firestore()
+            .collection('users')
+            .add({
+                name: '{user.displayName}',
+                age: 30,
+            })
+            .then(() => {
+            console.log('User added!');
+            });
+
         return (
             <AnimatedContainer style={{ top: this.state.top }}>
                 <Cover>

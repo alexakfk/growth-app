@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import auth from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import firestore from "@react-native-firebase/firestore";
 
 
 GoogleSignin.configure({
@@ -21,6 +22,7 @@ GoogleSignin.configure({
 });
 
 const LoginScreen = ({ navigation: { navigate } }) => {
+  const user = auth().currentUser
   async function signinWithGoogle() {
     const { idToken } = await GoogleSignin.signIn();
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
@@ -30,6 +32,22 @@ const LoginScreen = ({ navigation: { navigate } }) => {
       console.log(re);
       navigate("Home")
     })
+    firestore().collection("users").doc(user.uid).get().then(doc => {
+      if (doc.exists) {
+      console.log("already here");
+      }
+      else {
+        firestore()
+            .collection('users')
+            .doc(user.uid)
+            .add({
+                name: user.displayName,
+            })
+            .then(() => {
+            console.log('User added!');
+            });
+          }
+          })
   }
 
   isSignedIn = async () => {
