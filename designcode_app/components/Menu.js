@@ -55,15 +55,6 @@ class Menu extends React.Component {
 
     render() {
         const user = auth().currentUser
-        firestore()
-            .collection('users')
-            .add({
-                name: '{user.displayName}',
-                age: 30,
-            })
-            .then(() => {
-            console.log('User added!');
-            });
 
         return (
             <AnimatedContainer style={{ top: this.state.top }}>
@@ -89,7 +80,8 @@ class Menu extends React.Component {
                             console.error(error);
                           }     
                         
-                          console.log("signed out!")                  
+                          console.log("signed out!")    
+                          this.props.navigation.push('Login')           
                     }}>
                         <MenuItem icon={"ios-exit"} title={"Log out"} text={"see you soon!"}/>
                     </TouchableOpacity>

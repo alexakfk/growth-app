@@ -13,6 +13,8 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import DropDownPicker from "react-native-dropdown-picker";
+import firestore from '@react-native-firebase/firestore';
+
 
 export default function BehaviourScreen() {
   const [open, setOpen] = useState(false);

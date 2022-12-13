@@ -29,25 +29,18 @@ const LoginScreen = ({ navigation: { navigate } }) => {
     const user_sign_in = auth().signInWithCredential(googleCredential);
 
     user_sign_in.then(re=>{
-      console.log(re);
       navigate("Home")
     })
     firestore().collection("users").doc(user.uid).get().then(doc => {
       if (doc.exists) {
-      console.log("already here");
+        console.log('User already here!');
       }
       else {
-        firestore()
-            .collection('users')
-            .doc(user.uid)
-            .add({
-                name: user.displayName,
-            })
-            .then(() => {
-            console.log('User added!');
-            });
+        firestore().collection('users').doc(user.uid).set({name: user.displayName}).then(() => {
+          console.log('User added!');
+          });
           }
-          })
+    })
   }
 
   isSignedIn = async () => {
