@@ -53,7 +53,7 @@ const LoginScreen = ({ navigation: { navigate } }) => {
       <StatusBar barStyle="light-content" />
       <View style={styles.container}>
         <View style={styles.topContent}>
-          <Text style={styles.mainText}>Social Auth</Text>
+          <Image source={require("../assets/logo.jpg")}/>
         </View>
         <View style={styles.bottomContent}>
           <TouchableOpacity
@@ -75,11 +75,11 @@ const LoginScreen = ({ navigation: { navigate } }) => {
 };
 const styles = StyleSheet.create({
   safeArea: {
-    backgroundColor: "#262b2f",
+    backgroundColor: "#284a6e",
   },
   container: {
     height: Dimensions.get("window").height,
-    backgroundColor: "#262b2f",
+    backgroundColor: "#284a6e",
   },
   topContent: {
     flex: 1,
