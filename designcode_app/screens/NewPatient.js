@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Ionicons } from "@expo/vector-icons";
 import {
@@ -14,24 +14,46 @@ import {
   TextStyle,
   TextInputProps,
 } from "react-native";
+import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth";
 
 class NewPatient extends React.Component {
   static navigationOptions = {
     headerShown: false,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "",
+      treatment: "",
+      blood: "",
+      contact: "",
+      rel: "",
+      patientNum: 0,
+    }
+  }
+
   render() {
     // Navigation
     const { navigation } = this.props;
     const section = navigation.getParam("section");
+    const user = auth().currentUser
 
-    // Form Variables
-    const name = "";
-    const treatment = "";
-    const blood = "";
-    const contact = "";
-    const rel = "";
-    const image = "";
+    const onClick = () => {
+      Alert.alert("Patient Added!");
+      this.setState({patientNum: this.state.patientNum + 1})
+     
+      firestore().collection('users').doc(user.uid).collection("Patients").doc(this.state.patientNum.toString()).set({
+        name: this.state.name,
+        treatment: this.state.treatment,
+        blood: this.state.blood,
+        contact: this.state.contact,
+        rel: this.state.rel
+      })
+      console.log(this.state.patientNum)
+      
+    }
 
     return (
       <ScrollView>
@@ -49,25 +71,38 @@ class NewPatient extends React.Component {
           </Top>
           <Form>
             <Text style={styles.text}>Patient Name</Text>
-            <TextInput placeholder="Full Name" style={styles.response} />
+            <TextInput placeholder="Full Name" style={styles.response} 
+              value={this.state.name}
+              onChangeText={name => this.setState({name})}
+            />
             <Text style={styles.text}>Cause of Treament</Text>
             <TextInput
               placeholder="Cause of Treament"
               style={styles.response}
+              value={this.state.treatment}
+              onChangeText={treatment => this.setState({treatment})}
             />
             <Text style={styles.text}>Blood Type</Text>
-            <TextInput placeholder="Blood Type" style={styles.response} />
+            <TextInput placeholder="Blood Type" style={styles.response} 
+              value={this.state.blood}
+              onChangeText={blood => this.setState({blood})}
+            />
             <Text style={styles.text}>Close Contact</Text>
-            <TextInput placeholder="Phone Number" style={styles.response} />
+            <TextInput placeholder="Phone Number" style={styles.response} 
+              value={this.state.contact}
+              onChangeText={contact => this.setState({contact})}
+            />
             <Text style={styles.text}>Relationship to Patient</Text>
             <TextInput
-              placeholder="Mother, Sister, Father, etc."
+              placeholder="Relationship"
               style={styles.response}
+              value={this.state.rel}
+              onChangeText={rel => this.setState({rel})}
             />
             <Text style={styles.text}>Patient Image</Text>
             <Pressable
               style={styles.button}
-              onPress={() => Alert.alert("Patient Added!")}
+              onPress={onClick}
             >
               <Text style={styles.buttonText}>Submit</Text>
             </Pressable>
