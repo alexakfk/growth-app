@@ -80,8 +80,9 @@ class Menu extends React.Component {
                             console.error(error);
                           }     
                         
-                          console.log("signed out!")    
-                          this.props.navigation.push('Login')           
+                          console.log("signed out!")  
+                          this.props.navigation.navigate('Login')  
+                                   
                     }}>
                         <MenuItem icon={"ios-exit"} title={"Log out"} text={"see you soon!"}/>
                     </TouchableOpacity>
@@ -126,7 +127,7 @@ const Container = styled.View`
     position: absolute;
     background: white;
     width: 100%;
-    height: 100%;
+    height: 100%;   
     z-index: 100;
     border-radius: 10px;
     overflow: hidden;

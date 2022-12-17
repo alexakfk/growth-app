@@ -61,7 +61,7 @@ class HomeScreen extends React.Component {
     return (
       
       <RootView>
-        <Menu />
+        <Menu navigation = {this.props.navigation}/>
         <AnimatedContainer style={{ transform: [{ scale: this.state.scale }] }}>
           <SafeAreaView>
             <ScrollView>

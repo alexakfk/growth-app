@@ -21,8 +21,11 @@ GoogleSignin.configure({
   offlineAccess: true,
 });
 
+const user = auth().currentUser
+
 const LoginScreen = ({ navigation: { navigate } }) => {
-  const user = auth().currentUser
+  
+  
   async function signinWithGoogle() {
     const { idToken } = await GoogleSignin.signIn();
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
