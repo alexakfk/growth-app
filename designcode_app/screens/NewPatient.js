@@ -30,7 +30,6 @@ class NewPatient extends React.Component {
       blood: "",
       contact: "",
       rel: "",
-      patientNum: 0,
     }
   }
 
@@ -41,17 +40,17 @@ class NewPatient extends React.Component {
     const user = auth().currentUser
 
     const onClick = () => {
-      Alert.alert("Patient Added!");
-      this.setState({patientNum: this.state.patientNum + 1})
+      
      
-      firestore().collection('users').doc(user.uid).collection("Patients").doc(this.state.patientNum.toString()).set({
+      firestore().collection('users').doc(user.uid).collection("Patients").doc(this.state.name).set({
         name: this.state.name,
         treatment: this.state.treatment,
         blood: this.state.blood,
         contact: this.state.contact,
         rel: this.state.rel
       })
-      console.log(this.state.patientNum)
+
+      this.props.navigation.navigate("Home", {addPatient: true, fullName: this.state.name, treatment: this.state.treatment, blood: this.state.blood, contact: this.state.contact, rel: this.state.rel})
       
     }
 

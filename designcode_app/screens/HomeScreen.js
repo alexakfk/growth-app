@@ -12,6 +12,8 @@ import { Ionicons } from "@expo/vector-icons";
 import Menu from "../components/Menu";
 import { connect } from "react-redux";
 import auth from '@react-native-firebase/auth';
+import firestore from "@react-native-firebase/firestore";
+
 
 function mapStateToProps(state) {
   return { action: state.action };
@@ -36,6 +38,7 @@ class HomeScreen extends React.Component {
 
   state = {
     scale: new Animated.Value(1),
+    patients: [],
   };
 
   componentDidUpdate() {
@@ -56,11 +59,54 @@ class HomeScreen extends React.Component {
     }
   };
 
+
   render() {
+
+
+    const { navigation } = this.props;
+    const fullName = navigation.getParam('fullName', 'null');
+    const treatment = navigation.getParam('treatment', 'null');
+    const blood = navigation.getParam('blood', 'null');
+    const contact = navigation.getParam('contact', 'null');
+    const rel = navigation.getParam('rel', 'null');
+
+    if (navigation.getParam('addPatient', 'null')) {
+      this.setState({patients: [
+        ...this.state.patients,
+        {
+        image: require("../assets/profile1.jpg"),
+        name: {fullName},
+        main: {treatment},
+        relationship: {rel},
+        phone: {contact},
+        blood: {blood},
+        data: require("../assets/dataMock.jpeg"),
+        }
+      ]})
+      navigation.setParams({addPatient: false})
+      
+    }
+
+    
+    const cards = [
+      {
+        image: require("../assets/background1.jpg"),
+        title: "Alzheimer's Society",
+        author: "The progression and stages of dementia",
+      },
+      {
+        image: require("../assets/background5.jpg"),
+        title: "Teepa Snow",
+        author: "Positive Approach to Care",
+      },
+    ];
+
+
     const user = auth().currentUser;
     return (
       
       <RootView>
+
         <Menu navigation = {this.props.navigation}/>
         <AnimatedContainer style={{ transform: [{ scale: this.state.scale }] }}>
           <SafeAreaView>
@@ -78,6 +124,7 @@ class HomeScreen extends React.Component {
                   style={ { position: "absolute", right: 30, top: 0 }}
                   onPress={() => {
                     this.props.navigation.navigate("AddPatient");
+                    
                   }}
                 >
                   <Ionicons name="add-circle" size={40} color="#4775F2" />
@@ -94,12 +141,13 @@ class HomeScreen extends React.Component {
                 showsHorizontalScrollIndicator={false}
               ></ScrollView>
               <Subtitle>Patients</Subtitle>
+              
               <ScrollView
                 horizontal={true}
                 style={{ paddingBottom: 10, paddingLeft: 10 }}
                 showsHorizontalScrollIndicator={false}
               >
-                {patients.map((patient, index) => (
+                {this.state.patients.map((patient, index) => (
                   <TouchableOpacity
                     key={index}
                     onPress={() => {
@@ -108,10 +156,13 @@ class HomeScreen extends React.Component {
                       });
                     }}
                   >
-                    <Patients image={patient.image} name={patient.name} />
+                    
+                    <Patients image={patient.image} name={fullName} />
+                    
                   </TouchableOpacity>
                 ))}
               </ScrollView>
+              
               <Subtitle>News</Subtitle>
               <ScrollView style={{ paddingBottom: 30, paddingLeft: 10 }}>
                 {cards.map((card, index) => (
@@ -180,54 +231,4 @@ const TitleBar = styled.View`
   padding-left: 80px;
 `;
 
-const patients = [
-  {
-    image: require("../assets/profile1.jpg"),
-    name: "Henley Kim",
-    main: "Dementia",
-    relationship: "Daughter",
-    phone: "(808) 220 4468",
-    blood: "A+",
-    data: require("../assets/dataMock.jpeg"),
-  },
-  {
-    image: require("../assets/profile2.jpg"),
-    name: "Michael Johnson",
-    main: "Alzheimer's",
-    relationship: "Wife",
-    phone: "(404) 674 2234",
-    blood: "B-",
-    data: require("../assets/background4.jpg"),
-  },
-  {
-    image: require("../assets/profile3.jpg"),
-    name: "Jaimee Mason",
-    main: "Parkinson's",
-    relationship: "Son",
-    phone: "(503) 223 2211",
-    blood: "A-",
-    data: require("../assets/background2.jpg"),
-  },
-  {
-    image: require("../assets/profile4.jpg"),
-    name: "Luke Wooten",
-    main: "Alzheimer's",
-    relationship: "Niece",
-    phone: "(540) 230 3432",
-    blood: "O-",
-    data: require("../assets/background3.jpg"),
-  },
-];
 
-const cards = [
-  {
-    image: require("../assets/background1.jpg"),
-    title: "Alzheimer's Society",
-    author: "The progression and stages of dementia",
-  },
-  {
-    image: require("../assets/background5.jpg"),
-    title: "Teepa Snow",
-    author: "Positive Approach to Care",
-  },
-];
