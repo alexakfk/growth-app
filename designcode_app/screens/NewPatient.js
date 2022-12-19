@@ -40,15 +40,6 @@ class NewPatient extends React.Component {
     const user = auth().currentUser
 
     const onClick = () => {
-      
-     
-      firestore().collection('users').doc(user.uid).collection("Patients").doc(this.state.name).set({
-        name: this.state.name,
-        treatment: this.state.treatment,
-        blood: this.state.blood,
-        contact: this.state.contact,
-        rel: this.state.rel
-      })
 
       this.props.navigation.navigate("Home", {addPatient: true, fullName: this.state.name, treatment: this.state.treatment, blood: this.state.blood, contact: this.state.contact, rel: this.state.rel})
       

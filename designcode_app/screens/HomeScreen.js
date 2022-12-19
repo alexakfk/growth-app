@@ -37,9 +37,17 @@ class HomeScreen extends React.Component {
   };
 
   state = {
-    scale: new Animated.Value(1),
-    patients: [],
-  };
+      scale: new Animated.Value(1),
+      patients: [{
+        name: '',
+        main: '',
+        relationship: '',
+        contact: '',
+        blood: ''
+      }],
+    };
+  
+
 
   componentDidUpdate() {
     this.toggleMenu();
@@ -62,28 +70,25 @@ class HomeScreen extends React.Component {
 
   render() {
 
-
+    const user = auth().currentUser
     const { navigation } = this.props;
-    const fullName = navigation.getParam('fullName', 'null');
-    const treatment = navigation.getParam('treatment', 'null');
-    const blood = navigation.getParam('blood', 'null');
-    const contact = navigation.getParam('contact', 'null');
-    const rel = navigation.getParam('rel', 'null');
 
     if (navigation.getParam('addPatient', 'null')) {
-      this.setState({patients: [
-        ...this.state.patients,
-        {
-        image: require("../assets/profile1.jpg"),
-        name: {fullName},
-        main: {treatment},
-        relationship: {rel},
-        phone: {contact},
-        blood: {blood},
-        data: require("../assets/dataMock.jpeg"),
-        }
-      ]})
+
+      this.setState({patients:[{
+        name: navigation.getParam('fullName', 'null'),
+        main: navigation.getParam('treatment', 'null'),
+        relationship: navigation.getParam('rel', 'null'),
+        contact: navigation.getParam('contact', 'null'),
+        blood: navigation.getParam('blood', 'null'), 
+    }]})
+      
+      console.log(this.state.patients)
+     
+      
       navigation.setParams({addPatient: false})
+      
+      
       
     }
 
@@ -102,7 +107,6 @@ class HomeScreen extends React.Component {
     ];
 
 
-    const user = auth().currentUser;
     return (
       
       <RootView>
@@ -147,9 +151,9 @@ class HomeScreen extends React.Component {
                 style={{ paddingBottom: 10, paddingLeft: 10 }}
                 showsHorizontalScrollIndicator={false}
               >
-                {this.state.patients.map((patient, index) => (
+                {this.state.patients.map((patient) => (
                   <TouchableOpacity
-                    key={index}
+                    key={patient.name}
                     onPress={() => {
                       this.props.navigation.navigate("Section", {
                         section: patient,
@@ -157,7 +161,7 @@ class HomeScreen extends React.Component {
                     }}
                   >
                     
-                    <Patients image={patient.image} name={fullName} />
+                    <Patients image={patient.image} name={patient.name} />
                     
                   </TouchableOpacity>
                 ))}
