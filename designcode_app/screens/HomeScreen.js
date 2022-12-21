@@ -131,19 +131,6 @@ class HomeScreen extends React.Component {
       
     }
 
-    
-    const cards = [
-      {
-        image: require("../assets/background1.jpg"),
-        title: "Alzheimer's Society",
-        author: "The progression and stages of dementia",
-      },
-      {
-        image: require("../assets/background5.jpg"),
-        title: "Teepa Snow",
-        author: "Positive Approach to Care",
-      },
-    ];
 
 
     return (
@@ -200,7 +187,7 @@ class HomeScreen extends React.Component {
                     }}
                   >
                     
-                    <Patients image={this.state.image} name={patient.name} />
+                    <Patients image={patient.image} name={patient.name} />
                     
                   </TouchableOpacity>
                 ))}
@@ -226,6 +213,19 @@ class HomeScreen extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+
+const cards = [
+  {
+    image: require("../assets/background1.jpg"),
+    title: "Alzheimer's Society",
+    author: "The progression and stages of dementia",
+  },
+  {
+    image: require("../assets/background5.jpg"),
+    title: "Teepa Snow",
+    author: "Positive Approach to Care",
+  },
+];
 
 const RootView = styled.View`
   background: black;

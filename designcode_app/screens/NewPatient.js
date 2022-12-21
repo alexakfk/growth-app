@@ -19,6 +19,8 @@ import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
 import * as ImagePicker from 'expo-image-picker';
 
+
+
 class NewPatient extends React.Component {
   static navigationOptions = {
     headerShown: false,
@@ -43,6 +45,12 @@ class NewPatient extends React.Component {
     const section = navigation.getParam("section");
     const user = auth().currentUser
 
+    const onClick = () => {
+
+      this.props.navigation.navigate("Home", {addPatient: true, fullName: this.state.name, treatment: this.state.treatment, blood: this.state.blood, contact: this.state.contact, rel: this.state.rel, image: this.state.image})
+
+    }
+
     const pickImage = async () => {
       // No permissions request is necessary for launching the image library
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -51,18 +59,12 @@ class NewPatient extends React.Component {
         aspect: [4, 3],
         quality: 1,
         });
-
+    
         if (!result.canceled) {
           this.setState({image: result.assets[0].uri});
         }
         console.log(this.state.image)
       }
-
-    const onClick = () => {
-
-      this.props.navigation.navigate("Home", {addPatient: true, fullName: this.state.name, treatment: this.state.treatment, blood: this.state.blood, contact: this.state.contact, rel: this.state.rel, image: this.state.image})
-
-    }
 
     
 

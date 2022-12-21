@@ -5,7 +5,7 @@ import styled from "styled-components";
 const Patients = props => (
   <Container>
     <Cover>
-      <Image source={props.image} style = {{position: 'absolute', width: '100%', height: '100%'}}/>
+      <Image source={{uri: props.image}} style = {{position: 'absolute', width: '100%', height: '100%'}}/>
     </Cover>
     <Content>
       <Name>{props.name}</Name>
