@@ -30,23 +30,47 @@ function mapDispatchToProps(dispatch) {
 
 
 
+
 class HomeScreen extends React.Component {
+  
   
   static navigationOptions = {
     headerShown: false,
   };
-
-  state = {
+  constructor(props) {
+  super(props)
+  this.state = {
       scale: new Animated.Value(1),
-      patients: [{
-        name: '',
-        main: '',
-        relationship: '',
-        contact: '',
-        blood: ''
-      }],
+      patients: [],
+    
     };
-  
+  }
+
+
+  componentDidMount() {
+   
+    const user = auth().currentUser
+    patientsArray = [];
+
+    firestore()
+    .collection('users')
+    .doc(user.uid)
+    .collection('patients')
+    .get()
+    .then(querySnapshot => {
+      querySnapshot.forEach(documentSnapshot => {
+      patientsArray.push({
+        ...documentSnapshot.data()
+      })
+      })
+      console.log(patientsArray)
+      this.setState({patients: patientsArray})
+    })
+    
+    console.log(this.state.patients)
+
+    
+  }
 
 
   componentDidUpdate() {
@@ -70,25 +94,40 @@ class HomeScreen extends React.Component {
 
   render() {
 
+    
     const user = auth().currentUser
     const { navigation } = this.props;
 
-    if (navigation.getParam('addPatient', 'null')) {
+    if (navigation.getParam('addPatient', false)) {
 
-      this.setState({patients:[{
+      this.setState({patients:[
+        ...this.state.patients, 
+        {
         name: navigation.getParam('fullName', 'null'),
         main: navigation.getParam('treatment', 'null'),
         relationship: navigation.getParam('rel', 'null'),
         contact: navigation.getParam('contact', 'null'),
         blood: navigation.getParam('blood', 'null'), 
-    }]})
-      
-      console.log(this.state.patients)
-     
+        image: navigation.getParam('image', 'null'),
+        }
+      ]})
+    
+      firestore().collection('users').doc(user.uid).collection('patients').add(
+        {
+          name: navigation.getParam('fullName', 'null'),
+          main: navigation.getParam('treatment', 'null'),
+          relationship: navigation.getParam('rel', 'null'),
+          contact: navigation.getParam('contact', 'null'),
+          blood: navigation.getParam('blood', 'null'),
+          image: navigation.getParam('image', 'null'),
+        }
+        )
       
       navigation.setParams({addPatient: false})
-      
-      
+
+       
+
+      console.log(this.state.patients)
       
     }
 
@@ -151,9 +190,9 @@ class HomeScreen extends React.Component {
                 style={{ paddingBottom: 10, paddingLeft: 10 }}
                 showsHorizontalScrollIndicator={false}
               >
-                {this.state.patients.map((patient) => (
+                {this.state.patients.map((patient, index) => (
                   <TouchableOpacity
-                    key={patient.name}
+                    key={index}
                     onPress={() => {
                       this.props.navigation.navigate("Section", {
                         section: patient,
@@ -161,7 +200,7 @@ class HomeScreen extends React.Component {
                     }}
                   >
                     
-                    <Patients image={patient.image} name={patient.name} />
+                    <Patients image={this.state.image} name={patient.name} />
                     
                   </TouchableOpacity>
                 ))}

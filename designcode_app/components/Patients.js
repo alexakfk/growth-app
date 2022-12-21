@@ -1,10 +1,11 @@
 import React from "react";
+import {Image} from 'react-native'
 import styled from "styled-components";
 
 const Patients = props => (
   <Container>
     <Cover>
-      <Image source={props.image} />
+      <Image source={props.image} style = {{position: 'absolute', width: '100%', height: '100%'}}/>
     </Cover>
     <Content>
       <Name>{props.name}</Name>
@@ -29,12 +30,6 @@ const Cover = styled.View`
   border-top-left-radius: 14px;
   overflow: hidden;
   justify-content: flex-end;
-`;
-
-const Image = styled.Image`
-  position: absolute;
-  width: 100%;
-  height: 100%;
 `;
 
 const Content = styled.View`

@@ -4,7 +4,7 @@ import styled from "styled-components";
 const Card = props => (
     <Container>
         <Cover>
-            <Image source={props.image} />
+            <Image source={{uri: props.image}} />
         </Cover>
         <Content>
             <Wrapper>
