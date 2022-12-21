@@ -13,6 +13,8 @@ import {
 import React,{ useState } from 'react';
 import { Ionicons } from "@expo/vector-icons";
 import DatePicker from 'react-native-date-picker'
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 
 export default function SleepScreen() {
@@ -23,6 +25,7 @@ export default function SleepScreen() {
   const [note, setNote] = React.useState("");
   var am_pm1 = startDate.getHours() >= 12 ? "PM" : "AM";
   var am_pm2 = startDate.getHours() >= 12 ? "PM" : "AM";
+  const user = auth().currentUser
 
   const cancel = () => {
     
@@ -34,8 +37,20 @@ export default function SleepScreen() {
     console.log(startDate.getHours() + ':' + startDate.getMinutes())
     console.log(endDate.getHours() + ':' + endDate.getMinutes())
     console.log(note)
-    console.log((Math.floor(Math.abs(endDate - startDate) / (1000*60*60))) + ' Hours ' + ((Math.round(Math.abs(endDate - startDate) / (1000*60))) - ((Math.floor(Math.abs(endDate - startDate) / (1000*60*60))) * 60)) + ' Minutes')
-   
+    const duration = (Math.floor(Math.abs(endDate - startDate) / (1000*60*60))) + ' Hours ' + ((Math.round(Math.abs(endDate - startDate) / (1000*60))) - ((Math.floor(Math.abs(endDate - startDate) / (1000*60*60))) * 60)) + ' Minutes'
+    
+    const initialDate = ({date: startDate, time: startDate.toLocaleTimeString()})
+    const date = ({date: endDate, time: endDate.toLocaleTimeString()})
+
+    firestore().collection('users').doc(user.uid).collection('Sleep').add({
+      initialDate,
+      date,
+      note,
+      duration
+
+
+
+    })
   }
 
   return(

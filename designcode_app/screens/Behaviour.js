@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import {
   StyleSheet,
@@ -14,6 +14,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import DropDownPicker from "react-native-dropdown-picker";
 import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 
 export default function BehaviourScreen() {
@@ -29,20 +30,21 @@ export default function BehaviourScreen() {
   const [open2, setOpen2] = useState(false);
   const [selectedOption2, setSelectedOption2] = useState(null);
   const [items2, setItems2] = useState([
-    { value: "5", label: "5 min" },
-    { value: "10", label: "10 min" },
-    { value: "15", label: "15 min" },
-    { value: "20", label: "20 min" },
-    { value: "25", label: "25 min" },
-    { value: "30", label: "30 min" },
-    { value: "35", label: "35 min" },
-    { value: "40", label: "40 min" },
-    { value: "45", label: "45 min" },
-    { value: "50", label: "50 min" },
-    { value: "55", label: "55 min" },
-    { value: "60", label: "60 min" },
+    { value: 5, label: "5 min" },
+    { value: 10, label: "10 min" },
+    { value: 15, label: "15 min" },
+    { value: 20, label: "20 min" },
+    { value: 25, label: "25 min" },
+    { value: 30, label: "30 min" },
+    { value: 35, label: "35 min" },
+    { value: 40, label: "40 min" },
+    { value: 45, label: "45 min" },
+    { value: 50, label: "50 min" },
+    { value: 55, label: "55 min" },
+    { value: 60, label: "60 min" },
   ]);
   const [note, setNote] = React.useState("");
+  const user = auth().currentUser
 
   const onOpen = () => {
     setOpen2(false);
@@ -53,32 +55,21 @@ export default function BehaviourScreen() {
 
   const onPress = () => {
     const now = new Date();
-    const current = now.getHours() + ":" + now.getMinutes();
-    console.log("Start Time: " + current);
-
-    if (parseInt(now.getMinutes()) + parseInt(selectedOption2) > 59) {
-      var newHours =
-        (parseInt(now.getMinutes()) + parseInt(selectedOption2)) / 60;
-      var newMinutes =
-        (parseInt(now.getMinutes()) + parseInt(selectedOption2)) % 60;
-      let newTime =
-        parseInt(newHours) +
-        parseInt(now.getHours()) +
-        ":" +
-        parseInt(newMinutes);
-      console.log("End Time: " + newTime);
-    } else {
-      var newHours = now.getHours();
-      var newMinutes = parseInt(now.getMinutes()) + parseInt(selectedOption2);
-      let newTime = parseInt(newHours) + ":" + parseInt(newMinutes);
-
-      console.log("End Time: " + newTime);
-
-      console.log(now.getMonth() + 1 + "/" + now.getDate());
-    }
+    const now2 = new Date();
+    now2.setHours(now.getHours(),now.getMinutes()+(selectedOption2))
+    const initialDate = ({date:now, time:now.toLocaleTimeString()})
+    const date = ({date:now2, time:now2.toLocaleTimeString()})
+    firestore().collection('users').doc(user.uid).collection('Behaviors').add({
+      initialDate,
+      date,
+      selectedOption,
+      note
+    })
 
     console.log(selectedOption);
+    
     console.log(note);
+  
   };
 
   const cancel = () => {};

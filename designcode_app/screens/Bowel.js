@@ -10,6 +10,8 @@ import {
 import Icon from "react-native-vector-icons/Entypo";
 import DropDownPicker from "react-native-dropdown-picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 export default function Bowel() {
   const [open, setOpen] = useState(false);
@@ -23,19 +25,18 @@ export default function Bowel() {
   ]);
 
   const [note, setNote] = React.useState("");
+  const user = auth().currentUser
 
   const onPress = () => {
     console.log(selectedOption);
-    console.log(
-      dateValue.getMonth() +
-        1 +
-        "/" +
-        dateValue.getDate() +
-        "/" +
-        dateValue.getFullYear()
-    );
-    console.log(dateValue.getHours() + ":" + dateValue.getMinutes());
+    console.log(dateValue);
+    console.log(dateValue.toLocaleTimeString());
+    const date = ({date: dateValue, time: dateValue.toLocaleTimeString()})
     console.log(note);
+    firestore().collection('users').doc(user.uid).collection('Bowel').add({
+      date,
+      selectedOption
+    })
   };
 
   const dateChange = (event, selectedDate) => {
