@@ -1,26 +1,39 @@
 import React from "react";
 import styled from "styled-components";
 import { StyleSheet, Pressable, ScrollView } from "react-native";
-import { BarChart, LineChart, PieChart } from "react-native-gifted-charts";
+import {BarChart} from "react-native-chart-kit";
 
-const data = [
-  { value: 7, label: "M" },
-  { value: 5, label: "T" },
-  { value: 8, label: "W" },
-  { value: 8, label: "T" },
-  { value: 7, label: "F" },
-  { value: 6, label: "S" },
-  { value: 7, label: "S" },
-];
+
 
 class SectionScreen extends React.Component {
   static navigationOptions = {
     headerShown: false,
   };
 
+  
+
   render() {
+    const chartConfig = {
+      backgroundGradientFrom: "#1E2923",
+      backgroundGradientFromOpacity: 0,
+      backgroundGradientTo: "#08130D",
+      backgroundGradientToOpacity: 0.5,
+      color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+      strokeWidth: 2, // optional, default 3
+      barPercentage: 0.5,
+      useShadowColorFromDataset: false // optional
+    };
+    
     const { navigation } = this.props;
     const section = navigation.getParam("section");
+
+    const data = {
+      labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      datasets:
+      [
+        {data: [7, 8, 7, 5, 4, 9, 6]}
+      ]
+      }
 
     return (
       <ScrollView>
@@ -29,12 +42,7 @@ class SectionScreen extends React.Component {
           <Data>
             <BarChart
               data={data}
-              barWidth={22}
-              noOfSections={3}
-              barBorderRadius={4}
-              frontColor="lightblue"
-              yAxisThickness={0}
-              xAxisThickness={0}
+              chartConfig={chartConfig}
             />
           </Data>
           <Close>
