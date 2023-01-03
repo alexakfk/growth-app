@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import {
   StyleSheet,
@@ -10,10 +10,20 @@ import {
 } from "react-native";
 
 
+
 class MedicineScreen extends React.Component {
   static navigationOptions = {
     headerShown: false,
   };
+
+  componentDidMount() {
+    return fetch("../assets/drugbank-ui.min.js")
+    .then((response) => response.json())
+    .then((responseJson) => {
+      
+    })
+    
+  }
 
   render() {
     return (
@@ -25,6 +35,7 @@ class MedicineScreen extends React.Component {
               this.props.navigation.navigate("Section");
             }}
           />
+          
         </Container>
       </SafeAreaView>
     );
