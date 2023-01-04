@@ -34,6 +34,7 @@ const LoginScreen = ({ navigation: { navigate } }) => {
     user_sign_in.then(re=>{
       navigate("Home")
     })
+    
     firestore().collection("users").doc(user.uid).get().then(doc => {
       if (doc.exists) {
         console.log('User already here!');

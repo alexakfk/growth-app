@@ -24,6 +24,7 @@
     "@react-native-firebase/firestore": "^16.4.6",
     "@react-native-google-signin/google-signin": "^8.2.1",
     "babel-plugin-macros": "^3.1.0",
+    "babel-polyfill": "^6.26.0",
     "build": "^0.1.4",
     "chart.js": "^3.9.1",
     "eas": "^0.1.0",

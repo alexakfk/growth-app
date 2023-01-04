@@ -2,80 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { StyleSheet, Pressable, ScrollView, Dimensions } from "react-native";
 import {LineChart, ProgressChart, BarChart, PieChart, ContributionGraph, StatusBar} from "react-native-chart-kit";
-import ScrollableTabView from 'react-native-scrollable-tab-view'
+import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import { data, contributionData, pieChartData, progressChartData } from '../components/Data'
 
 
-const chartConfigs = [
-  {
-    backgroundColor: '#000000',
-    backgroundGradientFrom: '#1E2923',
-    backgroundGradientTo: '#08130D',
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-    style: {
-      borderRadius: 16
-    }
-  },
-  {
-    backgroundColor: '#022173',
-    backgroundGradientFrom: '#022173',
-    backgroundGradientTo: '#1b3fa0',
-    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-    style: {
-      borderRadius: 16
-    }
-  },
-  {
-    backgroundColor: '#ffffff',
-    backgroundGradientFrom: '#ffffff',
-    backgroundGradientTo: '#ffffff',
-    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`
-  },
-  {
-    backgroundColor: '#26872a',
-    backgroundGradientFrom: '#43a047',
-    backgroundGradientTo: '#66bb6a',
-    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-    style: {
-      borderRadius: 16
-    }
-  },
-  {
-    backgroundColor: '#000000',
-    backgroundGradientFrom: '#000000',
-    backgroundGradientTo: '#000000',
-    color: (opacity = 1) => `rgba(${255}, ${255}, ${255}, ${opacity})`
-  }, {
-    backgroundColor: '#0091EA',
-    backgroundGradientFrom: '#0091EA',
-    backgroundGradientTo: '#0091EA',
-    color: (opacity = 1) => `rgba(${255}, ${255}, ${255}, ${opacity})`
-  },
-  {
-    backgroundColor: '#e26a00',
-    backgroundGradientFrom: '#fb8c00',
-    backgroundGradientTo: '#ffa726',
-    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-    style: {
-      borderRadius: 16
-    }
-  },
-  {
-    backgroundColor: '#b90602',
-    backgroundGradientFrom: '#e53935',
-    backgroundGradientTo: '#ef5350',
-    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-    style: {
-      borderRadius: 16
-    }
-  },
-  {
-    backgroundColor: '#ff3e03',
-    backgroundGradientFrom: '#ff3e03',
-    backgroundGradientTo: '#ff3e03',
-    color: (opacity = 1) => `rgba(${0}, ${0}, ${0}, ${opacity})`
-  }
-]
 
 
 class SectionScreen extends React.Component {
@@ -83,12 +13,83 @@ class SectionScreen extends React.Component {
     headerShown: false,
   };
 
+  
+
   renderTabBar() {
     return <StatusBar hidden/>
   }
   
   render() {
-    var ScrollableTabView = require('react-native-scrollable-tab-view');
+    const chartConfigs = [
+      {
+        backgroundColor: '#000000',
+        backgroundGradientFrom: '#1E2923',
+        backgroundGradientTo: '#08130D',
+        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+        style: {
+          borderRadius: 16
+        }
+      },
+      {
+        backgroundColor: '#022173',
+        backgroundGradientFrom: '#022173',
+        backgroundGradientTo: '#1b3fa0',
+        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        style: {
+          borderRadius: 16
+        }
+      },
+      {
+        backgroundColor: '#ffffff',
+        backgroundGradientFrom: '#ffffff',
+        backgroundGradientTo: '#ffffff',
+        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`
+      },
+      {
+        backgroundColor: '#26872a',
+        backgroundGradientFrom: '#43a047',
+        backgroundGradientTo: '#66bb6a',
+        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        style: {
+          borderRadius: 16
+        }
+      },
+      {
+        backgroundColor: '#000000',
+        backgroundGradientFrom: '#000000',
+        backgroundGradientTo: '#000000',
+        color: (opacity = 1) => `rgba(${255}, ${255}, ${255}, ${opacity})`
+      }, {
+        backgroundColor: '#0091EA',
+        backgroundGradientFrom: '#0091EA',
+        backgroundGradientTo: '#0091EA',
+        color: (opacity = 1) => `rgba(${255}, ${255}, ${255}, ${opacity})`
+      },
+      {
+        backgroundColor: '#e26a00',
+        backgroundGradientFrom: '#fb8c00',
+        backgroundGradientTo: '#ffa726',
+        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        style: {
+          borderRadius: 16
+        }
+      },
+      {
+        backgroundColor: '#b90602',
+        backgroundGradientFrom: '#e53935',
+        backgroundGradientTo: '#ef5350',
+        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        style: {
+          borderRadius: 16
+        }
+      },
+      {
+        backgroundColor: '#ff3e03',
+        backgroundGradientFrom: '#ff3e03',
+        backgroundGradientTo: '#ff3e03',
+        color: (opacity = 1) => `rgba(${0}, ${0}, ${0}, ${opacity})`
+      }
+    ]
     
     const { navigation } = this.props;
     const section = navigation.getParam("section");
@@ -101,13 +102,13 @@ class SectionScreen extends React.Component {
           <Name>{section.name}</Name>
           <Data>
           <ScrollableTabView renderTabBar={this.renderTabBar}>
-        {chartConfigs.map(chartConfig => {
-          const labelStyle = {
-            color: chartConfig.color(),
-            marginVertical: 10,
-            textAlign: 'center',
-            fontSize: 16
-          }
+          {chartConfigs.map(chartConfig => {
+            const labelStyle = {
+              color: chartConfig.color(),
+              marginVertical: 10,
+              textAlign: 'center',
+              fontSize: 16
+            }
           const graphStyle = {
             marginVertical: 8,
             ...chartConfig.style

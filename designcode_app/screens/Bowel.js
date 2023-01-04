@@ -31,11 +31,13 @@ export default function Bowel() {
     console.log(selectedOption);
     console.log(dateValue);
     console.log(dateValue.toLocaleTimeString());
-    const date = ({date: dateValue, time: dateValue.toLocaleTimeString()})
     console.log(note);
+
+    const date = ({date: dateValue, time: dateValue.toLocaleTimeString()})
     firestore().collection('users').doc(user.uid).collection('Bowel').add({
       date,
-      selectedOption
+      selectedOption,
+      note
     })
   };
 
