@@ -8,11 +8,13 @@ import SleepScreen from "../screens/Sleep";
 import BowelScreen from "../screens/Bowel";
 import MedicineScreen from "../screens/Medicine";
 import LoginScreen from "../screens/LoginScreen";
+import ChartScreen from "../screens/ChartScreen";
 
 const AppNavigator = createStackNavigator({
   Login: LoginScreen,
   Home: HomeScreen,
   Section: SectionScreen,
+  Chart: ChartScreen,
   AddPatient: NewPatient,
   AddBehaviour: BehaviourScreen,
   AddSleep: SleepScreen,
