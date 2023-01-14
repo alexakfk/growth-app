@@ -63,7 +63,8 @@ export default function BehaviourScreen() {
       initialDate,
       date,
       selectedOption,
-      note
+      note,
+      selectedOption2
     })
 
     console.log(selectedOption);

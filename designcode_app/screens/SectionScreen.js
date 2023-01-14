@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { StyleSheet, Pressable, ScrollView, Dimensions, Button} from "react-native";
 import {LineChart, ProgressChart, BarChart, PieChart, ContributionGraph, StatusBar} from "react-native-chart-kit";
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
-import { data, contributionData, pieChartData, progressChartData } from '../components/Data'
+
 
 
 

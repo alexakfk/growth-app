@@ -7,8 +7,8 @@
 
 package com.reactnativecommunity.viewpager;
 
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +26,7 @@ import java.util.List;
  * views to custom {@link PagerAdapter} instance which is used by {@link NativeViewHierarchyManager}
  * to add children nodes according to react views hierarchy.
  */
-public class ReactViewPager extends ViewPager {
+public class ReactViewPager extends VerticalViewPager {
 
   private class Adapter extends PagerAdapter {
 

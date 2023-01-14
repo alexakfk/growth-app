@@ -34,6 +34,7 @@ const VIEW_MANAGER_NAME = 'RNCViewPager';
 function getViewManagerConfig(viewManagerName) {
   if (!UIManager.getViewManagerConfig) {
     // react-native <= 0.57
+    // $FlowFixMe
     return UIManager[viewManagerName];
   }
   return UIManager.getViewManagerConfig(viewManagerName);
@@ -82,6 +83,8 @@ function getViewManagerConfig(viewManagerName) {
  */
 
 class ViewPager extends React.Component<ViewPagerProps> {
+  isScrolling = false;
+
   componentDidMount() {
     // On iOS we do it directly on the native side
     if (Platform.OS === 'android') {
@@ -113,6 +116,7 @@ class ViewPager extends React.Component<ViewPagerProps> {
     if (this.props.onPageScrollStateChanged) {
       this.props.onPageScrollStateChanged(e);
     }
+    this.isScrolling = e.nativeEvent.pageScrollState === 'dragging';
   };
 
   _onPageSelected = (e: PageSelectedEvent) => {
@@ -145,6 +149,26 @@ class ViewPager extends React.Component<ViewPagerProps> {
     );
   };
 
+  /**
+   * A helper function to enable/disable scroll imperatively
+   * The recommended way is using the scrollEnabled prop, however, there might be a case where a
+   * imperative solution is more useful (e.g. for not blocking an animation)
+   */
+  setScrollEnabled = (scrollEnabled: boolean) => {
+    UIManager.dispatchViewManagerCommand(
+      ReactNative.findNodeHandle(this),
+      getViewManagerConfig(VIEW_MANAGER_NAME).Commands.setScrollEnabled,
+      [scrollEnabled],
+    );
+  };
+
+  _onMoveShouldSetResponderCapture = () => {
+    if (Platform.OS === 'ios') {
+      return this.isScrolling;
+    }
+    return false;
+  };
+
   render() {
     return (
       <NativeViewPager
@@ -154,6 +178,7 @@ class ViewPager extends React.Component<ViewPagerProps> {
         onPageScroll={this._onPageScroll}
         onPageScrollStateChanged={this._onPageScrollStateChanged}
         onPageSelected={this._onPageSelected}
+        onMoveShouldSetResponderCapture={this._onMoveShouldSetResponderCapture}
         children={childrenWithOverriddenStyle(this.props.children)}
       />
     );
