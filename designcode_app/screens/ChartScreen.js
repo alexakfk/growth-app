@@ -26,10 +26,13 @@ class ChartScreen extends React.Component {
                 40, 50
               ],
             }]
-          }
+          },
+
         
         };
       }
+
+      
 
     render() {
       const user = auth().currentUser

@@ -18,6 +18,28 @@ import auth from '@react-native-firebase/auth';
 
 
 export default function BehaviourScreen() {
+
+  useEffect(() => {  
+    const user = auth().currentUser
+    const behaviorsArray = []
+  
+    firestore()
+    .collection('users')
+    .doc(user.uid)
+    .collection('BehaviorsDuration')
+    .get()
+    .then(querySnapshot => {
+      querySnapshot.forEach(documentSnapshot => {
+      behaviorsArray.push({
+        ...documentSnapshot.data()
+      })
+    
+      })
+      console.log(behaviorsArray)
+    })
+    
+  })
+
   const [open, setOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [items, setItems] = useState([
@@ -44,6 +66,7 @@ export default function BehaviourScreen() {
     { value: 60, label: "60 min" },
   ]);
   const [note, setNote] = React.useState("");
+  const [behaviors, setBehaviors] = React.useState("");
   const user = auth().currentUser
 
   const onOpen = () => {
@@ -58,22 +81,31 @@ export default function BehaviourScreen() {
     const now2 = new Date();
     now2.setHours(now.getHours(),now.getMinutes()+(selectedOption2))
     const initialDate = ({date:now, time:now.toLocaleTimeString()})
-    const date = ({date:now2, time:now2.toLocaleTimeString()})
+    const date = (now2.toDateString())
+    const time = (now2.toLocaleTimeString())
     firestore().collection('users').doc(user.uid).collection('Behaviors').add({
       initialDate,
       date,
+      time,
       selectedOption,
       note,
       selectedOption2
     })
+    firestore().collection('users').doc(user.uid).collection('BehaviorsDuration').add({
+      date,
+      selectedOption,
+      selectedOption2
+    })
 
     console.log(selectedOption);
-    
+    console.log(selectedOption2)
     console.log(note);
   
   };
 
   const cancel = () => {};
+
+ 
 
   return (
     <View style={styles.container}>
