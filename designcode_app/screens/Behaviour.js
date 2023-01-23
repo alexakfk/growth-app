@@ -19,27 +19,6 @@ import auth from '@react-native-firebase/auth';
 
 export default function BehaviourScreen() {
 
-  useEffect(() => {  
-    const user = auth().currentUser
-    const behaviorsArray = []
-  
-    firestore()
-    .collection('users')
-    .doc(user.uid)
-    .collection('BehaviorsDuration')
-    .get()
-    .then(querySnapshot => {
-      querySnapshot.forEach(documentSnapshot => {
-      behaviorsArray.push({
-        ...documentSnapshot.data()
-      })
-    
-      })
-      console.log(behaviorsArray)
-    })
-    
-  })
-
   const [open, setOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [items, setItems] = useState([
@@ -91,15 +70,136 @@ export default function BehaviourScreen() {
       note,
       selectedOption2
     })
-    firestore().collection('users').doc(user.uid).collection('BehaviorsDuration').add({
-      date,
-      selectedOption,
-      selectedOption2
-    })
 
     console.log(selectedOption);
     console.log(selectedOption2)
     console.log(note);
+    const behaviorsArray = []
+    let restlessnessDuration = null
+    let refusalDuration = null
+    let yellingDuration = null
+    let wanderingDuration = null
+    let hallucinationsDuration = null
+    let today = null
+    const Restlessness = ((new Date().getMonth() + 1) + '/' + (new Date().getDate() - new Date().getDay()))
+
+  
+    firestore()
+    .collection('users')
+    .doc(user.uid)
+    .collection('Behaviors')
+    .where('date', '==', new Date().toDateString())
+    .get()
+    .then(querySnapshot => {
+      querySnapshot.forEach(documentSnapshot => {
+      behaviorsArray.push({
+        ...documentSnapshot.data()
+      })
+    
+      })
+      console.log(behaviorsArray)
+      
+      for (let i = 0; i < behaviorsArray.length; i++) {
+        if (behaviorsArray[i].selectedOption == 'Restlessness') {
+          restlessnessDuration = restlessnessDuration + behaviorsArray[i].selectedOption2
+        }
+        if (behaviorsArray[i].selectedOption == 'Refusal') {
+          refusalDuration = refusalDuration + behaviorsArray[i].selectedOption2
+        }
+        if (behaviorsArray[i].selectedOption == 'Yelling') {
+          yellingDuration = yellingDuration + behaviorsArray[i].selectedOption2
+        }
+        if (behaviorsArray[i].selectedOption == 'Wandering') {
+          wanderingDuration = wanderingDuration + behaviorsArray[i].selectedOption2
+        }
+        if (behaviorsArray[i].selectedOption == 'Hallucinations') {
+          hallucinationsDuration = hallucinationsDuration + behaviorsArray[i].selectedOption2
+        }
+      }
+
+      firestore()
+        .collection('users')
+        .doc(user.uid)
+        .collection('Behaviors')
+        .doc('Restlessness Duration' + {Restlessness})
+        .get()
+        .then(documentSnapshot => {
+          today = documentSnapshot.data().date
+        })
+
+     if (today == (new Date().getMonth() + 1) + '/' + (new Date().getDate() - (new Date().getDay()))) {
+      firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('Behaviors')
+      .doc('Restlessness Duration' + {Restlessness})
+      .set
+      ({
+        date: (new Date().getMonth() + 1) + '/' + (new Date().getDate() - (new Date().getDay())),
+        duration: restlessnessDuration
+      })
+    }
+    else {
+      firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('Behaviors')
+      .doc('Restlessness Duration' + {Restlessness})
+      .set
+      ({
+        date: (new Date().getMonth() + 1) + '/' + (new Date().getDate() - (new Date().getDay())),
+        duration: restlessnessDuration
+      })
+    }
+    
+      firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('Behaviors')
+      .doc('Refusal Duration')
+      .set
+      ({
+        date: (new Date().getMonth() + 1) + '/' + (new Date().getDate() - (new Date().getDay())),
+        duration: refusalDuration
+      })
+
+      firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('Behaviors')
+      .doc('Yelling Duration')
+      .set
+      ({
+        date: new Date().toDateString(),
+        duration: yellingDuration
+      })
+
+      firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('Behaviors')
+      .doc('Wandering Duration')
+      .set
+      ({
+        date: new Date().toDateString(),
+        duration: wanderingDuration
+      })
+
+      firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('Behaviors')
+      .doc('Hallucinations Duration')
+      .set
+      ({
+        date: new Date().toDateString(),
+        duration: hallucinationsDuration
+      })
+    
+    
+      
+
+    })
   
   };
 

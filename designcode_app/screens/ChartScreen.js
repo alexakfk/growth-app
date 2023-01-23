@@ -32,6 +32,29 @@ class ChartScreen extends React.Component {
         };
       }
 
+      componentDidMount() {
+        const user = auth().currentUser
+        for (let i = 0; i < 7; i++) {
+          firestore()
+          .collection('users')
+          .doc(user.uid)
+          .collection('Behaviors')
+          .doc('Restlessness Duration')
+          .where('date', '==', (new Date().getMonth() + 1) + '/' + (new Date().getDate() - (new Date().getDay() + i)))
+          .get()
+          .then(querySnapshot => {
+            querySnapshot.forEach(documentSnapshot => {
+            if (i == 6) {
+              
+            }
+          
+            })
+            
+            
+        })
+      }
+      }
+
       
 
     render() {
@@ -143,6 +166,14 @@ class ChartScreen extends React.Component {
                 this.props.navigation.navigate("Section");
                 }}
             />
+            <Text style={labelStyle}>Bar Graph</Text>
+              <BarChart
+                width={width}
+                height={height}
+                data={this.state.data}
+                chartConfig={chartConfig}
+                style={graphStyle}
+              />
              <Text style={labelStyle}>Contribution Graph</Text>
               <ContributionGraph
                 values={contributionData}
@@ -158,14 +189,6 @@ class ChartScreen extends React.Component {
                 data={this.state.data}
                 width={width}
                 height={height}
-                chartConfig={chartConfig}
-                style={graphStyle}
-              />
-              <Text style={labelStyle}>Bar Graph</Text>
-              <BarChart
-                width={width}
-                height={height}
-                data={this.state.data}
                 chartConfig={chartConfig}
                 style={graphStyle}
               />
