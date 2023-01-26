@@ -9,10 +9,11 @@ import {
 } from "react-native";
 import axios from "axios";
 import {Picker} from '@react-native-picker/picker';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
-    padding: 10,
+    padding: "1rem",
     flexDirection: "column",
     alignItems: "stretch",
     justifyContent: "center"
@@ -21,7 +22,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "lightblue",
     borderRadius: 10,
-    padding: 10,
+    padding: "0.5rem",
+    marginBottom: "1rem",
     fontSize: 16
   },
   selectedMedicine: {
@@ -35,7 +37,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center"
   },
-  picker: {
+  picker1: {
+    flex: 1,
+    marginRight: "0.5rem"
+  },
+  picker2: {
     flex: 1
   },
   submitButton: {
@@ -100,7 +106,7 @@ const MedicineScreen = () => {
       )}
       <View style={styles.pickerContainer}>
         <Picker
-          style={styles.picker}
+          style={styles.picker1}
           selectedValue={amountConsumed}
           onValueChange={(itemValue) => setAmountConsumed(itemValue)}
         >
@@ -112,7 +118,7 @@ const MedicineScreen = () => {
           <Picker.Item label="5" value="5" />
         </Picker>
         <Picker
-          style={styles.picker}
+          style={styles.picker2}
           selectedValue={units}
           onValueChange={(itemValue) => setUnits(itemValue)}
         >
