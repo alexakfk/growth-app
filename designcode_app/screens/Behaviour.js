@@ -81,7 +81,10 @@ export default function BehaviourScreen() {
     let wanderingDuration = null
     let hallucinationsDuration = null
     let today = null
-    const Restlessness = ((new Date().getMonth() + 1) + '/' + (new Date().getDate() - new Date().getDay()))
+    const Month = (new Date().getMonth() + 1)
+    const Day = (new Date().getDate() - new Date().getDay())
+    const Year = (new Date().getFullYear())
+    const dayOfTheWeek = new Date().getDay()
 
   
     firestore()
@@ -121,22 +124,26 @@ export default function BehaviourScreen() {
         .collection('users')
         .doc(user.uid)
         .collection('Behaviors')
-        .doc('Restlessness Duration' + {Restlessness})
+        .doc(`${Month} ${Day} ${Year} (${dayOfTheWeek})`)
         .get()
         .then(documentSnapshot => {
           today = documentSnapshot.data().date
         })
 
-     if (today == (new Date().getMonth() + 1) + '/' + (new Date().getDate() - (new Date().getDay()))) {
+     if (today == (new Date().getMonth() + 1) + '/' + (new Date().getDate() - (new Date().getDay())) + '/' + (new Date().getFullYear())) {
       firestore()
       .collection('users')
       .doc(user.uid)
       .collection('Behaviors')
-      .doc('Restlessness Duration' + {Restlessness})
+      .doc(`${Month} ${Day} ${Year} (${dayOfTheWeek})`)
       .set
       ({
-        date: (new Date().getMonth() + 1) + '/' + (new Date().getDate() - (new Date().getDay())),
-        duration: restlessnessDuration
+        date: (new Date().getMonth() + 1) + '/' + (new Date().getDate() - (new Date().getDay()) + '/' + (new Date().getFullYear())),
+        restlessnessDuration: restlessnessDuration,
+        refusalDuration: refusalDuration,
+        yellingDuration: yellingDuration,
+        wanderingDuration: wanderingDuration,
+        hallucinationsDuration: hallucinationsDuration
       })
     }
     else {
@@ -144,61 +151,17 @@ export default function BehaviourScreen() {
       .collection('users')
       .doc(user.uid)
       .collection('Behaviors')
-      .doc('Restlessness Duration' + {Restlessness})
+      .doc(`${Month} ${Day} ${Year} (${dayOfTheWeek})`)
       .set
       ({
-        date: (new Date().getMonth() + 1) + '/' + (new Date().getDate() - (new Date().getDay())),
-        duration: restlessnessDuration
+        date: (new Date().getMonth() + 1) + '/' + (new Date().getDate() - (new Date().getDay()) + '/' + (new Date().getFullYear())),
+        restlessnessDuration: restlessnessDuration,
+        refusalDuration: refusalDuration,
+        yellingDuration: yellingDuration,
+        wanderingDuration: wanderingDuration,
+        hallucinationsDuration: hallucinationsDuration
       })
     }
-    
-      firestore()
-      .collection('users')
-      .doc(user.uid)
-      .collection('Behaviors')
-      .doc('Refusal Duration')
-      .set
-      ({
-        date: (new Date().getMonth() + 1) + '/' + (new Date().getDate() - (new Date().getDay())),
-        duration: refusalDuration
-      })
-
-      firestore()
-      .collection('users')
-      .doc(user.uid)
-      .collection('Behaviors')
-      .doc('Yelling Duration')
-      .set
-      ({
-        date: new Date().toDateString(),
-        duration: yellingDuration
-      })
-
-      firestore()
-      .collection('users')
-      .doc(user.uid)
-      .collection('Behaviors')
-      .doc('Wandering Duration')
-      .set
-      ({
-        date: new Date().toDateString(),
-        duration: wanderingDuration
-      })
-
-      firestore()
-      .collection('users')
-      .doc(user.uid)
-      .collection('Behaviors')
-      .doc('Hallucinations Duration')
-      .set
-      ({
-        date: new Date().toDateString(),
-        duration: hallucinationsDuration
-      })
-    
-    
-      
-
     })
   
   };
