@@ -126,48 +126,20 @@ export default function BehaviourScreen() {
       .collection('users')
       .doc(user.uid)
       .collection('Behaviors')
+      .where('data', '==', 'true')
+      .orderBy('date', 'asc')
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
         dateArray.push({
           ...documentSnapshot.data().date
         })
+        
+        })
         console.log(dateArray)
-        })
       })
-
-      firestore()
-        .collection('users')
-        .doc(user.uid)
-        .collection('Behaviors')
-        .doc(`${Month} ${Day} ${Year} (${dayOfTheWeek})`)
-        .get()
-        .then(documentSnapshot => {
-          today = documentSnapshot.data().date
-        })
-
-     if (today == (new Date().getMonth() + 1) + '/' + (new Date().getDate() - (new Date().getDay())) + '/' + (new Date().getFullYear())) {
-      firestore()
-      .collection('users')
-      .doc(user.uid)
-      .collection('Behaviors')
-      .doc(`${Month} ${Day} ${Year} (${dayOfTheWeek})`)
-      .set
-      ({
-        date: (new Date()),
-        restlessnessDuration: restlessnessDuration,
-        refusalDuration: refusalDuration,
-        yellingDuration: yellingDuration,
-        wanderingDuration: wanderingDuration,
-        hallucinationsDuration: hallucinationsDuration
-      })
-      firestore()
-      .collection('users')
-      .doc(user.uid)
-      .collection('Behaviors')
       
-    }
-    else {
+
       firestore()
       .collection('users')
       .doc(user.uid)
@@ -175,14 +147,15 @@ export default function BehaviourScreen() {
       .doc(`${Month} ${Day} ${Year} (${dayOfTheWeek})`)
       .set
       ({
-        date: (new Date()),
+        date: (new Date().toDateString()),
         restlessnessDuration: restlessnessDuration,
         refusalDuration: refusalDuration,
         yellingDuration: yellingDuration,
         wanderingDuration: wanderingDuration,
-        hallucinationsDuration: hallucinationsDuration
+        hallucinationsDuration: hallucinationsDuration,
+        data: 'true'
       })
-    }
+    
     })
   
   };
