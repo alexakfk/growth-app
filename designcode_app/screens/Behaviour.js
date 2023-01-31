@@ -60,7 +60,7 @@ export default function BehaviourScreen() {
     const now2 = new Date();
     now2.setHours(now.getHours(),now.getMinutes()+(selectedOption2))
     const initialDate = ({date:now, time:now.toLocaleTimeString()})
-    const date = (now2.toDateString())
+    const date = new Date().toDateString()
     const time = (now2.toLocaleTimeString())
     firestore().collection('users').doc(user.uid).collection('Behaviors').add({
       initialDate,
@@ -85,7 +85,8 @@ export default function BehaviourScreen() {
     const Day = (new Date().getDate() - new Date().getDay())
     const Year = (new Date().getFullYear())
     const dayOfTheWeek = new Date().getDay()
-
+    let dateArray = []
+    let firstDate = null
   
     firestore()
     .collection('users')
@@ -120,6 +121,21 @@ export default function BehaviourScreen() {
         }
       }
 
+      
+      firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('Behaviors')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+        dateArray.push({
+          ...documentSnapshot.data().date
+        })
+        console.log(dateArray)
+        })
+      })
+
       firestore()
         .collection('users')
         .doc(user.uid)
@@ -138,13 +154,18 @@ export default function BehaviourScreen() {
       .doc(`${Month} ${Day} ${Year} (${dayOfTheWeek})`)
       .set
       ({
-        date: (new Date().getMonth() + 1) + '/' + (new Date().getDate() - (new Date().getDay()) + '/' + (new Date().getFullYear())),
+        date: (new Date()),
         restlessnessDuration: restlessnessDuration,
         refusalDuration: refusalDuration,
         yellingDuration: yellingDuration,
         wanderingDuration: wanderingDuration,
         hallucinationsDuration: hallucinationsDuration
       })
+      firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('Behaviors')
+      
     }
     else {
       firestore()
@@ -154,7 +175,7 @@ export default function BehaviourScreen() {
       .doc(`${Month} ${Day} ${Year} (${dayOfTheWeek})`)
       .set
       ({
-        date: (new Date().getMonth() + 1) + '/' + (new Date().getDate() - (new Date().getDay()) + '/' + (new Date().getFullYear())),
+        date: (new Date()),
         restlessnessDuration: restlessnessDuration,
         refusalDuration: refusalDuration,
         yellingDuration: yellingDuration,
@@ -172,7 +193,6 @@ export default function BehaviourScreen() {
 
   return (
     <View style={styles.container}>
-      <Title>Add Behavior</Title>
       <DropDownPicker
         open={open}
         value={selectedOption}
@@ -193,13 +213,14 @@ export default function BehaviourScreen() {
         setItems={setItems2}
         onOpen={onOpen2}
         style={styles.dropdownPicker2}
-        containerStyle={{ zIndex: 1 }}
+        containerStyle={{ zIndex: 1, marginBottom: 0}}
       />
       <TextInput
         value={note}
         onChangeText={setNote}
         style={styles.note}
         multiline={true}
+        
       />
       <View style={styles.buttonContainer}>
         <Pressable style={styles.button} onPress={cancel}>

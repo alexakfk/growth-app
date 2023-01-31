@@ -39,11 +39,12 @@ class ChartScreen extends React.Component {
         const dayOfTheWeek = new Date().getDay()  
         const user = auth().currentUser
         for (let i = 0; i < 7; i++) {
+        
           firestore()
           .collection('users')
           .doc(user.uid)
           .collection('Behaviors')
-          .doc(`${Month} ${Day} ${Year} (${dayOfTheWeek})`)
+          .doc(`${Month} ${Day} ${Year} ` + '(' + {i} + ')')
           .get()
           .then(documentSnapshot => {
             if (dayOfTheWeek == i) { 

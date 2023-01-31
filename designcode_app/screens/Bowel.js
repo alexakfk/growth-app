@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+/* import React, { useState } from "react";
 import {
   StyleSheet,
   TextInput,
@@ -123,4 +123,114 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
     border: "none",
   },
+}); */
+
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
+import {Picker} from '@react-native-picker/picker';
+import DatePicker from "react-native-date-picker";
+import EStyleSheet from 'react-native-extended-stylesheet';
+
+
+const styles = EStyleSheet.create({
+  container: {
+    padding: "1rem",
+    flexDirection: "column",
+    alignItems: "stretch",
+    justifyContent: "center"
+  },
+  title: {
+    fontSize: 30,
+    color: "black",
+    fontWeight: "bold",
+    paddingBottom: "0.5rem"
+  },
+  timeContainer: {
+    paddingBottom: "1rem",
+    paddingTop: "0.5rem"
+  },
+  notes: {
+    borderWidth: 1,
+    borderColor: "lightblue",
+    borderRadius: 10,
+    padding: "0.5rem",
+    marginTop: "1rem",
+    marginBottom: "1rem",
+    fontSize: 16
+  },
+  pickerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  picker1: {
+    flex: 1,
+    marginBottom: "0.5rem",
+    marginTop: "0.5rem"
+  },
+  submitButton: {
+    padding: 10,
+    alignSelf: "center",
+    backgroundColor: "lightblue",
+    borderRadius: 5,
+    marginTop: 10
+  }
 });
+
+const BowelLog = () => {
+  const [bowelStartTime, setBowelStartTime] = useState(new Date());
+  const [bowelEndTime, setBowelEndTime] = useState(new Date());
+  const [selectedOption, setSelectedOption] = useState("");
+  const [notes, setNotes] = useState("");
+
+  const handleSubmit = () => {
+    // Send bowel data to backend
+    console.log("type", selectedOption);
+    console.log("bowelStartTime", bowelStartTime);
+    console.log("bowelEndTime", bowelEndTime);
+    console.log("notes", notes);
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Bowel Movement</Text>
+      <View style={styles.pickerContainer}>
+        <Picker
+          style={styles.picker1}
+          selectedValue={selectedOption}
+          onValueChange={(itemValue) => setSelectedOption(itemValue)}
+        >
+          <Picker.Item label="Type" value="" />
+          <Picker.Item label="Stool" value="stool" />
+          <Picker.Item label="Urine" value="urine" />
+          <Picker.Item label="Other" value="other" />
+        </Picker>
+      </View>
+      <View>
+        <Text>Start Time:</Text>
+        <DatePicker date={bowelStartTime} onDateChange={setBowelStartTime} />
+      </View>
+      <View>
+        <Text>End Time:</Text>
+        <DatePicker date={bowelEndTime} onDateChange={setBowelEndTime} />
+      </View>
+      <TextInput
+        style={styles.notes}
+        value={notes}
+        onChangeText={setNotes}
+        placeholder="Notes (optional)"
+      />
+      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+        <Text>Submit</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+export default BowelLog;
