@@ -18,7 +18,7 @@ import auth from '@react-native-firebase/auth';
 
 
 export default function BehaviourScreen() {
-
+  
   const [open, setOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [items, setItems] = useState([
@@ -60,7 +60,7 @@ export default function BehaviourScreen() {
     const now2 = new Date();
     now2.setHours(now.getHours(),now.getMinutes()+(selectedOption2))
     const initialDate = ({date:now, time:now.toLocaleTimeString()})
-    const date = new Date().toDateString()
+    const date = new Date()
     const time = (now2.toLocaleTimeString())
     firestore().collection('users').doc(user.uid).collection('Behaviors').add({
       initialDate,
@@ -85,8 +85,10 @@ export default function BehaviourScreen() {
     const Day = (new Date().getDate() - new Date().getDay())
     const Year = (new Date().getFullYear())
     const dayOfTheWeek = new Date().getDay()
+    let dayDiff = null
     let dateArray = []
-    let firstDate = null
+
+
   
     firestore()
     .collection('users')
@@ -122,7 +124,7 @@ export default function BehaviourScreen() {
       }
 
       
-      firestore()
+      firestore() // sort data and get first data sent to firestore
       .collection('users')
       .doc(user.uid)
       .collection('Behaviors')
@@ -131,23 +133,21 @@ export default function BehaviourScreen() {
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
-        dateArray.push({
-          ...documentSnapshot.data().date
+        dateArray = [...dateArray, documentSnapshot.data().date]
         })
-        
-        })
-        console.log(dateArray)
-      })
-      
 
-      firestore()
+       
+      
+      let days = dateArray.length + 1
+      
+      firestore() // complete behavior data to firestore
       .collection('users')
       .doc(user.uid)
       .collection('Behaviors')
-      .doc(`${Month} ${Day} ${Year} (${dayOfTheWeek})`)
+      .doc(`${Month} ${Day} ${Year} (${dayOfTheWeek}) (${days})`)
       .set
       ({
-        date: (new Date().toDateString()),
+        date: (new Date()),
         restlessnessDuration: restlessnessDuration,
         refusalDuration: refusalDuration,
         yellingDuration: yellingDuration,
@@ -155,6 +155,12 @@ export default function BehaviourScreen() {
         hallucinationsDuration: hallucinationsDuration,
         data: 'true'
       })
+    
+      })
+    
+      
+
+      
     
     })
   
