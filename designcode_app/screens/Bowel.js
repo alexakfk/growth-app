@@ -130,8 +130,7 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
-  StyleSheet,
+  TouchableOpacity
 } from "react-native";
 import {Picker} from '@react-native-picker/picker';
 import DatePicker from "react-native-date-picker";

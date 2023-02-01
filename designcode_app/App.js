@@ -2,7 +2,12 @@ import React from "react";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import AppNavigator from "./navigator/AppNavigator";
-// hello :)
+
+import EStyleSheet from 'react-native-extended-stylesheet';
+
+EStyleSheet.build({ // always call EStyleSheet.build() even if you don't use global variables!
+  $textColor: '#0275d8'
+});
 
 const initialState = {
   action: "",
