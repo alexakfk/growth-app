@@ -60,11 +60,11 @@ export default function BehaviourScreen() {
     const now2 = new Date();
     now2.setHours(now.getHours(),now.getMinutes()+(selectedOption2))
     const initialDate = ({date:now, time:now.toLocaleTimeString()})
-    const date = new Date()
+    const date1 = new Date()
     const time = (now2.toLocaleTimeString())
     firestore().collection('users').doc(user.uid).collection('Behaviors').add({
       initialDate,
-      date,
+      date1,
       time,
       selectedOption,
       note,
@@ -85,8 +85,10 @@ export default function BehaviourScreen() {
     const Day = new Date().getDate()
     const Year = (new Date().getFullYear())
     const dayOfTheWeek = new Date().getDay()
-    let dayDiff = null
     let dateArray = []
+    let daysOfTheWeekArray = []
+    let week = null
+    let days = null
 
 
   
@@ -94,7 +96,7 @@ export default function BehaviourScreen() {
     .collection('users')
     .doc(user.uid)
     .collection('Behaviors')
-    .where('date', '==', new Date().toDateString())
+    .where('date1', '==', new Date())
     .get()
     .then(querySnapshot => {
       querySnapshot.forEach(documentSnapshot => {
@@ -134,21 +136,31 @@ export default function BehaviourScreen() {
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
         dateArray = [...dateArray, documentSnapshot.data().date]
-        })
+        daysOfTheWeekArray = [...daysOfTheWeekArray, documentSnapshot.data().dayOfTheWeek]
+        
+      })
 
-      // when dayOftheWeek equals 0 week++, dont run this on the first submittion though
+      days = dateArray.length + 1 // get days since first data added
+
+      if (daysOfTheWeekArray.length == 0) { // get week of added data
+        week = 1
+      }
+      else {
+        week = Math.ceil((days + (daysOfTheWeekArray[0])) / 7)
+      } 
       
-      const days = dateArray.length + 1
-      
+
       firestore() // complete behavior data to firestore
       .collection('users')
       .doc(user.uid)
       .collection('Behaviors')
-      .doc(`${Month} ${Day} ${Year} (${dayOfTheWeek}) (${days})`)
+      .doc(`${Month} ${Day} ${Year}`)
       .set
       ({
         date: (new Date()),
         days: days,
+        dayOfTheWeek: dayOfTheWeek,
+        week: week,
         restlessnessDuration: restlessnessDuration,
         refusalDuration: refusalDuration,
         yellingDuration: yellingDuration,
