@@ -34,7 +34,7 @@ class ChartScreen extends React.Component {
 
       componentDidMount() {
         const Month = (new Date().getMonth() + 1)
-        const Day = (new Date().getDate() - new Date().getDay())
+        const Day = new Date().getDate()
         const Year = (new Date().getFullYear())
         const dayOfTheWeek = new Date().getDay()  
         const user = auth().currentUser

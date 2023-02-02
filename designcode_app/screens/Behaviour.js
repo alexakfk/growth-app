@@ -82,7 +82,7 @@ export default function BehaviourScreen() {
     let hallucinationsDuration = null
     let today = null
     const Month = (new Date().getMonth() + 1)
-    const Day = (new Date().getDate() - new Date().getDay())
+    const Day = new Date().getDate()
     const Year = (new Date().getFullYear())
     const dayOfTheWeek = new Date().getDay()
     let dayDiff = null
@@ -136,9 +136,9 @@ export default function BehaviourScreen() {
         dateArray = [...dateArray, documentSnapshot.data().date]
         })
 
-       
+      // when dayOftheWeek equals 0 week++, dont run this on the first submittion though
       
-      let days = dateArray.length + 1
+      const days = dateArray.length + 1
       
       firestore() // complete behavior data to firestore
       .collection('users')
@@ -148,6 +148,7 @@ export default function BehaviourScreen() {
       .set
       ({
         date: (new Date()),
+        days: days,
         restlessnessDuration: restlessnessDuration,
         refusalDuration: refusalDuration,
         yellingDuration: yellingDuration,
