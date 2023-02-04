@@ -23,10 +23,10 @@ class ChartScreen extends React.Component {
     super(props)
     this.state = {
       restlessDur: [0, 0, 0, 0, 0, 0, 0],
-      refusalDur: [0],
-      yellDur: [0],
-      wanderingDur: [0],
-      hallucinationsDur: [0]
+      refusalDur: [0, 0, 0, 0, 0, 0, 0],
+      yellDur: [0, 0, 0, 0, 0, 0, 0],
+      wanderingDur: [0, 0, 0, 0, 0, 0, 0],
+      hallucinationsDur: [0, 0, 0, 0, 0, 0, 0]
 
     }
   }
@@ -40,12 +40,21 @@ class ChartScreen extends React.Component {
     const user = auth().currentUser
     let weekArray = []
     let currentWeek = null
+    let weekArray2 = []
+    let currentWeek2 = null
+    let weekArray3 = []
+    let currentWeek3 = null
+    let weekArray4 = []
+    let currentWeek4 = null
+    let weekArray5 = []
+    let currentWeek5 = null
 
       firestore()
         .collection('users')
         .doc(user.uid)
         .collection('Behaviors')
         .where('data', '==', 'true')
+        .where('selectedOption2', '==', 'Restlessness')
         .orderBy('date', 'asc')
         .get()
         .then(querySnapshot => {
@@ -59,6 +68,7 @@ class ChartScreen extends React.Component {
             .doc(user.uid)
             .collection('Behaviors')
             .where('week', '==', currentWeek) //order by date, where week = the week of last data in array
+            .where('selectedOption2', '==', 'Restlessness')
             .orderBy('date', 'asc')
             .get()
             .then(querySnapshot => {
@@ -73,58 +83,143 @@ class ChartScreen extends React.Component {
         }
         )
 
-    for (let i = 0; i < 7; i++) {
-      firestore()
+        firestore()
         .collection('users')
         .doc(user.uid)
         .collection('Behaviors')
-        .doc(`${Month} ${Day} ${Year} (${dayOfTheWeek})`)
+        .where('data', '==', 'true')
+        .where('selectedOption2', '==', 'Refusal')
+        .orderBy('date', 'asc')
         .get()
-        .then(documentSnapshot => {
-          if (dayOfTheWeek == i) {
-            this.setState({ refusalDur: update(this.state.refusalDur, { [i]: { $set: documentSnapshot.data().refusalDuration } }) })
-          }
-        })
-    }
-    for (let i = 0; i < 7; i++) {
-      firestore()
+        .then(querySnapshot => {
+          querySnapshot.forEach(documentSnapshot => {
+            weekArray2 = [...weekArray2, documentSnapshot.data().week] //go through all documents, put each week number in an array
+          })
+          currentWeek2 = weekArray2[(weekArray2.length - 1)] //go through all data in array, get the week of last data in array
+          
+          firestore() //do another firestore() get()
+            .collection('users')
+            .doc(user.uid)
+            .collection('Behaviors')
+            .where('week', '==', currentWeek2) //order by date, where week = the week of last data in array
+            .where('selectedOption2', '==', 'Refusal')
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+                for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
+                  if (documentSnapshot.data().dayOfTheWeek == i) {
+                    this.setState({ refusalDur: update(this.state.refusalDur, { [i]: { $set: documentSnapshot.data().refusalDuration } }) })
+                  }
+                }
+              })
+            })
+        }
+        )
+
+        firestore()
         .collection('users')
         .doc(user.uid)
         .collection('Behaviors')
-        .doc(`${Month} ${Day} ${Year} (${dayOfTheWeek})`)
+        .where('data', '==', 'true')
+        .where('selectedOption2', '==', 'Yelling')
+        .orderBy('date', 'asc')
         .get()
-        .then(documentSnapshot => {
-          if (dayOfTheWeek == i) {
-            this.setState({ yellDur: update(this.state.yellDur, { [i]: { $set: documentSnapshot.data().yellingDuration } }) })
-          }
-        })
-    }
-    for (let i = 0; i < 7; i++) {
-      firestore()
+        .then(querySnapshot => {
+          querySnapshot.forEach(documentSnapshot => {
+            weekArray3 = [...weekArray3, documentSnapshot.data().week] //go through all documents, put each week number in an array
+          })
+          currentWeek3 = weekArray3[(weekArray3.length - 1)] //go through all data in array, get the week of last data in array
+          
+          firestore() //do another firestore() get()
+            .collection('users')
+            .doc(user.uid)
+            .collection('Behaviors')
+            .where('week', '==', currentWeek3) //order by date, where week = the week of last data in array
+            .where('selectedOption2', '==', 'Yelling')
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+                for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
+                  if (documentSnapshot.data().dayOfTheWeek == i) {
+                    this.setState({ yellDur: update(this.state.yellDur, { [i]: { $set: documentSnapshot.data().yellingDuration } }) })
+                  }
+                }
+              })
+            })
+        }
+        )
+
+        firestore()
         .collection('users')
         .doc(user.uid)
         .collection('Behaviors')
-        .doc(`${Month} ${Day} ${Year} (${dayOfTheWeek})`)
+        .where('data', '==', 'true')
+        .where('selectedOption2', '==', 'Wandering')
+        .orderBy('date', 'asc')
         .get()
-        .then(documentSnapshot => {
-          if (dayOfTheWeek == i) {
-            this.setState({ wanderingDur: update(this.state.wanderingDur, { [i]: { $set: documentSnapshot.data().wanderingDuration } }) })
-          }
-        })
-    }
-    for (let i = 0; i < 7; i++) {
-      firestore()
+        .then(querySnapshot => {
+          querySnapshot.forEach(documentSnapshot => {
+            weekArray4 = [...weekArray4, documentSnapshot.data().week] //go through all documents, put each week number in an array
+          })
+          currentWeek4 = weekArray4[(weekArray4.length - 1)] //go through all data in array, get the week of last data in array
+          
+          firestore() //do another firestore() get()
+            .collection('users')
+            .doc(user.uid)
+            .collection('Behaviors')
+            .where('week', '==', currentWeek4) //order by date, where week = the week of last data in array
+            .where('selectedOption2', '==', 'Wandering')
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+                for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
+                  if (documentSnapshot.data().dayOfTheWeek == i) {
+                    this.setState({ wanderingDur: update(this.state.wanderingDur, { [i]: { $set: documentSnapshot.data().wanderingDuration } }) })
+                  }
+                }
+              })
+            })
+        }
+        )
+
+        firestore()
         .collection('users')
         .doc(user.uid)
         .collection('Behaviors')
-        .doc(`${Month} ${Day} ${Year} (${dayOfTheWeek})`)
+        .where('data', '==', 'true')
+        .where('selectedOption2', '==', 'Hallucinations')
+        .orderBy('date', 'asc')
         .get()
-        .then(documentSnapshot => {
-          if (dayOfTheWeek == i) {
-            this.setState({ hallucinationsDur: update(this.state.hallucinationsDur, { [i]: { $set: documentSnapshot.data().hallucinationsDuration } }) })
-          }
-        })
-    }
+        .then(querySnapshot => {
+          querySnapshot.forEach(documentSnapshot => {
+            weekArray5 = [...weekArray5, documentSnapshot.data().week] //go through all documents, put each week number in an array
+          })
+          currentWeek5 = weekArray5[(weekArray5.length - 1)] //go through all data in array, get the week of last data in array
+          
+          firestore() //do another firestore() get()
+            .collection('users')
+            .doc(user.uid)
+            .collection('Behaviors')
+            .where('week', '==', currentWeek5) //order by date, where week = the week of last data in array
+            .where('selectedOption2', '==', 'Hallucinations')
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+                for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
+                  if (documentSnapshot.data().dayOfTheWeek == i) {
+                    this.setState({ hallucinationsDur: update(this.state.hallucinationsDur, { [i]: { $set: documentSnapshot.data().hallucinationsDuration } }) })
+                  }
+                }
+              })
+            })
+        }
+        )
+
+    
   }
 
 
@@ -396,7 +491,7 @@ class ChartScreen extends React.Component {
                     />
                   </View>
                   <View tabLabel='Hallucinations'>
-                    <BarChart
+                  <BarChart
                       width={width}
                       height={height}
                       data={hallucinationsDuration}
