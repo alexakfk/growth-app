@@ -49,177 +49,177 @@ class ChartScreen extends React.Component {
     let weekArray5 = []
     let currentWeek5 = null
 
-      firestore()
-        .collection('users')
-        .doc(user.uid)
-        .collection('Behaviors')
-        .where('data', '==', 'true')
-        .where('selectedOption2', '==', 'Restlessness')
-        .orderBy('date', 'asc')
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-            weekArray = [...weekArray, documentSnapshot.data().week] //go through all documents, put each week number in an array
-          })
-          currentWeek = weekArray[(weekArray.length - 1)] //go through all data in array, get the week of last data in array
-          
-          firestore() //do another firestore() get()
-            .collection('users')
-            .doc(user.uid)
-            .collection('Behaviors')
-            .where('week', '==', currentWeek) //order by date, where week = the week of last data in array
-            .where('selectedOption2', '==', 'Restlessness')
-            .orderBy('date', 'asc')
-            .get()
-            .then(querySnapshot => {
-              querySnapshot.forEach(documentSnapshot => {
-                for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
-                  if (documentSnapshot.data().dayOfTheWeek == i) {
-                    this.setState({ restlessDur: update(this.state.restlessDur, { [i]: { $set: documentSnapshot.data().restlessnessDuration } }) })
-                  }
-                }
-              })
-            })
-        }
-        )
+    firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('Behaviors')
+      .where('data', '==', 'true')
+      .where('selectedOption2', '==', 'Restlessness')
+      .orderBy('date', 'asc')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          weekArray = [...weekArray, documentSnapshot.data().week] //go through all documents, put each week number in an array
+        })
+        currentWeek = weekArray[(weekArray.length - 1)] //go through all data in array, get the week of last data in array
 
-        firestore()
-        .collection('users')
-        .doc(user.uid)
-        .collection('Behaviors')
-        .where('data', '==', 'true')
-        .where('selectedOption2', '==', 'Refusal')
-        .orderBy('date', 'asc')
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-            weekArray2 = [...weekArray2, documentSnapshot.data().week] //go through all documents, put each week number in an array
-          })
-          currentWeek2 = weekArray2[(weekArray2.length - 1)] //go through all data in array, get the week of last data in array
-          
-          firestore() //do another firestore() get()
-            .collection('users')
-            .doc(user.uid)
-            .collection('Behaviors')
-            .where('week', '==', currentWeek2) //order by date, where week = the week of last data in array
-            .where('selectedOption2', '==', 'Refusal')
-            .orderBy('date', 'asc')
-            .get()
-            .then(querySnapshot => {
-              querySnapshot.forEach(documentSnapshot => {
-                for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
-                  if (documentSnapshot.data().dayOfTheWeek == i) {
-                    this.setState({ refusalDur: update(this.state.refusalDur, { [i]: { $set: documentSnapshot.data().refusalDuration } }) })
-                  }
+        firestore() //do another firestore() get()
+          .collection('users')
+          .doc(user.uid)
+          .collection('Behaviors')
+          .where('week', '==', currentWeek) //order by date, where week = the week of last data in array
+          .where('selectedOption2', '==', 'Restlessness')
+          .orderBy('date', 'asc')
+          .get()
+          .then(querySnapshot => {
+            querySnapshot.forEach(documentSnapshot => {
+              for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
+                if (documentSnapshot.data().dayOfTheWeek == i) {
+                  this.setState({ restlessDur: update(this.state.restlessDur, { [i]: { $set: documentSnapshot.data().restlessnessDuration } }) })
                 }
-              })
+              }
             })
-        }
-        )
-
-        firestore()
-        .collection('users')
-        .doc(user.uid)
-        .collection('Behaviors')
-        .where('data', '==', 'true')
-        .where('selectedOption2', '==', 'Yelling')
-        .orderBy('date', 'asc')
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-            weekArray3 = [...weekArray3, documentSnapshot.data().week] //go through all documents, put each week number in an array
           })
-          currentWeek3 = weekArray3[(weekArray3.length - 1)] //go through all data in array, get the week of last data in array
-          
-          firestore() //do another firestore() get()
-            .collection('users')
-            .doc(user.uid)
-            .collection('Behaviors')
-            .where('week', '==', currentWeek3) //order by date, where week = the week of last data in array
-            .where('selectedOption2', '==', 'Yelling')
-            .orderBy('date', 'asc')
-            .get()
-            .then(querySnapshot => {
-              querySnapshot.forEach(documentSnapshot => {
-                for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
-                  if (documentSnapshot.data().dayOfTheWeek == i) {
-                    this.setState({ yellDur: update(this.state.yellDur, { [i]: { $set: documentSnapshot.data().yellingDuration } }) })
-                  }
-                }
-              })
-            })
-        }
-        )
+      }
+      )
 
-        firestore()
-        .collection('users')
-        .doc(user.uid)
-        .collection('Behaviors')
-        .where('data', '==', 'true')
-        .where('selectedOption2', '==', 'Wandering')
-        .orderBy('date', 'asc')
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-            weekArray4 = [...weekArray4, documentSnapshot.data().week] //go through all documents, put each week number in an array
+    firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('Behaviors')
+      .where('data', '==', 'true')
+      .where('selectedOption2', '==', 'Refusal')
+      .orderBy('date', 'asc')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          weekArray2 = [...weekArray2, documentSnapshot.data().week] //go through all documents, put each week number in an array
+        })
+        currentWeek2 = weekArray2[(weekArray2.length - 1)] //go through all data in array, get the week of last data in array
+
+        firestore() //do another firestore() get()
+          .collection('users')
+          .doc(user.uid)
+          .collection('Behaviors')
+          .where('week', '==', currentWeek2) //order by date, where week = the week of last data in array
+          .where('selectedOption2', '==', 'Refusal')
+          .orderBy('date', 'asc')
+          .get()
+          .then(querySnapshot => {
+            querySnapshot.forEach(documentSnapshot => {
+              for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
+                if (documentSnapshot.data().dayOfTheWeek == i) {
+                  this.setState({ refusalDur: update(this.state.refusalDur, { [i]: { $set: documentSnapshot.data().refusalDuration } }) })
+                }
+              }
+            })
           })
-          currentWeek4 = weekArray4[(weekArray4.length - 1)] //go through all data in array, get the week of last data in array
-          
-          firestore() //do another firestore() get()
-            .collection('users')
-            .doc(user.uid)
-            .collection('Behaviors')
-            .where('week', '==', currentWeek4) //order by date, where week = the week of last data in array
-            .where('selectedOption2', '==', 'Wandering')
-            .orderBy('date', 'asc')
-            .get()
-            .then(querySnapshot => {
-              querySnapshot.forEach(documentSnapshot => {
-                for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
-                  if (documentSnapshot.data().dayOfTheWeek == i) {
-                    this.setState({ wanderingDur: update(this.state.wanderingDur, { [i]: { $set: documentSnapshot.data().wanderingDuration } }) })
-                  }
-                }
-              })
-            })
-        }
-        )
+      }
+      )
 
-        firestore()
-        .collection('users')
-        .doc(user.uid)
-        .collection('Behaviors')
-        .where('data', '==', 'true')
-        .where('selectedOption2', '==', 'Hallucinations')
-        .orderBy('date', 'asc')
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-            weekArray5 = [...weekArray5, documentSnapshot.data().week] //go through all documents, put each week number in an array
+    firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('Behaviors')
+      .where('data', '==', 'true')
+      .where('selectedOption2', '==', 'Yelling')
+      .orderBy('date', 'asc')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          weekArray3 = [...weekArray3, documentSnapshot.data().week] //go through all documents, put each week number in an array
+        })
+        currentWeek3 = weekArray3[(weekArray3.length - 1)] //go through all data in array, get the week of last data in array
+
+        firestore() //do another firestore() get()
+          .collection('users')
+          .doc(user.uid)
+          .collection('Behaviors')
+          .where('week', '==', currentWeek3) //order by date, where week = the week of last data in array
+          .where('selectedOption2', '==', 'Yelling')
+          .orderBy('date', 'asc')
+          .get()
+          .then(querySnapshot => {
+            querySnapshot.forEach(documentSnapshot => {
+              for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
+                if (documentSnapshot.data().dayOfTheWeek == i) {
+                  this.setState({ yellDur: update(this.state.yellDur, { [i]: { $set: documentSnapshot.data().yellingDuration } }) })
+                }
+              }
+            })
           })
-          currentWeek5 = weekArray5[(weekArray5.length - 1)] //go through all data in array, get the week of last data in array
-          
-          firestore() //do another firestore() get()
-            .collection('users')
-            .doc(user.uid)
-            .collection('Behaviors')
-            .where('week', '==', currentWeek5) //order by date, where week = the week of last data in array
-            .where('selectedOption2', '==', 'Hallucinations')
-            .orderBy('date', 'asc')
-            .get()
-            .then(querySnapshot => {
-              querySnapshot.forEach(documentSnapshot => {
-                for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
-                  if (documentSnapshot.data().dayOfTheWeek == i) {
-                    this.setState({ hallucinationsDur: update(this.state.hallucinationsDur, { [i]: { $set: documentSnapshot.data().hallucinationsDuration } }) })
-                  }
-                }
-              })
-            })
-        }
-        )
+      }
+      )
 
-    
+    firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('Behaviors')
+      .where('data', '==', 'true')
+      .where('selectedOption2', '==', 'Wandering')
+      .orderBy('date', 'asc')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          weekArray4 = [...weekArray4, documentSnapshot.data().week] //go through all documents, put each week number in an array
+        })
+        currentWeek4 = weekArray4[(weekArray4.length - 1)] //go through all data in array, get the week of last data in array
+
+        firestore() //do another firestore() get()
+          .collection('users')
+          .doc(user.uid)
+          .collection('Behaviors')
+          .where('week', '==', currentWeek4) //order by date, where week = the week of last data in array
+          .where('selectedOption2', '==', 'Wandering')
+          .orderBy('date', 'asc')
+          .get()
+          .then(querySnapshot => {
+            querySnapshot.forEach(documentSnapshot => {
+              for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
+                if (documentSnapshot.data().dayOfTheWeek == i) {
+                  this.setState({ wanderingDur: update(this.state.wanderingDur, { [i]: { $set: documentSnapshot.data().wanderingDuration } }) })
+                }
+              }
+            })
+          })
+      }
+      )
+
+    firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('Behaviors')
+      .where('data', '==', 'true')
+      .where('selectedOption2', '==', 'Hallucinations')
+      .orderBy('date', 'asc')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          weekArray5 = [...weekArray5, documentSnapshot.data().week] //go through all documents, put each week number in an array
+        })
+        currentWeek5 = weekArray5[(weekArray5.length - 1)] //go through all data in array, get the week of last data in array
+
+        firestore() //do another firestore() get()
+          .collection('users')
+          .doc(user.uid)
+          .collection('Behaviors')
+          .where('week', '==', currentWeek5) //order by date, where week = the week of last data in array
+          .where('selectedOption2', '==', 'Hallucinations')
+          .orderBy('date', 'asc')
+          .get()
+          .then(querySnapshot => {
+            querySnapshot.forEach(documentSnapshot => {
+              for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
+                if (documentSnapshot.data().dayOfTheWeek == i) {
+                  this.setState({ hallucinationsDur: update(this.state.hallucinationsDur, { [i]: { $set: documentSnapshot.data().hallucinationsDuration } }) })
+                }
+              }
+            })
+          })
+      }
+      )
+
+
   }
 
 
@@ -278,7 +278,7 @@ class ChartScreen extends React.Component {
 
     const progressChartData = [0.4, 0.6, 0.8]
 
-    const chartConfigs = [
+    const chartConfig = [
       {
         tabLabel: "Behaviors",
         backgroundColor: '#000000',
@@ -291,27 +291,30 @@ class ChartScreen extends React.Component {
       },
       {
         tabLabel: "Sleep",
-        backgroundColor: '#022173',
-        backgroundGradientFrom: '#022173',
-        backgroundGradientTo: '#1b3fa0',
-        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        backgroundColor: '#000000',
+        backgroundGradientFrom: '#1E2923',
+        backgroundGradientTo: '#08130D',
+        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
         style: {
           borderRadius: 16
         }
       },
       {
         tabLabel: "Bowel",
-        backgroundColor: '#ffffff',
-        backgroundGradientFrom: '#ffffff',
-        backgroundGradientTo: '#ffffff',
-        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`
+        backgroundColor: '#000000',
+        backgroundGradientFrom: '#1E2923',
+        backgroundGradientTo: '#08130D',
+        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+        style: {
+          borderRadius: 16
+        }
       },
       {
         tabLabel: "Medication",
-        backgroundColor: '#26872a',
-        backgroundGradientFrom: '#43a047',
-        backgroundGradientTo: '#66bb6a',
-        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        backgroundColor: '#000000',
+        backgroundGradientFrom: '#1E2923',
+        backgroundGradientTo: '#08130D',
+        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
         style: {
           borderRadius: 16
         }
@@ -327,207 +330,759 @@ class ChartScreen extends React.Component {
       <ScrollableTabView
         style={{ paddingTop: '15%' }}
         initialPage={0}
-
       >
-
-        {chartConfigs.map(chartConfig => {
-          const labelStyle = {
-            color: chartConfig.color(),
-            textAlign: 'center',
-            fontSize: 16
-          }
-          const graphStyle = {
-            ...chartConfig.style
-          }
-          return (
-            <Text
-              tabLabel={chartConfig.tabLabel}>
-              <ScrollView
-                key={Math.random()}
-                style={{
-                  backgroundColor: chartConfig.backgroundColor
-                }}
-              >
-                <Button
-                  title="Back"
-                  onPress={() => {
-                    this.props.navigation.navigate("Section");
-                  }}
+        <Text //CHARTS FOR DATA SCREEN
+          tabLabel={chartConfig[0].tabLabel}
+        >
+          <ScrollView
+            key={Math.random()}
+            style={{
+              backgroundColor: chartConfig[0].backgroundColor
+            }}
+          >
+            <Button
+              title="Back"
+              onPress={() => {
+                this.props.navigation.navigate("Section");
+              }}
+            />
+            <ScrollableTabView
+              initialPage={0}
+              style={{ backgroundColor: 'white' }}
+            >
+              <View tabLabel='Restlessness'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={restlessnessDuration}
+                  chartConfig={chartConfig[0]}
+                  style={chartConfig[0].style}
                 />
-                <ScrollableTabView
-                  initialPage={0}
-                  style={{ backgroundColor: 'white' }}
-                >
-                  <View tabLabel='Restlessness'>
-                    <BarChart
-                      width={width}
-                      height={height}
-                      data={restlessnessDuration}
-                      chartConfig={chartConfig}
-                      style={graphStyle}
-                    />
-                    <ContributionGraph
-                      values={contributionData}
-                      width={width}
-                      height={height}
-                      endDate={new Date('2016-05-01')}
-                      numDays={105}
-                      chartConfig={chartConfig}
-                      style={graphStyle}
-                    />
-                    <LineChart
-                      data={restlessnessDuration}
-                      width={width}
-                      height={height}
-                      chartConfig={chartConfig}
-                      style={graphStyle}
-                    />
-                    <PieChart
-                      data={pieChartData}
-                      height={height}
-                      width={width}
-                      chartConfig={chartConfig}
-                      accessor="population"
-                      style={graphStyle}
-                    />
-                  </View>
-                  <View tabLabel='Refusal'>
-                    <BarChart
-                      width={width}
-                      height={height}
-                      data={refusalDuration}
-                      chartConfig={chartConfig}
-                      style={graphStyle}
-                    />
-                    <ContributionGraph
-                      values={contributionData}
-                      width={width}
-                      height={height}
-                      endDate={new Date('2016-05-01')}
-                      numDays={105}
-                      chartConfig={chartConfig}
-                      style={graphStyle}
-                    />
-                    <LineChart
-                      data={refusalDuration}
-                      width={width}
-                      height={height}
-                      chartConfig={chartConfig}
-                      style={graphStyle}
-                    />
-                    <PieChart
-                      data={pieChartData}
-                      height={height}
-                      width={width}
-                      chartConfig={chartConfig}
-                      accessor="population"
-                      style={graphStyle}
-                    />
-                  </View>
-                  <View tabLabel='Yelling'>
-                    <BarChart
-                      width={width}
-                      height={height}
-                      data={yellingDuration}
-                      chartConfig={chartConfig}
-                      style={graphStyle}
-                    />
-                    <ContributionGraph
-                      values={contributionData}
-                      width={width}
-                      height={height}
-                      endDate={new Date('2016-05-01')}
-                      numDays={105}
-                      chartConfig={chartConfig}
-                      style={graphStyle}
-                    />
-                    <LineChart
-                      data={yellingDuration}
-                      width={width}
-                      height={height}
-                      chartConfig={chartConfig}
-                      style={graphStyle}
-                    />
-                    <PieChart
-                      data={pieChartData}
-                      height={height}
-                      width={width}
-                      chartConfig={chartConfig}
-                      accessor="population"
-                      style={graphStyle}
-                    />
-                  </View>
-                  <View tabLabel='Wandering'>
-                    <BarChart
-                      width={width}
-                      height={height}
-                      data={wanderingDuration}
-                      chartConfig={chartConfig}
-                      style={graphStyle}
-                    />
-                    <ContributionGraph
-                      values={contributionData}
-                      width={width}
-                      height={height}
-                      endDate={new Date('2016-05-01')}
-                      numDays={105}
-                      chartConfig={chartConfig}
-                      style={graphStyle}
-                    />
-                    <LineChart
-                      data={wanderingDuration}
-                      width={width}
-                      height={height}
-                      chartConfig={chartConfig}
-                      style={graphStyle}
-                    />
-                    <PieChart
-                      data={pieChartData}
-                      height={height}
-                      width={width}
-                      chartConfig={chartConfig}
-                      accessor="population"
-                      style={graphStyle}
-                    />
-                  </View>
-                  <View tabLabel='Hallucinations'>
-                  <BarChart
-                      width={width}
-                      height={height}
-                      data={hallucinationsDuration}
-                      chartConfig={chartConfig}
-                      style={graphStyle}
-                    />
-                    <ContributionGraph
-                      values={contributionData}
-                      width={width}
-                      height={height}
-                      endDate={new Date('2016-05-01')}
-                      numDays={105}
-                      chartConfig={chartConfig}
-                      style={graphStyle}
-                    />
-                    <LineChart
-                      data={hallucinationsDuration}
-                      width={width}
-                      height={height}
-                      chartConfig={chartConfig}
-                      style={graphStyle}
-                    />
-                    <PieChart
-                      data={pieChartData}
-                      height={height}
-                      width={width}
-                      chartConfig={chartConfig}
-                      accessor="population"
-                      style={graphStyle}
-                    />
-                  </View>
-                </ScrollableTabView>
-              </ScrollView>
-            </Text>
-          )
-        })}
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[0]}
+                  style={chartConfig[0].style}
+                />
+                <LineChart
+                  data={restlessnessDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[0]}
+                  style={chartConfig[0].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[0]}
+                  accessor="population"
+                  style={chartConfig[0].style}
+                />
+              </View>
+              <View tabLabel='Refusal'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={refusalDuration}
+                  chartConfig={chartConfig[0]}
+                  style={chartConfig[0].style}
+                />
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[0]}
+                  style={chartConfig[0].style}
+                />
+                <LineChart
+                  data={refusalDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[0]}
+                  style={chartConfig[0].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[0]}
+                  accessor="population"
+                  style={chartConfig[0].style}
+                />
+              </View>
+              <View tabLabel='Yelling'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={yellingDuration}
+                  chartConfig={chartConfig[0]}
+                  style={chartConfig[0].style}
+                />
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[0]}
+                  style={chartConfig[0].style}
+                />
+                <LineChart
+                  data={yellingDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[0]}
+                  style={chartConfig[0].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[0]}
+                  accessor="population"
+                  style={chartConfig[0].style}
+                />
+              </View>
+              <View tabLabel='Wandering'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={wanderingDuration}
+                  chartConfig={chartConfig[0]}
+                  style={chartConfig[0].style}
+                />
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[0]}
+                  style={chartConfig[0].style}
+                />
+                <LineChart
+                  data={wanderingDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[0]}
+                  style={chartConfig[0].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[0]}
+                  accessor="population"
+                  style={chartConfig[0].style}
+                />
+              </View>
+              <View tabLabel='Hallucinations'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={hallucinationsDuration}
+                  chartConfig={chartConfig[0]}
+                  style={chartConfig[0].style}
+                />
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[0]}
+                  style={chartConfig[0].style}
+                />
+                <LineChart
+                  data={hallucinationsDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[0]}
+                  style={chartConfig[0].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[0]}
+                  accessor="population"
+                  style={chartConfig[0].style}
+                />
+              </View>
+            </ScrollableTabView>
+          </ScrollView>
+        </Text>
+
+        <Text //CHARTS FOR SLEEP SCREEN
+          tabLabel={chartConfig[1].tabLabel}
+        >
+          <ScrollView
+            key={Math.random()}
+            style={{
+              backgroundColor: chartConfig[1].backgroundColor
+            }}
+          >
+            <Button
+              title="Back"
+              onPress={() => {
+                this.props.navigation.navigate("Section");
+              }}
+            />
+            <ScrollableTabView
+              initialPage={0}
+              style={{ backgroundColor: 'white' }}
+            >
+              <View tabLabel='Restlessness'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={restlessnessDuration}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                />
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                />
+                <LineChart
+                  data={restlessnessDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[1]}
+                  accessor="population"
+                  style={chartConfig[1].style}
+                />
+              </View>
+              <View tabLabel='Refusal'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={refusalDuration}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                />
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                />
+                <LineChart
+                  data={refusalDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[1]}
+                  accessor="population"
+                  style={chartConfig[1].style}
+                />
+              </View>
+              <View tabLabel='Yelling'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={yellingDuration}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                />
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                />
+                <LineChart
+                  data={yellingDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[1]}
+                  accessor="population"
+                  style={chartConfig[1].style}
+                />
+              </View>
+              <View tabLabel='Wandering'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={wanderingDuration}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                />
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                />
+                <LineChart
+                  data={wanderingDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[1]}
+                  accessor="population"
+                  style={chartConfig[1].style}
+                />
+              </View>
+              <View tabLabel='Hallucinations'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={hallucinationsDuration}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                />
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                />
+                <LineChart
+                  data={hallucinationsDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[1]}
+                  accessor="population"
+                  style={chartConfig[1].style}
+                />
+              </View>
+            </ScrollableTabView>
+          </ScrollView>
+        </Text>
+
+        <Text //CHARTS FOR BOWEL SCREEN
+          tabLabel={chartConfig[2].tabLabel}
+        >
+          <ScrollView
+            key={Math.random()}
+            style={{
+              backgroundColor: chartConfig[2].backgroundColor
+            }}
+          >
+            <Button
+              title="Back"
+              onPress={() => {
+                this.props.navigation.navigate("Section");
+              }}
+            />
+            <ScrollableTabView
+              initialPage={0}
+              style={{ backgroundColor: 'white' }}
+            >
+              <View tabLabel='Restlessness'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={restlessnessDuration}
+                  chartConfig={chartConfig[2]}
+                  style={chartConfig[2].style}
+                />
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[2]}
+                  style={chartConfig[2].style}
+                />
+                <LineChart
+                  data={restlessnessDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[2]}
+                  style={chartConfig[2].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[2]}
+                  accessor="population"
+                  style={chartConfig[2].style}
+                />
+              </View>
+              <View tabLabel='Refusal'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={refusalDuration}
+                  chartConfig={chartConfig[2]}
+                  style={chartConfig[2].style}
+                />
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[2]}
+                  style={chartConfig[2].style}
+                />
+                <LineChart
+                  data={refusalDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[2]}
+                  style={chartConfig[2].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[2]}
+                  accessor="population"
+                  style={chartConfig[2].style}
+                />
+              </View>
+              <View tabLabel='Yelling'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={yellingDuration}
+                  chartConfig={chartConfig[2]}
+                  style={chartConfig[2].style}
+                />
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[2]}
+                  style={chartConfig[2].style}
+                />
+                <LineChart
+                  data={yellingDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[2]}
+                  style={chartConfig[2].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[2]}
+                  accessor="population"
+                  style={chartConfig[2].style}
+                />
+              </View>
+              <View tabLabel='Wandering'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={wanderingDuration}
+                  chartConfig={chartConfig[2]}
+                  style={chartConfig[2].style}
+                />
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[2]}
+                  style={chartConfig[2].style}
+                />
+                <LineChart
+                  data={wanderingDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[2]}
+                  style={chartConfig[2].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[2]}
+                  accessor="population"
+                  style={chartConfig[2].style}
+                />
+              </View>
+              <View tabLabel='Hallucinations'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={hallucinationsDuration}
+                  chartConfig={chartConfig[2]}
+                  style={chartConfig[2].style}
+                />
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[2]}
+                  style={chartConfig[2].style}
+                />
+                <LineChart
+                  data={hallucinationsDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[2]}
+                  style={chartConfig[2].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[2]}
+                  accessor="population"
+                  style={chartConfig[2].style}
+                />
+              </View>
+            </ScrollableTabView>
+          </ScrollView>
+        </Text>
+
+        <Text //CHARTS FOR MEDICATION SCREEN
+          tabLabel={chartConfig[3].tabLabel}
+        >
+          <ScrollView
+            key={Math.random()}
+            style={{
+              backgroundColor: chartConfig[3].backgroundColor
+            }}
+          >
+            <Button
+              title="Back"
+              onPress={() => {
+                this.props.navigation.navigate("Section");
+              }}
+            />
+            <ScrollableTabView
+              initialPage={0}
+              style={{ backgroundColor: 'white' }}
+            >
+              <View tabLabel='Restlessness'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={restlessnessDuration}
+                  chartConfig={chartConfig[3]}
+                  style={chartConfig[3].style}
+                />
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[3]}
+                  style={chartConfig[3].style}
+                />
+                <LineChart
+                  data={restlessnessDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[3]}
+                  style={chartConfig[3].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[3]}
+                  accessor="population"
+                  style={chartConfig[3].style}
+                />
+              </View>
+              <View tabLabel='Refusal'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={refusalDuration}
+                  chartConfig={chartConfig[3]}
+                  style={chartConfig[3].style}
+                />
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[3]}
+                  style={chartConfig[3].style}
+                />
+                <LineChart
+                  data={refusalDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[3]}
+                  style={chartConfig[3].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[3]}
+                  accessor="population"
+                  style={chartConfig[3].style}
+                />
+              </View>
+              <View tabLabel='Yelling'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={yellingDuration}
+                  chartConfig={chartConfig[3]}
+                  style={chartConfig[3].style}
+                />
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[3]}
+                  style={chartConfig[3].style}
+                />
+                <LineChart
+                  data={yellingDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[3]}
+                  style={chartConfig[3].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[3]}
+                  accessor="population"
+                  style={chartConfig[3].style}
+                />
+              </View>
+              <View tabLabel='Wandering'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={wanderingDuration}
+                  chartConfig={chartConfig[3]}
+                  style={chartConfig[3].style}
+                />
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[3]}
+                  style={chartConfig[3].style}
+                />
+                <LineChart
+                  data={wanderingDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[3]}
+                  style={chartConfig[3].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[3]}
+                  accessor="population"
+                  style={chartConfig[3].style}
+                />
+              </View>
+              <View tabLabel='Hallucinations'>
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={hallucinationsDuration}
+                  chartConfig={chartConfig[3]}
+                  style={chartConfig[3].style}
+                />
+                <ContributionGraph
+                  values={contributionData}
+                  width={width}
+                  height={height}
+                  endDate={new Date('2016-05-01')}
+                  numDays={105}
+                  chartConfig={chartConfig[3]}
+                  style={chartConfig[3].style}
+                />
+                <LineChart
+                  data={hallucinationsDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[3]}
+                  style={chartConfig[3].style}
+                />
+                <PieChart
+                  data={pieChartData}
+                  height={height}
+                  width={width}
+                  chartConfig={chartConfig[3]}
+                  accessor="population"
+                  style={chartConfig[3].style}
+                />
+              </View>
+            </ScrollableTabView>
+          </ScrollView>
+        </Text>
+
       </ScrollableTabView>
 
     );

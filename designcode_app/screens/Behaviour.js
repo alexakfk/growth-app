@@ -18,7 +18,7 @@ import auth from '@react-native-firebase/auth';
 
 
 export default function BehaviourScreen() {
-  
+
   const [open, setOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [items, setItems] = useState([
@@ -58,22 +58,22 @@ export default function BehaviourScreen() {
   const onPress = () => {
     const now = new Date();
     const now2 = new Date();
-    now2.setHours(now.getHours(),now.getMinutes()+(selectedOption2))
-    const initialDate = ({date:now, time:now.toLocaleTimeString()})
-    const date1 = new Date()
+    now2.setHours(now.getHours(), now.getMinutes() + (selectedOption2))
+    const initialDate = ({ date: now, time: now.toLocaleTimeString() })
+    const date1 = new Date().toDateString()
     const time = (now2.toLocaleTimeString())
     firestore()
-    .collection('users')
-    .doc(user.uid)
-    .collection('Behaviors')
-    .add({
-      initialDate,
-      date1,
-      time,
-      selectedOption,
-      note,
-      selectedOption2
-    })
+      .collection('users')
+      .doc(user.uid)
+      .collection('Behaviors')
+      .add({
+        initialDate,
+        date1,
+        time,
+        selectedOption,
+        note,
+        selectedOption2
+      })
 
     console.log(selectedOption);
     console.log(selectedOption2)
@@ -111,271 +111,310 @@ export default function BehaviourScreen() {
     let days5 = null
 
 
-  
+
     firestore()
-    .collection('users')
-    .doc(user.uid)
-    .collection('Behaviors')
-    .get()
-    .then(querySnapshot => {
-      querySnapshot.forEach(documentSnapshot => {
-      behaviorsArray = [...behaviorsArray, documentSnapshot.data()]
-      
-      })
-      console.log(behaviorsArray)
-      
-      for (let i = 0; i < behaviorsArray.length; i++) {
-        if (behaviorsArray[i].selectedOption == 'Restlessness') {
-          restlessnessDuration = restlessnessDuration + behaviorsArray[i].selectedOption2
-        }
-        if (behaviorsArray[i].selectedOption == 'Refusal') {
-          refusalDuration = refusalDuration + behaviorsArray[i].selectedOption2
-        }
-        if (behaviorsArray[i].selectedOption == 'Yelling') {
-          yellingDuration = yellingDuration + behaviorsArray[i].selectedOption2
-        }
-        if (behaviorsArray[i].selectedOption == 'Wandering') {
-          wanderingDuration = wanderingDuration + behaviorsArray[i].selectedOption2
-        }
-        if (behaviorsArray[i].selectedOption == 'Hallucinations') {
-          hallucinationsDuration = hallucinationsDuration + behaviorsArray[i].selectedOption2
-        }
-      }
-
-      if(selectedOption == 'Restlessness') {
-      firestore() // sort data and get first data sent to firestore
       .collection('users')
       .doc(user.uid)
       .collection('Behaviors')
-      .where('data', '==', 'true')
-      .where('selectedOption2', '==', 'Restlessness')
-      .orderBy('date', 'asc')
+      .where('date1', '==', new Date().toDateString())
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
-        dateArray = [...dateArray, documentSnapshot.data().date]
-        daysOfTheWeekArray = [...daysOfTheWeekArray, documentSnapshot.data().dayOfTheWeek]
-        
+          behaviorsArray = [...behaviorsArray, documentSnapshot.data()]
+
+        })
+        console.log(behaviorsArray)
+
+        for (let i = 0; i < behaviorsArray.length; i++) {
+          if (behaviorsArray[i].selectedOption == 'Restlessness') {
+            restlessnessDuration = restlessnessDuration + behaviorsArray[i].selectedOption2
+          }
+          if (behaviorsArray[i].selectedOption == 'Refusal') {
+            refusalDuration = refusalDuration + behaviorsArray[i].selectedOption2
+          }
+          if (behaviorsArray[i].selectedOption == 'Yelling') {
+            yellingDuration = yellingDuration + behaviorsArray[i].selectedOption2
+          }
+          if (behaviorsArray[i].selectedOption == 'Wandering') {
+            wanderingDuration = wanderingDuration + behaviorsArray[i].selectedOption2
+          }
+          if (behaviorsArray[i].selectedOption == 'Hallucinations') {
+            hallucinationsDuration = hallucinationsDuration + behaviorsArray[i].selectedOption2
+          }
+        }
+
+        if (selectedOption == 'Restlessness') {
+          firestore() // sort data and get first data sent to firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('Behaviors')
+            .where('data', '==', 'true')
+            .where('selectedOption2', '==', 'Restlessness')
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+                dateArray = [...dateArray, documentSnapshot.data().date]
+                daysOfTheWeekArray = [...daysOfTheWeekArray, documentSnapshot.data().dayOfTheWeek]
+                if (dateArray.length == 0) {
+                  days = 1 // get days since first data added
+                }
+                else if (dateArray[dateArray.length - 1] == new Date().toDateString()) {
+                  days = dateArray.length
+                } // get days since first data added
+                else if (dateArray[dateArray.length - 1] != new Date().toDateString()) {
+                  days = dateArray.length + 1
+                }
+              })
+              
+
+              if (daysOfTheWeekArray.length == 0) { // get week of added data
+                week = 1
+              }
+              else {
+                week = Math.ceil((days + (daysOfTheWeekArray[0])) / 7)
+              }
+
+
+              firestore() // complete behavior data to firestore
+                .collection('users')
+                .doc(user.uid)
+                .collection('Behaviors')
+                .doc(`${Month} ${Day} ${Year} Restlessness`)
+                .set
+                ({
+                  date: (new Date().toDateString()),
+                  selectedOption2: 'Restlessness',
+                  days: days,
+                  dayOfTheWeek: dayOfTheWeek,
+                  week: week,
+                  restlessnessDuration: restlessnessDuration,
+                  data: 'true'
+                })
+
+            })
+        }
+
+        if (selectedOption == 'Refusal') {
+          firestore() // sort data and get first data sent to firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('Behaviors')
+            .where('data', '==', 'true')
+            .where('selectedOption2', '==', 'Refusal')
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+                dateArray2 = [...dateArray2, documentSnapshot.data().date]
+                daysOfTheWeekArray2 = [...daysOfTheWeekArray2, documentSnapshot.data().dayOfTheWeek]
+                if (dateArray2.length == 0) {
+                  days2 = 1 // get days since first data added
+                }
+                else if (dateArray2[dateArray2.length - 1] == new Date().toDateString()) {
+                  days2 = dateArray2.length
+                } // get days since first data added
+                else if (dateArray2[dateArray2.length - 1] != new Date().toDateString()) {
+                  days2 = dateArray2.length + 1
+                }
+              })
+
+              
+
+              if (daysOfTheWeekArray2.length == 0) { // get week of added data
+                week2 = 1
+              }
+              else {
+                week2 = Math.ceil((days2 + (daysOfTheWeekArray2[0])) / 7)
+              }
+
+
+              firestore() // complete behavior data to firestore
+                .collection('users')
+                .doc(user.uid)
+                .collection('Behaviors')
+                .doc(`${Month} ${Day} ${Year} Refusal`)
+                .set
+                ({
+                  date: (new Date().toDateString()),
+                  selectedOption2: 'Refusal',
+                  days: days2,
+                  dayOfTheWeek: dayOfTheWeek,
+                  week: week2,
+                  refusalDuration: refusalDuration,
+                  data: 'true'
+                })
+
+            })
+        }
+
+        if (selectedOption == 'Yelling') {
+          firestore() // sort data and get first data sent to firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('Behaviors')
+            .where('data', '==', 'true')
+            .where('selectedOption2', '==', 'Yelling')
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+                dateArray3 = [...dateArray3, documentSnapshot.data().date]
+                daysOfTheWeekArray3 = [...daysOfTheWeekArray3, documentSnapshot.data().dayOfTheWeek]
+                if (dateArray3.length == 0) {
+                  days3 = 1 // get days since first data added
+                }
+                else if (dateArray3[dateArray3.length - 1] == new Date().toDateString()) {
+                  days3 = dateArray3.length
+                } // get days since first data added
+                else if (dateArray3[dateArray3.length - 1] != new Date().toDateString()) {
+                  days3 = dateArray3.length + 1
+                }
+              })
+
+              
+
+              if (daysOfTheWeekArray3.length == 0) { // get week of added data
+                week3 = 1
+              }
+              else {
+                week3 = Math.ceil((days3 + (daysOfTheWeekArray3[0])) / 7)
+              }
+
+
+              firestore() // complete behavior data to firestore
+                .collection('users')
+                .doc(user.uid)
+                .collection('Behaviors')
+                .doc(`${Month} ${Day} ${Year} Yelling`)
+                .set
+                ({
+                  date: (new Date().toDateString()),
+                  selectedOption2: 'Yelling',
+                  days: days3,
+                  dayOfTheWeek: dayOfTheWeek,
+                  week: week3,
+                  yellingDuration: yellingDuration,
+                  data: 'true'
+                })
+
+            })
+        }
+
+        if (selectedOption == 'Wandering') {
+          firestore() // sort data and get first data sent to firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('Behaviors')
+            .where('data', '==', 'true')
+            .where('selectedOption2', '==', 'Wandering')
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+                dateArray4 = [...dateArray4, documentSnapshot.data().date]
+                daysOfTheWeekArray4 = [...daysOfTheWeekArray4, documentSnapshot.data().dayOfTheWeek]
+                if (dateArray4.length == 0) {
+                  days4 = 1 // get days since first data added
+                }
+                else if (dateArray4[dateArray4.length - 1] == new Date().toDateString()) {
+                  days4 = dateArray4.length
+                } // get days since first data added
+                else if (dateArray4[dateArray4.length - 1] != new Date().toDateString()) {
+                  days4 = dateArray4.length + 1
+                }
+              })
+
+              
+
+              if (daysOfTheWeekArray4.length == 0) { // get week of added data
+                week4 = 1
+              }
+              else {
+                week4 = Math.ceil((days4 + (daysOfTheWeekArray4[0])) / 7)
+              }
+
+
+              firestore() // complete behavior data to firestore
+                .collection('users')
+                .doc(user.uid)
+                .collection('Behaviors')
+                .doc(`${Month} ${Day} ${Year} Wandering`)
+                .set
+                ({
+                  date: (new Date().toDateString()),
+                  selectedOption2: 'Wandering',
+                  days: days4,
+                  dayOfTheWeek: dayOfTheWeek,
+                  week: week4,
+                  wanderingDuration: wanderingDuration,
+                  data: 'true'
+                })
+
+            })
+        }
+
+        if (selectedOption == 'Hallucinations') {
+          firestore() // sort data and get first data sent to firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('Behaviors')
+            .where('data', '==', 'true')
+            .where('selectedOption2', '==', 'Hallucinations')
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+                dateArray5 = [...dateArray5, documentSnapshot.data().date]
+                daysOfTheWeekArray5 = [...daysOfTheWeekArray5, documentSnapshot.data().dayOfTheWeek]
+                if (dateArray5.length == 0) {
+                  days5 = 1 // get days since first data added
+                }
+                else if (dateArray5[dateArray5.length - 1] == new Date().toDateString()) {
+                  days5 = dateArray5.length
+                } // get days since first data added
+                else if (dateArray5[dateArray5.length - 1] != new Date().toDateString()) {
+                  days5 = dateArray5.length + 1
+                }
+              })
+
+              
+              if (daysOfTheWeekArray5.length == 0) { // get week of added data
+                week5 = 1
+              }
+              else {
+                week5 = Math.ceil((days5 + (daysOfTheWeekArray5[0])) / 7)
+              }
+
+
+              firestore() // complete behavior data to firestore
+                .collection('users')
+                .doc(user.uid)
+                .collection('Behaviors')
+                .doc(`${Month} ${Day} ${Year} Hallucinations`)
+                .set
+                ({
+                  date: (new Date().toDateString()),
+                  selectedOption2: 'Hallucinations',
+                  days: days5,
+                  dayOfTheWeek: dayOfTheWeek,
+                  week: week5,
+                  hallucinationsDuration: hallucinationsDuration,
+                  data: 'true'
+                })
+
+            })
+        }
+
       })
 
-      days = dateArray.length // get days since first data added
 
-      if (daysOfTheWeekArray.length == 0) { // get week of added data
-        week = 1
-      }
-      else {
-        week = Math.ceil((days + (daysOfTheWeekArray[0])) / 7)
-      } 
-      
 
-      firestore() // complete behavior data to firestore
-      .collection('users')
-      .doc(user.uid)
-      .collection('Behaviors')
-      .doc(`${Month} ${Day} ${Year} Restlessness`)
-      .set
-      ({
-        date: (new Date()),
-        selectedOption2: 'Restlessness',
-        days: days,
-        dayOfTheWeek: dayOfTheWeek,
-        week: week,
-        restlessnessDuration: restlessnessDuration,
-        data: 'true'
-      })
-    
-      })
-    }
-
-    if(selectedOption == 'Refusal') {
-      firestore() // sort data and get first data sent to firestore
-      .collection('users')
-      .doc(user.uid)
-      .collection('Behaviors')
-      .where('data', '==', 'true')
-      .where('selectedOption2', '==', 'Refusal')
-      .orderBy('date', 'asc')
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(documentSnapshot => {
-        dateArray2 = [...dateArray2, documentSnapshot.data().date]
-        daysOfTheWeekArray2 = [...daysOfTheWeekArray2, documentSnapshot.data().dayOfTheWeek]
-        
-      })
-
-      days2 = dateArray2.length // get days since first data added
-
-      if (daysOfTheWeekArray2.length == 0) { // get week of added data
-        week2 = 1
-      }
-      else {
-        week2 = Math.ceil((days2 + (daysOfTheWeekArray2[0])) / 7)
-      } 
-      
-
-      firestore() // complete behavior data to firestore
-      .collection('users')
-      .doc(user.uid)
-      .collection('Behaviors')
-      .doc(`${Month} ${Day} ${Year} Refusal`)
-      .set
-      ({
-        date: (new Date()),
-        selectedOption2: 'Refusal',
-        days: days2,
-        dayOfTheWeek: dayOfTheWeek,
-        week: week2,
-        refusalDuration: refusalDuration,
-        data: 'true'
-      })
-    
-      })
-    }
-
-    if(selectedOption == 'Yelling') {
-      firestore() // sort data and get first data sent to firestore
-      .collection('users')
-      .doc(user.uid)
-      .collection('Behaviors')
-      .where('data', '==', 'true')
-      .where('selectedOption2', '==', 'Yelling')
-      .orderBy('date', 'asc')
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(documentSnapshot => {
-        dateArray3 = [...dateArray3, documentSnapshot.data().date]
-        daysOfTheWeekArray3 = [...daysOfTheWeekArray3, documentSnapshot.data().dayOfTheWeek]
-        
-      })
-
-      days3 = dateArray3.length // get days since first data added
-
-      if (daysOfTheWeekArray3.length == 0) { // get week of added data
-        week3 = 1
-      }
-      else {
-        week3 = Math.ceil((days3 + (daysOfTheWeekArray3[0])) / 7)
-      } 
-      
-
-      firestore() // complete behavior data to firestore
-      .collection('users')
-      .doc(user.uid)
-      .collection('Behaviors')
-      .doc(`${Month} ${Day} ${Year} Yelling`)
-      .set
-      ({
-        date: (new Date()),
-        selectedOption2: 'Yelling',
-        days: days3,
-        dayOfTheWeek: dayOfTheWeek,
-        week: week3,
-        yellingDuration: yellingDuration,
-        data: 'true'
-      })
-    
-      })
-    }
-
-    if(selectedOption == 'Wandering') {
-      firestore() // sort data and get first data sent to firestore
-      .collection('users')
-      .doc(user.uid)
-      .collection('Behaviors')
-      .where('data', '==', 'true')
-      .where('selectedOption2', '==', 'Wandering')
-      .orderBy('date', 'asc')
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(documentSnapshot => {
-        dateArray4 = [...dateArray4, documentSnapshot.data().date]
-        daysOfTheWeekArray4 = [...daysOfTheWeekArray4, documentSnapshot.data().dayOfTheWeek]
-        
-      })
-
-      days4 = dateArray4.length // get days since first data added
-
-      if (daysOfTheWeekArray4.length == 0) { // get week of added data
-        week4 = 1
-      }
-      else {
-        week4 = Math.ceil((days4 + (daysOfTheWeekArray4[0])) / 7)
-      } 
-      
-
-      firestore() // complete behavior data to firestore
-      .collection('users')
-      .doc(user.uid)
-      .collection('Behaviors')
-      .doc(`${Month} ${Day} ${Year} Wandering`)
-      .set
-      ({
-        date: (new Date()),
-        selectedOption2: 'Wandering',
-        days: days4,
-        dayOfTheWeek: dayOfTheWeek,
-        week: week4,
-        wanderingDuration: wanderingDuration,
-        data: 'true'
-      })
-    
-      })
-    }
-
-    if(selectedOption == 'Hallucinations') {
-      firestore() // sort data and get first data sent to firestore
-      .collection('users')
-      .doc(user.uid)
-      .collection('Behaviors')
-      .where('data', '==', 'true')
-      .where('selectedOption2', '==', 'Hallucinations')
-      .orderBy('date', 'asc')
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(documentSnapshot => {
-        dateArray5 = [...dateArray5, documentSnapshot.data().date]
-        daysOfTheWeekArray5 = [...daysOfTheWeekArray5, documentSnapshot.data().dayOfTheWeek]
-        
-      })
-
-      days5 = dateArray5.length // get days since first data added
-
-      if (daysOfTheWeekArray5.length == 0) { // get week of added data
-        week5 = 1
-      }
-      else {
-        week5 = Math.ceil((days5 + (daysOfTheWeekArray5[0])) / 7)
-      } 
-      
-
-      firestore() // complete behavior data to firestore
-      .collection('users')
-      .doc(user.uid)
-      .collection('Behaviors')
-      .doc(`${Month} ${Day} ${Year} Hallucinations`)
-      .set
-      ({
-        date: (new Date()),
-        selectedOption2: 'Hallucinations',
-        days: days5,
-        dayOfTheWeek: dayOfTheWeek,
-        week: week5,
-        hallucinationsDuration: hallucinationsDuration,
-        data: 'true'
-      })
-    
-      })
-    }
-  
-    })
-    
-    
-  
   };
 
-  const cancel = () => {};
+  const cancel = () => { };
 
- 
+
 
   return (
     <View style={styles.container}>
@@ -399,14 +438,14 @@ export default function BehaviourScreen() {
         setItems={setItems2}
         onOpen={onOpen2}
         style={styles.dropdownPicker2}
-        containerStyle={{ zIndex: 1, marginBottom: 0}}
+        containerStyle={{ zIndex: 1, marginBottom: 0 }}
       />
       <TextInput
         value={note}
         onChangeText={setNote}
         style={styles.note}
         multiline={true}
-        
+
       />
       <View style={styles.buttonContainer}>
         <Pressable style={styles.button} onPress={cancel}>
