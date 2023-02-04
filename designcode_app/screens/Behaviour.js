@@ -74,7 +74,7 @@ export default function BehaviourScreen() {
     console.log(selectedOption);
     console.log(selectedOption2)
     console.log(note);
-    const behaviorsArray = []
+    let behaviorsArray = []
     let restlessnessDuration = null
     let refusalDuration = null
     let yellingDuration = null
@@ -96,14 +96,11 @@ export default function BehaviourScreen() {
     .collection('users')
     .doc(user.uid)
     .collection('Behaviors')
-    .where('date1', '==', new Date())
     .get()
     .then(querySnapshot => {
       querySnapshot.forEach(documentSnapshot => {
-      behaviorsArray.push({
-        ...documentSnapshot.data()
-      })
-    
+      behaviorsArray = [...behaviorsArray, documentSnapshot.data()]
+      
       })
       console.log(behaviorsArray)
       
