@@ -10,7 +10,7 @@ import {
   TextInput,
 } from "react-native";
 
-import React,{ useState } from 'react';
+import React, { useState } from 'react';
 import { Ionicons } from "@expo/vector-icons";
 import DatePicker from 'react-native-date-picker'
 import firestore from '@react-native-firebase/firestore';
@@ -28,36 +28,110 @@ export default function SleepScreen() {
   const user = auth().currentUser
 
   const cancel = () => {
-    
+
   }
 
   const onPress = () => {
     console.log(startDate.getMonth() + '/' + startDate.getDate() + '/' + startDate.getFullYear())
     console.log(endDate.getMonth() + '/' + endDate.getDate() + '/' + startDate.getFullYear())
     console.log(startDate.getHours() + ':' + startDate.getMinutes())
-    console.log(endDate.getHours() + ':' + endDate.getMinutes())
+    console.log(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        endDate.getHours() + ':' + endDate.getMinutes())
     console.log(note)
-    const duration = (Math.floor(Math.abs(endDate - startDate) / (1000*60*60))) + ' Hours ' + ((Math.round(Math.abs(endDate - startDate) / (1000*60))) - ((Math.floor(Math.abs(endDate - startDate) / (1000*60*60))) * 60)) + ' Minutes'
-    
-    const initialDate = ({date: startDate, time: startDate.toLocaleTimeString()})
-    const date = ({date: endDate, time: endDate.toLocaleTimeString()})
+    const duration = (Math.abs(endDate - startDate) / (1000 * 60 * 60))                                                                                                                                                                          
+    let initialDate = ({ date: startDate, time: startDate.toLocaleTimeString() })
+    let finalDate = ({ endDate: endDate, time: endDate.toLocaleTimeString() })
+    let sleepDuration = null
 
-    firestore().collection('users').doc(user.uid).collection('Sleep').add({
+    firestore().collection('users').doc(user.uid).collection('Sleep').add({ //add data to firestore
+      date: new Date().toDateString(),
       initialDate,
-      date,
+      finalDate,
       note,
       duration
-
-
-
     })
+ 
+    const Month = (new Date().getMonth() + 1)
+    const Day = new Date().getDate()
+    const Year = (new Date().getFullYear())
+    const dayOfTheWeek = new Date().getDay()
+    let dateArray = []
+    let daysOfTheWeekArray = []
+    let week = null
+    let days = null
+    let sleepDurationArray = []
+
+    firestore() 
+      .collection('users')
+      .doc(user.uid)
+      .collection('Sleep')
+      .where('date', '==', new Date().toDateString()) //if data is from today,
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          sleepDurationArray = [...sleepDurationArray, documentSnapshot.data()]
+
+        })
+
+        for (let i = 0; i < sleepDurationArray.length; i++) {
+            sleepDuration = sleepDuration + sleepDurationArray[i].duration
+        }
+
+          firestore() // sort data and get first data sent to firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('Sleep')
+            .where('data', '==', 'true')
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+                dateArray = [...dateArray, documentSnapshot.data().date]
+                daysOfTheWeekArray = [...daysOfTheWeekArray, documentSnapshot.data().dayOfTheWeek]
+              })
+
+              if (dateArray.length == 0 || dateArray.length == 1) {
+                days = 1 // get days since first data added
+              }
+              else if (dateArray[dateArray.length - 1] == new Date().toDateString()) {
+                days = dateArray.length
+              } // get days since first data added
+              else if (dateArray[dateArray.length - 1] != new Date().toDateString()) {
+                days = dateArray.length + 1
+              }
+
+              if (daysOfTheWeekArray.length == 0) { // get week of added data
+                week = 1
+              }
+              else {
+                week = Math.ceil((days + (daysOfTheWeekArray[0])) / 7)
+              }
+
+
+              firestore() // complete behavior data to firestore
+                .collection('users')
+                .doc(user.uid)
+                .collection('Sleep')
+                .doc(`${Month} ${Day} ${Year}`)
+                .set
+                ({
+                  date: (new Date().toDateString()),
+                  days: days,
+                  dayOfTheWeek: dayOfTheWeek - 1,
+                  week: week,
+                  duration: sleepDuration,
+                  data: 'true'
+                })
+
+            })
+      })
+
   }
 
-  return(
+  return (
     <View style={styles.container}>
       <Title>Add Sleep</Title>
       <Button title="Open" onPress={() => setOpen1(true)} />
-        <DatePicker
+      <DatePicker
         modal
         open={open1}
         date={startDate}
@@ -72,7 +146,7 @@ export default function SleepScreen() {
       <View>
         <Text>{startDate.getMonth() + '/' + startDate.getDate() + '/' + startDate.getFullYear()} {startDate.getHours() + ':' + startDate.getMinutes() + am_pm1}</Text>
       </View>
-     <Button title="Open" onPress={() => setOpen2(true)} />
+      <Button title="Open" onPress={() => setOpen2(true)} />
       <DatePicker
         modal
         open={open2}
@@ -96,9 +170,9 @@ export default function SleepScreen() {
         multiline={true}
       />
 
-    
 
-    <View style={styles.buttonContainer}>
+
+      <View style={styles.buttonContainer}>
         <Pressable style={styles.button} onPress={cancel}>
           <Ionicons name="close-outline" size={34} color="white" />
         </Pressable>
@@ -106,9 +180,9 @@ export default function SleepScreen() {
           <Ionicons name="checkmark-outline" size={34} color="white" />
         </Pressable>
       </View>
-    
-   
-        </View>
+
+
+    </View>
   )
 }
 
@@ -119,7 +193,7 @@ const styles = StyleSheet.create({
     padding: 0,
     margin: 0,
   },
-buttonContainer: {
+  buttonContainer: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",

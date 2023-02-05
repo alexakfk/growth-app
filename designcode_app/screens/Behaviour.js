@@ -156,18 +156,18 @@ export default function BehaviourScreen() {
               querySnapshot.forEach(documentSnapshot => {
                 dateArray = [...dateArray, documentSnapshot.data().date]
                 daysOfTheWeekArray = [...daysOfTheWeekArray, documentSnapshot.data().dayOfTheWeek]
-                if (dateArray.length == 0) {
-                  days = 1 // get days since first data added
-                }
-                else if (dateArray[dateArray.length - 1] == new Date().toDateString()) {
-                  days = dateArray.length
-                } // get days since first data added
-                else if (dateArray[dateArray.length - 1] != new Date().toDateString()) {
-                  days = dateArray.length + 1
-                }
               })
-              
 
+              if (dateArray.length == 0 || dateArray.length == 1) {
+                days = 1 // get days since first data added
+              }
+              else if (dateArray[dateArray.length - 1] == new Date().toDateString()) {
+                days = dateArray.length
+              } // get days since first data added
+              else if (dateArray[dateArray.length - 1] != new Date().toDateString()) {
+                days = dateArray.length + 1
+              }
+              
               if (daysOfTheWeekArray.length == 0) { // get week of added data
                 week = 1
               }
@@ -208,18 +208,17 @@ export default function BehaviourScreen() {
               querySnapshot.forEach(documentSnapshot => {
                 dateArray2 = [...dateArray2, documentSnapshot.data().date]
                 daysOfTheWeekArray2 = [...daysOfTheWeekArray2, documentSnapshot.data().dayOfTheWeek]
-                if (dateArray2.length == 0) {
-                  days2 = 1 // get days since first data added
-                }
-                else if (dateArray2[dateArray2.length - 1] == new Date().toDateString()) {
-                  days2 = dateArray2.length
-                } // get days since first data added
-                else if (dateArray2[dateArray2.length - 1] != new Date().toDateString()) {
-                  days2 = dateArray2.length + 1
-                }
               })
 
-              
+              if (dateArray2.length == 0 || dateArray2.length == 1) {
+                days2 = 1 // get days since first data added
+              }
+              else if (dateArray2[dateArray2.length - 1] == new Date().toDateString()) {
+                days2 = dateArray2.length
+              } // get days since first data added
+              else if (dateArray2[dateArray2.length - 1] != new Date().toDateString()) {
+                days2 = dateArray2.length + 1
+              }
 
               if (daysOfTheWeekArray2.length == 0) { // get week of added data
                 week2 = 1
@@ -261,18 +260,17 @@ export default function BehaviourScreen() {
               querySnapshot.forEach(documentSnapshot => {
                 dateArray3 = [...dateArray3, documentSnapshot.data().date]
                 daysOfTheWeekArray3 = [...daysOfTheWeekArray3, documentSnapshot.data().dayOfTheWeek]
-                if (dateArray3.length == 0) {
-                  days3 = 1 // get days since first data added
-                }
-                else if (dateArray3[dateArray3.length - 1] == new Date().toDateString()) {
-                  days3 = dateArray3.length
-                } // get days since first data added
-                else if (dateArray3[dateArray3.length - 1] != new Date().toDateString()) {
-                  days3 = dateArray3.length + 1
-                }
               })
 
-              
+              if (dateArray3.length == 0 || dateArray3.length == 1) {
+                days3 = 1 // get days since first data added
+              }
+              else if (dateArray3[dateArray3.length - 1] == new Date().toDateString()) {
+                days3 = dateArray3.length
+              } // get days since first data added
+              else if (dateArray3[dateArray3.length - 1] != new Date().toDateString()) {
+                days3 = dateArray3.length + 1
+              }
 
               if (daysOfTheWeekArray3.length == 0) { // get week of added data
                 week3 = 1
@@ -314,18 +312,17 @@ export default function BehaviourScreen() {
               querySnapshot.forEach(documentSnapshot => {
                 dateArray4 = [...dateArray4, documentSnapshot.data().date]
                 daysOfTheWeekArray4 = [...daysOfTheWeekArray4, documentSnapshot.data().dayOfTheWeek]
-                if (dateArray4.length == 0) {
-                  days4 = 1 // get days since first data added
-                }
-                else if (dateArray4[dateArray4.length - 1] == new Date().toDateString()) {
-                  days4 = dateArray4.length
-                } // get days since first data added
-                else if (dateArray4[dateArray4.length - 1] != new Date().toDateString()) {
-                  days4 = dateArray4.length + 1
-                }
               })
 
-              
+              if (dateArray4.length == 0 || dateArray5.length == 1) {
+                days4 = 1 // get days since first data added
+              }
+              else if (dateArray4[dateArray4.length - 1] == new Date().toDateString()) {
+                days4 = dateArray4.length
+              } // get days since first data added
+              else if (dateArray4[dateArray4.length - 1] != new Date().toDateString()) {
+                days4 = dateArray4.length + 1
+              }
 
               if (daysOfTheWeekArray4.length == 0) { // get week of added data
                 week4 = 1
@@ -367,18 +364,18 @@ export default function BehaviourScreen() {
               querySnapshot.forEach(documentSnapshot => {
                 dateArray5 = [...dateArray5, documentSnapshot.data().date]
                 daysOfTheWeekArray5 = [...daysOfTheWeekArray5, documentSnapshot.data().dayOfTheWeek]
-                if (dateArray5.length == 0) {
-                  days5 = 1 // get days since first data added
-                }
-                else if (dateArray5[dateArray5.length - 1] == new Date().toDateString()) {
-                  days5 = dateArray5.length
-                } // get days since first data added
-                else if (dateArray5[dateArray5.length - 1] != new Date().toDateString()) {
-                  days5 = dateArray5.length + 1
-                }
               })
 
-              
+              if (dateArray5.length == 0 || dateArray5.length == 1) {
+                days5 = 1 // get days since first data added
+              }
+              else if (dateArray5[dateArray5.length - 1] == new Date().toDateString()) {
+                days5 = dateArray5.length
+              } // get days since first data added
+              else if (dateArray5[dateArray5.length - 1] != new Date().toDateString()) {
+                days5 = dateArray5.length + 1
+              }
+
               if (daysOfTheWeekArray5.length == 0) { // get week of added data
                 week5 = 1
               }
