@@ -5,7 +5,8 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  StyleSheet,
+  ScrollView,
+  VirtualizedList
 } from "react-native";
 import axios from "axios";
 import {Picker} from '@react-native-picker/picker';
@@ -17,6 +18,12 @@ const styles = EStyleSheet.create({
     flexDirection: "column",
     alignItems: "stretch",
     justifyContent: "center"
+  },
+  title: {
+    fontSize: 30,
+    color: "black",
+    fontWeight: "bold",
+    paddingBottom: "0.5rem"
   },
   searchBar: {
     borderWidth: 1,
@@ -83,7 +90,9 @@ const MedicineScreen = () => {
   }, [selectedMedicine]);
 
   return (
+    <ScrollView>
     <View style={styles.container}>
+      <Text style={styles.title}>Medicine</Text>
       <TextInput
         style={styles.searchBar}
         value={searchTerm}
@@ -138,6 +147,7 @@ const MedicineScreen = () => {
         <Text>Submit</Text>
       </TouchableOpacity>
     </View>
+    </ScrollView>
   );
 };
 
