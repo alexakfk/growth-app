@@ -53,7 +53,7 @@ export default function SleepScreen() {
     const Month = (new Date().getMonth() + 1)
     const Day = new Date().getDate()
     const Year = (new Date().getFullYear())
-    const dayOfTheWeek = new Date().getDay()
+    let dayOfTheWeek = new Date().getDay()
     let dateArray = []
     let daysOfTheWeekArray = []
     let week = null
@@ -106,6 +106,12 @@ export default function SleepScreen() {
                 week = Math.ceil((days + (daysOfTheWeekArray[0])) / 7)
               }
 
+              if(dayOfTheWeek == 0){
+                dayOfTheWeek = 6
+              }
+              else{
+                dayOfTheWeek = dayOfTheWeek - 1
+              }
 
               firestore() // complete behavior data to firestore
                 .collection('users')
@@ -116,7 +122,7 @@ export default function SleepScreen() {
                 ({
                   date: (new Date().toDateString()),
                   days: days,
-                  dayOfTheWeek: dayOfTheWeek - 1,
+                  dayOfTheWeek: dayOfTheWeek,
                   week: week,
                   duration: sleepDuration,
                   data: 'true'
