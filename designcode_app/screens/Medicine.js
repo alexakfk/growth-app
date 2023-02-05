@@ -60,7 +60,7 @@ const styles = EStyleSheet.create({
   }
 });
 
-const MedicineScreen = () => {
+const MedicineScreen = (navigation) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [medicines, setMedicines] = useState([]);
   const [selectedMedicine, setSelectedMedicine] = useState("");
@@ -149,6 +149,10 @@ const MedicineScreen = () => {
     </View>
     </ScrollView>
   );
+};
+
+MedicineScreen.navigationOptions = {
+  headerShown: false,
 };
 
 export default MedicineScreen;
