@@ -27,7 +27,9 @@ class ChartScreen extends React.Component {
       yellDur: [0, 0, 0, 0, 0, 0, 0],
       wanderingDur: [0, 0, 0, 0, 0, 0, 0],
       hallucinationsDur: [0, 0, 0, 0, 0, 0, 0],
-      sleepDur: [0, 0, 0, 0, 0, 0, 0]
+      sleepDur: [0, 0, 0, 0, 0, 0, 0],
+      stoolTim: [0, 0, 0, 0, 0, 0, 0],
+      urineTim: [0, 0, 0, 0, 0, 0, 0],
     }
   }
 
@@ -50,6 +52,10 @@ class ChartScreen extends React.Component {
     let currentWeek5 = null
     let sleepDurationWeekArray = []
     let sleepDurationCurrentWeek = null
+    let stoolTimesWeekArray = []
+    let stoolTimesCurrentWeek = null
+    let urineTimesWeekArray = []
+    let urineTimesCurrentWeek = null
 
     firestore()
       .collection('users')
@@ -253,6 +259,74 @@ class ChartScreen extends React.Component {
       }
       )
 
+      firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('Bowel')
+      .where('data', '==', 'true')
+      .where('selectedOption', '==', 'Stool')
+      .orderBy('date', 'asc')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          stoolTimesWeekArray = [...stoolTimesWeekArray, documentSnapshot.data().week] //go through all documents, put each week number in an array
+        })
+        stoolTimesCurrentWeek = stoolTimesWeekArray[(stoolTimesWeekArray.length - 1)] //go through all data in array, get the week of last data in array
+
+        firestore() //do another firestore() get()
+          .collection('users')
+          .doc(user.uid)
+          .collection('Bowel')
+          .where('week', '==', stoolTimesCurrentWeek) //order by date, where week = the week of last data in array
+          .where('selectedOption', '==', 'Stool')
+          .orderBy('date', 'asc')
+          .get()
+          .then(querySnapshot => {
+            querySnapshot.forEach(documentSnapshot => {
+              for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
+                if (documentSnapshot.data().dayOfTheWeek == i) {
+                  this.setState({ stoolTim: update(this.state.stoolTim, { [i]: { $set: documentSnapshot.data().stoolTimes } }) })
+                }
+              }
+            })
+          })
+      }
+      )
+
+      firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('Bowel')
+      .where('data', '==', 'true')
+      .where('selectedOption', '==', 'Urine')
+      .orderBy('date', 'asc')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          urineTimesWeekArray = [...urineTimesWeekArray, documentSnapshot.data().week] //go through all documents, put each week number in an array
+        })
+        urineTimesCurrentWeek = urineTimesWeekArray[(urineTimesWeekArray.length - 1)] //go through all data in array, get the week of last data in array
+
+        firestore() //do another firestore() get()
+          .collection('users')
+          .doc(user.uid)
+          .collection('Bowel')
+          .where('week', '==', urineTimesCurrentWeek) //order by date, where week = the week of last data in array
+          .where('selectedOption', '==', 'Urine')
+          .orderBy('date', 'asc')
+          .get()
+          .then(querySnapshot => {
+            querySnapshot.forEach(documentSnapshot => {
+              for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
+                if (documentSnapshot.data().dayOfTheWeek == i) {
+                  this.setState({ urineTim: update(this.state.urineTim, { [i]: { $set: documentSnapshot.data().urineTimes } }) })
+                }
+              }
+            })
+          })
+      }
+      )
+
 
   }
 
@@ -283,7 +357,14 @@ class ChartScreen extends React.Component {
       labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
       datasets: [{ data: this.state.sleepDur }]
     }
-    const user = auth().currentUser
+    let stoolTimes = {
+      labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      datasets: [{ data: this.state.stoolTim }]
+    }
+    let urineTimes = {
+      labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      datasets: [{ data: this.state.urineTim }]
+    }
 
     // Mock data object used for Contribution Graph
 
@@ -369,7 +450,7 @@ class ChartScreen extends React.Component {
         style={{ paddingTop: '15%' }}
         initialPage={0}
       >
-        <Text //CHARTS FOR DATA SCREEN
+        <Text //CHARTS FOR BEHAVIORS SCREEN
           tabLabel={chartConfig[0].tabLabel}
         >
           <ScrollView
@@ -626,11 +707,11 @@ class ChartScreen extends React.Component {
               initialPage={0}
               style={{ backgroundColor: 'white' }}
             >
-              <View tabLabel='Restlessness'>
+              <View tabLabel='Stool'>
                 <BarChart
                   width={width}
                   height={height}
-                  data={restlessnessDuration}
+                  data={stoolTimes}
                   chartConfig={chartConfig[2]}
                   style={chartConfig[2].style}
                 />
@@ -644,7 +725,7 @@ class ChartScreen extends React.Component {
                   style={chartConfig[2].style}
                 />
                 <LineChart
-                  data={restlessnessDuration}
+                  data={stoolTimes}
                   width={width}
                   height={height}
                   chartConfig={chartConfig[2]}
@@ -659,11 +740,11 @@ class ChartScreen extends React.Component {
                   style={chartConfig[2].style}
                 />
               </View>
-              <View tabLabel='Refusal'>
+              <View tabLabel='Urine'>
                 <BarChart
                   width={width}
                   height={height}
-                  data={refusalDuration}
+                  data={urineTimes}
                   chartConfig={chartConfig[2]}
                   style={chartConfig[2].style}
                 />
@@ -677,106 +758,7 @@ class ChartScreen extends React.Component {
                   style={chartConfig[2].style}
                 />
                 <LineChart
-                  data={refusalDuration}
-                  width={width}
-                  height={height}
-                  chartConfig={chartConfig[2]}
-                  style={chartConfig[2].style}
-                />
-                <PieChart
-                  data={pieChartData}
-                  height={height}
-                  width={width}
-                  chartConfig={chartConfig[2]}
-                  accessor="population"
-                  style={chartConfig[2].style}
-                />
-              </View>
-              <View tabLabel='Yelling'>
-                <BarChart
-                  width={width}
-                  height={height}
-                  data={yellingDuration}
-                  chartConfig={chartConfig[2]}
-                  style={chartConfig[2].style}
-                />
-                <ContributionGraph
-                  values={contributionData}
-                  width={width}
-                  height={height}
-                  endDate={new Date('2016-05-01')}
-                  numDays={105}
-                  chartConfig={chartConfig[2]}
-                  style={chartConfig[2].style}
-                />
-                <LineChart
-                  data={yellingDuration}
-                  width={width}
-                  height={height}
-                  chartConfig={chartConfig[2]}
-                  style={chartConfig[2].style}
-                />
-                <PieChart
-                  data={pieChartData}
-                  height={height}
-                  width={width}
-                  chartConfig={chartConfig[2]}
-                  accessor="population"
-                  style={chartConfig[2].style}
-                />
-              </View>
-              <View tabLabel='Wandering'>
-                <BarChart
-                  width={width}
-                  height={height}
-                  data={wanderingDuration}
-                  chartConfig={chartConfig[2]}
-                  style={chartConfig[2].style}
-                />
-                <ContributionGraph
-                  values={contributionData}
-                  width={width}
-                  height={height}
-                  endDate={new Date('2016-05-01')}
-                  numDays={105}
-                  chartConfig={chartConfig[2]}
-                  style={chartConfig[2].style}
-                />
-                <LineChart
-                  data={wanderingDuration}
-                  width={width}
-                  height={height}
-                  chartConfig={chartConfig[2]}
-                  style={chartConfig[2].style}
-                />
-                <PieChart
-                  data={pieChartData}
-                  height={height}
-                  width={width}
-                  chartConfig={chartConfig[2]}
-                  accessor="population"
-                  style={chartConfig[2].style}
-                />
-              </View>
-              <View tabLabel='Hallucinations'>
-                <BarChart
-                  width={width}
-                  height={height}
-                  data={hallucinationsDuration}
-                  chartConfig={chartConfig[2]}
-                  style={chartConfig[2].style}
-                />
-                <ContributionGraph
-                  values={contributionData}
-                  width={width}
-                  height={height}
-                  endDate={new Date('2016-05-01')}
-                  numDays={105}
-                  chartConfig={chartConfig[2]}
-                  style={chartConfig[2].style}
-                />
-                <LineChart
-                  data={hallucinationsDuration}
+                  data={urineTimes}
                   width={width}
                   height={height}
                   chartConfig={chartConfig[2]}
