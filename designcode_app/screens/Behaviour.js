@@ -45,7 +45,6 @@ export default function BehaviourScreen() {
     { value: 60, label: "60 min" },
   ]);
   const [note, setNote] = React.useState("");
-  const [behaviors, setBehaviors] = React.useState("");
   const user = auth().currentUser
 
   const onOpen = () => {
@@ -84,7 +83,6 @@ export default function BehaviourScreen() {
     let yellingDuration = null
     let wanderingDuration = null
     let hallucinationsDuration = null
-    let today = null
     const Month = (new Date().getMonth() + 1)
     const Day = new Date().getDate()
     const Year = (new Date().getFullYear())
