@@ -58,10 +58,51 @@ class ChartScreen extends React.Component {
     let urineTimesWeekArray = []
     let urineTimesCurrentWeek = null
     let medicineArray = [] //put all selected medicines in this array
+    let uniqueMedicineArray = []
     let medicineAmountArray = [] // put all selected amounts in this array. each index is an array of that medicine
     let medicineUnitArray = [] // put all selected units in this array
     let medicineWeekArray = [] // each index is an array of the day of the week of certain medicine
     let medicineCurrentWeek = [] // s
+
+
+    firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('Medicine')
+      .where('data', '==', 'true')
+      .orderBy('selectedMedicine', 'asc')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          medicineArray = [...medicineArray, documentSnapshot.data().selectedMedicine]
+        })
+
+        uniqueMedicineArray = [...new Set(medicineArray)]
+        medicineArray = uniqueMedicineArray
+
+        for (i = 0; i < medicineArray.length; i++) { // get medicine Amount Array here
+          firestore()
+            .collection('users')
+            .doc(user.uid)
+            .collection('Medicine')
+            .orderBy('selectedMedicine', 'asc')
+            .where('data', '==', 'true')
+            .where('selectedMedicine', '==', medicineArray[i])
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+                medicineAmountArray = [...medicineAmountArray, documentSnapshot.data().amountConsumed]
+                medicineUnitArray = [...medicineUnitArray, documentSnapshot.data().unit]
+              })
+      //DO WEEK AND CURRENT WEEK NEXT
+
+            }
+            )
+        }
+
+      }
+      )
+    
 
     firestore()
       .collection('users')
@@ -233,7 +274,7 @@ class ChartScreen extends React.Component {
       }
       )
 
-      firestore()
+    firestore()
       .collection('users')
       .doc(user.uid)
       .collection('Sleep')
@@ -265,7 +306,7 @@ class ChartScreen extends React.Component {
       }
       )
 
-      firestore()
+    firestore()
       .collection('users')
       .doc(user.uid)
       .collection('Bowel')
@@ -299,7 +340,7 @@ class ChartScreen extends React.Component {
       }
       )
 
-      firestore()
+    firestore()
       .collection('users')
       .doc(user.uid)
       .collection('Bowel')
@@ -659,38 +700,38 @@ class ChartScreen extends React.Component {
                 this.props.navigation.navigate("Section");
               }}
             />
-         
-                <BarChart
-                  width={width}
-                  height={height}
-                  data={sleepDuration}
-                  chartConfig={chartConfig[1]}
-                  style={chartConfig[1].style}
-                />
-                <ContributionGraph
-                  values={contributionData}
-                  width={width}
-                  height={height}
-                  endDate={new Date('2016-05-01')}
-                  numDays={105}
-                  chartConfig={chartConfig[1]}
-                  style={chartConfig[1].style}
-                />
-                <LineChart
-                  data={sleepDuration}
-                  width={width}
-                  height={height}
-                  chartConfig={chartConfig[1]}
-                  style={chartConfig[1].style}
-                />
-                <PieChart
-                  data={pieChartData}
-                  height={height}
-                  width={width}
-                  chartConfig={chartConfig[1]}
-                  accessor="population"
-                  style={chartConfig[1].style}
-                />
+
+            <BarChart
+              width={width}
+              height={height}
+              data={sleepDuration}
+              chartConfig={chartConfig[1]}
+              style={chartConfig[1].style}
+            />
+            <ContributionGraph
+              values={contributionData}
+              width={width}
+              height={height}
+              endDate={new Date('2016-05-01')}
+              numDays={105}
+              chartConfig={chartConfig[1]}
+              style={chartConfig[1].style}
+            />
+            <LineChart
+              data={sleepDuration}
+              width={width}
+              height={height}
+              chartConfig={chartConfig[1]}
+              style={chartConfig[1].style}
+            />
+            <PieChart
+              data={pieChartData}
+              height={height}
+              width={width}
+              chartConfig={chartConfig[1]}
+              accessor="population"
+              style={chartConfig[1].style}
+            />
           </ScrollView>
         </Text>
 
