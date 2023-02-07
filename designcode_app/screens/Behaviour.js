@@ -156,15 +156,14 @@ export default function BehaviourScreen() {
                 daysOfTheWeekArray = [...daysOfTheWeekArray, documentSnapshot.data().dayOfTheWeek]
               })
 
-              if (dateArray.length == 0 || dateArray.length == 1) {
+              if (dateArray.length == 0) {
                 days = 1 // get days since first data added
               }
-              else if (dateArray[dateArray.length - 1] == new Date().toDateString()) {
-                days = dateArray.length
+              else {
+                days = (Math.ceil((new Date() - dateArray[0]) / (10000000 * 60 * 60 * 24))) + 2
               } // get days since first data added
-              else if (dateArray[dateArray.length - 1] != new Date().toDateString()) {
-                days = dateArray.length + 1
-              }
+
+      
               
               if (daysOfTheWeekArray.length == 0) { // get week of added data
                 week = 1
@@ -181,7 +180,7 @@ export default function BehaviourScreen() {
                 .doc(`${Month} ${Day} ${Year} Restlessness`)
                 .set
                 ({
-                  date: (new Date().toDateString()),
+                  date: (new Date()),
                   selectedOption2: 'Restlessness',
                   days: days,
                   dayOfTheWeek: dayOfTheWeek,
@@ -211,11 +210,8 @@ export default function BehaviourScreen() {
               if (dateArray2.length == 0 || dateArray2.length == 1) {
                 days2 = 1 // get days since first data added
               }
-              else if (dateArray2[dateArray2.length - 1] == new Date().toDateString()) {
-                days2 = dateArray2.length
-              } // get days since first data added
-              else if (dateArray2[dateArray2.length - 1] != new Date().toDateString()) {
-                days2 = dateArray2.length + 1
+              else {
+                days2 = (Math.ceil((new Date() - dateArray2[0]) / (10000000 * 60 * 60 * 24))) + 2
               }
 
               if (daysOfTheWeekArray2.length == 0) { // get week of added data
@@ -263,11 +259,8 @@ export default function BehaviourScreen() {
               if (dateArray3.length == 0 || dateArray3.length == 1) {
                 days3 = 1 // get days since first data added
               }
-              else if (dateArray3[dateArray3.length - 1] == new Date().toDateString()) {
-                days3 = dateArray3.length
-              } // get days since first data added
-              else if (dateArray3[dateArray3.length - 1] != new Date().toDateString()) {
-                days3 = dateArray3.length + 1
+              else {
+                days3 = (Math.ceil((new Date() - dateArray3[0]) / (10000000 * 60 * 60 * 24))) + 2
               }
 
               if (daysOfTheWeekArray3.length == 0) { // get week of added data
@@ -315,11 +308,8 @@ export default function BehaviourScreen() {
               if (dateArray4.length == 0 || dateArray5.length == 1) {
                 days4 = 1 // get days since first data added
               }
-              else if (dateArray4[dateArray4.length - 1] == new Date().toDateString()) {
-                days4 = dateArray4.length
-              } // get days since first data added
-              else if (dateArray4[dateArray4.length - 1] != new Date().toDateString()) {
-                days4 = dateArray4.length + 1
+              else {
+                days4 = (Math.ceil((new Date() - dateArray4[0]) / (10000000 * 60 * 60 * 24))) + 2
               }
 
               if (daysOfTheWeekArray4.length == 0) { // get week of added data
@@ -367,11 +357,8 @@ export default function BehaviourScreen() {
               if (dateArray5.length == 0 || dateArray5.length == 1) {
                 days5 = 1 // get days since first data added
               }
-              else if (dateArray5[dateArray5.length - 1] == new Date().toDateString()) {
-                days5 = dateArray5.length
-              } // get days since first data added
-              else if (dateArray5[dateArray5.length - 1] != new Date().toDateString()) {
-                days5 = dateArray5.length + 1
+              else {
+                days5 = (Math.ceil((new Date() - dateArray5[0]) / (10000000 * 60 * 60 * 24))) + 2
               }
 
               if (daysOfTheWeekArray5.length == 0) { // get week of added data

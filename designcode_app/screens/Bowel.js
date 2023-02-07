@@ -257,7 +257,7 @@ const BowelLog = (navigation) => {
             .doc(user.uid)
             .collection('Bowel')
             .where('data', '==', 'true')
-            .where('selectedOption', '==', 'stool')
+            .where('selectedOption', '==', 'Stool')
             .orderBy('date', 'asc')
             .get()
             .then(querySnapshot => {
@@ -266,14 +266,11 @@ const BowelLog = (navigation) => {
                 daysOfTheWeekArray = [...daysOfTheWeekArray, documentSnapshot.data().dayOfTheWeek]
               })
 
-              if (dateArray.length == 0 || dateArray.length == 1) {
+              if (dateArray.length == 0) {
                 days = 1 // get days since first data added
               }
-              else if (dateArray[dateArray.length - 1] == new Date().toDateString()) {
-                days = dateArray.length
-              } // get days since first data added
-              else if (dateArray[dateArray.length - 1] != new Date().toDateString()) {
-                days = dateArray.length + 1
+              else {
+                days = (Math.ceil((new Date() - dateArray[0]) / (10000000 * 60 * 60 * 24)))
               }
               
               if (daysOfTheWeekArray.length == 0) { // get week of added data
@@ -291,7 +288,7 @@ const BowelLog = (navigation) => {
                 .doc(`${Month} ${Day} ${Year} Stool`)
                 .set
                 ({
-                  date: (new Date().toDateString()),
+                  date: (new Date()),
                   selectedOption: 'Stool',
                   days: days,
                   dayOfTheWeek: dayOfTheWeek,
@@ -309,25 +306,22 @@ const BowelLog = (navigation) => {
             .doc(user.uid)
             .collection('Bowel')
             .where('data', '==', 'true')
-            .where('selectedOption', '==', 'urine')
+            .where('selectedOption', '==', 'Urine')
             .orderBy('date', 'asc')
             .get()
             .then(querySnapshot => {
               querySnapshot.forEach(documentSnapshot => {
-                dateArray2 = [...dateArray2, documentSnapshot.data().date]
+                dateArray2 = [...dateArray2, documentSnapshot.data()]
                 daysOfTheWeekArray2 = [...daysOfTheWeekArray2, documentSnapshot.data().dayOfTheWeek]
               })
 
-              if (dateArray2.length == 0 || dateArray2.length == 1) {
+              
+              if (dateArray2.length == 0) {
                 days2 = 1 // get days since first data added
               }
-              else if (dateArray2[dateArray2.length - 1] == new Date().toDateString()) {
-                days2 = dateArray2.length
-              } // get days since first data added
-              else if (dateArray2[dateArray2.length - 1] != new Date().toDateString()) {
-                days2 = dateArray2.length + 1
+              else {
+                days2 = (((new Date()- dateArray2[0].date) / (1000 * 60 * 60 * 24)))
               }
-
               if (daysOfTheWeekArray2.length == 0) { // get week of added data
                 week2 = 1
               }
@@ -343,7 +337,7 @@ const BowelLog = (navigation) => {
                 .doc(`${Month} ${Day} ${Year} Urine`)
                 .set
                 ({
-                  date: (new Date().toDateString()),
+                  date: (new Date({Month}+'/'+{Day}+'/'+{Year})), // subtract these two dates
                   selectedOption: 'Urine',
                   days: days2,
                   dayOfTheWeek: dayOfTheWeek,
