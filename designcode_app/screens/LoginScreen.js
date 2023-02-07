@@ -118,4 +118,9 @@ const styles = StyleSheet.create({
     width: 24,
   },
 });
+
+LoginScreen.navigationOptions = {
+  headerShown: false,
+};
+
 export default LoginScreen;

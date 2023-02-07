@@ -6,7 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   ScrollView,
-  VirtualizedList
+  SafeAreaView
 } from "react-native";
 import axios from "axios";
 import { Picker } from '@react-native-picker/picker';
@@ -189,6 +189,7 @@ const MedicineScreen = (navigation) => {
   }, [selectedMedicine]);
 
   return (
+    <SafeAreaView>
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.title}>Medicine</Text>
@@ -243,6 +244,7 @@ const MedicineScreen = (navigation) => {
         </TouchableOpacity>
       </View>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 

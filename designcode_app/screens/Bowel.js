@@ -131,7 +131,9 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Button
+  Button,
+  SafeAreaView,
+  ScrollView
 } from "react-native";
 import {Picker} from '@react-native-picker/picker';
 import DatePicker from "react-native-date-picker";
@@ -170,6 +172,12 @@ const styles = EStyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center"
   },
+  sub: {
+    fontSize: 16,
+    color: "black",
+    fontWeight: "bold",
+    paddingBottom: "0.5rem"
+  },
   picker1: {
     flex: 1,
     marginBottom: "0.5rem",
@@ -184,7 +192,7 @@ const styles = EStyleSheet.create({
   }
 });
 
-const BowelLog = () => {
+const BowelLog = (navigation) => {
   const [bowelStartTime, setBowelStartTime] = useState(new Date());
   const [selectedOption, setSelectedOption] = useState("");
   const [notes, setNotes] = useState("");
@@ -356,6 +364,8 @@ const BowelLog = () => {
   };
 
   return (
+    <SafeAreaView>
+      <ScrollView>
     <View style={styles.container}>
       <Text style={styles.title}>Bowel Movement</Text>
       <View style={styles.pickerContainer}>
@@ -371,8 +381,8 @@ const BowelLog = () => {
         </Picker>
       </View>
       <View>
-        <Text>Start Time:</Text>
-        <Button title="Open" onPress={() => setOpen(true)} />
+        <Text style={styles.sub}>Start Time:</Text>
+        <Button title="Click Here to Set Start Time" onPress={() => setOpen(true)} />
         <DatePicker 
         modal 
         open={open}
@@ -398,7 +408,13 @@ const BowelLog = () => {
         <Text>Submit</Text>
       </TouchableOpacity>
     </View>
+    </ScrollView>
+    </SafeAreaView>
   );
+};
+
+BowelLog.navigationOptions = {
+  headerShown: false,
 };
 
 export default BowelLog;
