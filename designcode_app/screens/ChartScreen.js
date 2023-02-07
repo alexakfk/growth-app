@@ -30,6 +30,7 @@ class ChartScreen extends React.Component {
       sleepDur: [0, 0, 0, 0, 0, 0, 0],
       stoolTim: [0, 0, 0, 0, 0, 0, 0],
       urineTim: [0, 0, 0, 0, 0, 0, 0],
+      medicine: []
     }
   }
 
@@ -56,6 +57,11 @@ class ChartScreen extends React.Component {
     let stoolTimesCurrentWeek = null
     let urineTimesWeekArray = []
     let urineTimesCurrentWeek = null
+    let medicineArray = [] //put all selected medicines in this array
+    let medicineAmountArray = [] // put all selected amounts in this array. each index is an array of that medicine
+    let medicineUnitArray = [] // put all selected units in this array
+    let medicineWeekArray = [] // each index is an array of the day of the week of certain medicine
+    let medicineCurrentWeek = [] // current week of selected medicine
 
     firestore()
       .collection('users')
