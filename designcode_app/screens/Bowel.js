@@ -270,7 +270,7 @@ const BowelLog = (navigation) => {
                 days = 1 // get days since first data added
               }
               else {
-                days = (Math.ceil((new Date() - dateArray[0]) / (10000000 * 60 * 60 * 24)))
+                days = (Math.ceil((new Date().getTime() - dateArray[0]) / (10000000 * 60 * 60 * 24)))
               }
               
               if (daysOfTheWeekArray.length == 0) { // get week of added data
@@ -288,7 +288,7 @@ const BowelLog = (navigation) => {
                 .doc(`${Month} ${Day} ${Year} Stool`)
                 .set
                 ({
-                  date: (new Date()),
+                  date: (new Date().getTime()),
                   selectedOption: 'Stool',
                   days: days,
                   dayOfTheWeek: dayOfTheWeek,
@@ -311,7 +311,7 @@ const BowelLog = (navigation) => {
             .get()
             .then(querySnapshot => {
               querySnapshot.forEach(documentSnapshot => {
-                dateArray2 = [...dateArray2, documentSnapshot.data()]
+                dateArray2 = [...dateArray2, documentSnapshot.data().date]
                 daysOfTheWeekArray2 = [...daysOfTheWeekArray2, documentSnapshot.data().dayOfTheWeek]
               })
 
@@ -320,7 +320,7 @@ const BowelLog = (navigation) => {
                 days2 = 1 // get days since first data added
               }
               else {
-                days2 = (((new Date()- dateArray2[0].date) / (1000 * 60 * 60 * 24)))
+                days2 = (((new Date().getTime()- dateArray2[0]) / (1000 * 60 * 60 * 24)))
               }
               if (daysOfTheWeekArray2.length == 0) { // get week of added data
                 week2 = 1
@@ -337,7 +337,7 @@ const BowelLog = (navigation) => {
                 .doc(`${Month} ${Day} ${Year} Urine`)
                 .set
                 ({
-                  date: (new Date({Month}+'/'+{Day}+'/'+{Year})), // subtract these two dates
+                  date: (new Date().getTime()), // subtract these two dates
                   selectedOption: 'Urine',
                   days: days2,
                   dayOfTheWeek: dayOfTheWeek,

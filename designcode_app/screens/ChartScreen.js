@@ -61,7 +61,7 @@ class ChartScreen extends React.Component {
     let medicineAmountArray = [] // put all selected amounts in this array. each index is an array of that medicine
     let medicineUnitArray = [] // put all selected units in this array
     let medicineWeekArray = [] // each index is an array of the day of the week of certain medicine
-    let medicineCurrentWeek = [] // current week of
+    let medicineCurrentWeek = [] // s
 
     firestore()
       .collection('users')
