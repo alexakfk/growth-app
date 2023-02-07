@@ -270,7 +270,7 @@ const BowelLog = (navigation) => {
                 days = 1 // get days since first data added
               }
               else {
-                days = (Math.ceil((new Date().getTime() - dateArray[0]) / (10000000 * 60 * 60 * 24)))
+                days = (Math.ceil((new Date().getTime() - dateArray[0]) / (1000 * 60 * 60 * 24)))
               }
               
               if (daysOfTheWeekArray.length == 0) { // get week of added data

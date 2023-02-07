@@ -129,11 +129,8 @@ const MedicineScreen = (navigation) => {
             if (dateArray.length == 0 || dateArray.length == 1) {
               days = 1 // get days since first data added
             }
-            else if (dateArray[dateArray.length - 1] == new Date().toDateString()) {
-              days = dateArray.length
-            } // get days since first data added
-            else if (dateArray[dateArray.length - 1] != new Date().toDateString()) {
-              days = dateArray.length + 1
+            else {
+              days = (((new Date().getTime()- dateArray[0]) / (1000 * 60 * 60 * 24)))
             }
 
             if (daysOfTheWeekArray.length == 0) { // get week of added data
@@ -151,7 +148,7 @@ const MedicineScreen = (navigation) => {
               .doc(`${Month} ${Day} ${Year} ${selectedMedicine}`)
               .set
               ({
-                date: (new Date().toDateString()),
+                date: (new Date().getTime()),
                 selectedMedicine: selectedMedicine,
                 days: days,
                 dayOfTheWeek: dayOfTheWeek,
