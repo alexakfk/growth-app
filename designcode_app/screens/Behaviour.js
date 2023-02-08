@@ -178,7 +178,7 @@ const BehaviorScreen = (navigation) => {
                 days = 1 // get days since first data added
               }
               else {
-                days = (Math.ceil((new Date().getTime() - dateArray[0]) / (1000 * 60 * 60 * 24)))
+                days = (Math.ceil((new Date().getTime() - dateArray[0]) / (1000 * 60 * 60 * 24))) + 1
               } // get days since first data added
 
       
@@ -229,7 +229,7 @@ const BehaviorScreen = (navigation) => {
                 days2 = 1 // get days since first data added
               }
               else {
-                days2 = (Math.ceil((new Date().getTime() - dateArray2[0]) / (1000 * 60 * 60 * 24)))
+                days2 = (Math.ceil((new Date().getTime() - dateArray2[0]) / (1000 * 60 * 60 * 24))) + 1
               }
 
               if (daysOfTheWeekArray2.length == 0) { // get week of added data
@@ -278,7 +278,7 @@ const BehaviorScreen = (navigation) => {
                 days3 = 1 // get days since first data added
               }
               else {
-                days3 = (Math.ceil((new Date().getTime() - dateArray3[0]) / (1000 * 60 * 60 * 24)))
+                days3 = (Math.ceil((new Date().getTime() - dateArray3[0]) / (1000 * 60 * 60 * 24))) + 1
               }
 
               if (daysOfTheWeekArray3.length == 0) { // get week of added data
@@ -327,7 +327,7 @@ const BehaviorScreen = (navigation) => {
                 days4 = 1 // get days since first data added
               }
               else {
-                days4 = (Math.ceil((new Date().getTime() - dateArray4[0]) / (1000 * 60 * 60 * 24)))
+                days4 = (Math.ceil((new Date().getTime() - dateArray4[0]) / (1000 * 60 * 60 * 24))) + 1
               }
 
               if (daysOfTheWeekArray4.length == 0) { // get week of added data
@@ -376,7 +376,7 @@ const BehaviorScreen = (navigation) => {
                 days5 = 1 // get days since first data added
               }
               else {
-                days5 = (Math.ceil((new Date().getTime() - dateArray5[0]) / (1000 * 60 * 60 * 24)))
+                days5 = (Math.ceil((new Date().getTime() - dateArray5[0]) / (1000 * 60 * 60 * 24))) + 1
               }
 
               if (daysOfTheWeekArray5.length == 0) { // get week of added data

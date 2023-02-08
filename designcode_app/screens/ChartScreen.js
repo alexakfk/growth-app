@@ -461,12 +461,13 @@ class ChartScreen extends React.Component {
     const chartConfig = [
       {
         tabLabel: "Behaviors",
-        backgroundColor: '#000000',
-        backgroundGradientFrom: '#1E2923',
-        backgroundGradientTo: '#08130D',
-        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+        backgroundColor: '#0000000',
+        backgroundGradientFrom: '#ffffff',
+        backgroundGradientTo: '#ffffff',
+        color: () => `#567CDF`,
         style: {
-          borderRadius: 16
+          borderRadius: 16,
+
         }
       },
       {
@@ -513,6 +514,7 @@ class ChartScreen extends React.Component {
       >
         <Text //CHARTS FOR BEHAVIORS SCREEN
           tabLabel={chartConfig[0].tabLabel}
+          
         >
           <ScrollView
             key={Math.random()}
