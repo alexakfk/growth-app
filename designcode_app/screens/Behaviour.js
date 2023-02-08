@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import {
-  StyleSheet,
   Pressable,
   ScrollView,
   SafeAreaView,
@@ -11,13 +9,55 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Picker } from '@react-native-picker/picker';
 import DropDownPicker from "react-native-dropdown-picker";
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 
-export default function BehaviourScreen() {
+const styles = EStyleSheet.create({
+  container: {
+    padding: "1rem",
+    flexDirection: "column",
+    alignItems: "stretch",
+    justifyContent: "center"
+  },
+  title: {
+    fontSize: 30,
+    color: "black",
+    fontWeight: "bold",
+    paddingBottom: "0.5rem"
+  },
+  timeContainer: {
+    paddingBottom: "1rem",
+    paddingTop: "0.5rem"
+  },
+  notes: {
+    borderWidth: 1,
+    borderColor: "lightblue",
+    borderRadius: 10,
+    padding: "0.5rem",
+    marginTop: "1rem",
+    marginBottom: "1rem",
+    fontSize: 16
+  },
+  sub: {
+    fontSize: 16,
+    color: "black",
+    fontWeight: "bold",
+    paddingBottom: "0.5rem"
+  },
+  submitButton: {
+    padding: 10,
+    alignSelf: "center",
+    backgroundColor: "lightblue",
+    borderRadius: 5,
+    marginTop: 10
+  }
+});
+
+const BehaviorScreen = (navigation) => {
 
   const [open, setOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -44,7 +84,7 @@ export default function BehaviourScreen() {
     { value: 55, label: "55 min" },
     { value: 60, label: "60 min" },
   ]);
-  const [note, setNote] = React.useState("");
+  const [notes, setNotes] = React.useState("");
   const user = auth().currentUser
 
   const onOpen = () => {
@@ -70,13 +110,13 @@ export default function BehaviourScreen() {
         date1,
         time,
         selectedOption,
-        note,
+        notes,
         selectedOption2
       })
 
     console.log(selectedOption);
     console.log(selectedOption2)
-    console.log(note);
+    console.log(notes);
     let behaviorsArray = []
     let restlessnessDuration = null
     let refusalDuration = null
@@ -399,94 +439,60 @@ export default function BehaviourScreen() {
 
 
   return (
-    <View style={styles.container}>
-      <DropDownPicker
-        open={open}
-        value={selectedOption}
-        items={items}
-        setOpen={setOpen}
-        setValue={setSelectedOption}
-        setItems={setItems}
-        onOpen={onOpen}
-        style={styles.dropdownPicker}
-        containerStyle={{ marginTop: 50, zIndex: 2 }}
+    <SafeAreaView>
+      <ScrollView>
+      <View style={styles.container}>
+      <Text style={styles.title}>Behaviors</Text>
+      <View style={styles.pickerContainer}>
+          <Picker
+            style={styles.picker1}
+            selectedValue={selectedOption}
+            onValueChange={(itemValue) => setSelectedOption(itemValue)}
+          >
+            <Picker.Item label="Behavior" value="" />
+            <Picker.Item label="Restlessness/Pacing" value = "Restlessness" />
+            <Picker.Item label="Refusal to Bathe" value= "Refusal" />
+            <Picker.Item label="Yelling/Cursing" value= "Yelling" />
+            <Picker.Item label="Wandering" value= "Wandering" />
+            <Picker.Item label="Hallucinations/Delusions" value= "Hallucinations" />
+          </Picker>
+          <Picker
+            style={styles.picker2}
+            selectedValue={selectedOption2}
+            onValueChange={(itemValue) => setSelectedOption2(itemValue)}
+          >
+            <Picker.Item label="Duration" value="" />
+            <Picker.Item label="5 mins" value={5} />
+            <Picker.Item label="10 mins" value={10} />
+            <Picker.Item label="15 mins" value={15} />
+            <Picker.Item label="20 mins" value={20} />
+            <Picker.Item label="25 mins" value={25} />
+            <Picker.Item label="30 mins" value={30} />
+            <Picker.Item label="35 mins" value={35} />
+            <Picker.Item label="40 mins" value={40} />
+            <Picker.Item label="45 mins" value={45} />
+            <Picker.Item label="50 mins" value={50} />
+            <Picker.Item label="55 mins" value={55} />
+            <Picker.Item label="60 mins" value={60} />
+          </Picker>
+        </View>
+        <TextInput
+        style={styles.notes}
+        value={notes}
+        onChangeText={setNotes}
+        placeholder="Notes (optional)"
       />
-      <DropDownPicker
-        open={open2}
-        value={selectedOption2}
-        items={items2}
-        setOpen={setOpen2}
-        setValue={setSelectedOption2}
-        setItems={setItems2}
-        onOpen={onOpen2}
-        style={styles.dropdownPicker2}
-        containerStyle={{ zIndex: 1, marginBottom: 0 }}
-      />
-      <TextInput
-        value={note}
-        onChangeText={setNote}
-        style={styles.note}
-        multiline={true}
-
-      />
-      <View style={styles.buttonContainer}>
-        <Pressable style={styles.button} onPress={cancel}>
-          <Ionicons name="close-outline" size={34} color="white" />
-        </Pressable>
-        <Pressable style={styles.button} onPress={onPress}>
-          <Ionicons name="checkmark-outline" size={34} color="white" />
-        </Pressable>
+      <TouchableOpacity style={styles.submitButton} onPress={onPress}>
+        <Text>Submit</Text>
+      </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
+    </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    backgroundColor: "#f0f3f5",
-    padding: 0,
-    margin: 0,
-  },
-  buttonContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  button: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 5,
-    paddingHorizontal: 32,
-    borderRadius: 4,
-    backgroundColor: "#4775F2",
-    width: "40%",
-    margin: 20,
-    top: 90,
-  },
-  checkButton: {
-    float: "left",
-    width: 50,
-  },
-  note: {
-    margin: 20,
-    borderWidth: 1.5,
-    borderColor: "rgb(115,194,255)",
-    padding: 10,
-    backgroundColor: "rgba(115,194,251,0.5)",
-    height: "35%",
-    textAlignVertical: "top",
-    border: "none",
-    marginTop: 80,
-  },
-});
+BehaviorScreen.navigationOptions = {
+  headerShown: false,
+};
 
-const Title = styled.Text`
-  font-size: 24px;
-  color: black;
-  font-weight: bold;
-  width: 200px;
-  position: absolute;
-  margin-top: 5%;
-  margin-left: 2%;
-`;
+export default BehaviorScreen;
