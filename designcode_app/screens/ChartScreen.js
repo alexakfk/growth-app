@@ -395,7 +395,7 @@ class ChartScreen extends React.Component {
 
   render() {
     let restlessnessDuration = {
-      labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       datasets: [{ data: this.state.restlessDur }]
     }
     let refusalDuration = {
@@ -462,12 +462,14 @@ class ChartScreen extends React.Component {
       {
         tabLabel: "Behaviors",
         backgroundColor: '#0000000',
-        backgroundGradientFrom: '#ffffff',
-        backgroundGradientTo: '#ffffff',
-        color: () => `#567CDF`,
+        backgroundGradientFrom: '#243F9A',
+        backgroundGradientTo: '#243F9A',
+        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        propsForLabels: {fontSize:13},
+        barPercetage: 1,
         style: {
           borderRadius: 16,
-
+          padding: 10
         }
       },
       {
@@ -534,15 +536,17 @@ class ChartScreen extends React.Component {
             >
               <View tabLabel='Restlessness'>
                 <BarChart
-                  width={width}
+                  width={width - 20}
                   height={height}
                   data={restlessnessDuration}
                   chartConfig={chartConfig[0]}
                   style={chartConfig[0].style}
+                  withInnerLines = {false}
+                  showValuesOnTopOfBars = {true}
                 />
                 <ContributionGraph
                   values={contributionData}
-                  width={width}
+                  width={width - 20}
                   height={height}
                   endDate={new Date('2016-05-01')}
                   numDays={105}
@@ -551,7 +555,7 @@ class ChartScreen extends React.Component {
                 />
                 <LineChart
                   data={restlessnessDuration}
-                  width={width}
+                  width={width - 20}
                   height={height}
                   chartConfig={chartConfig[0]}
                   style={chartConfig[0].style}
