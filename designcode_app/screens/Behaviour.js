@@ -59,31 +59,9 @@ const styles = EStyleSheet.create({
 
 const BehaviorScreen = (navigation) => {
 
-  const [open, setOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [items, setItems] = useState([
-    { value: "Restlessness", label: "Restlessness/Pacing" },
-    { value: "Refusal", label: "Refusal to Bathe" },
-    { value: "Yelling", label: "Yelling/Cursing" },
-    { value: "Wandering", label: "Wandering" },
-    { value: "Hallucinations", label: "Hallucinations/Delusions" },
-  ]);
-  const [open2, setOpen2] = useState(false);
   const [selectedOption2, setSelectedOption2] = useState(null);
-  const [items2, setItems2] = useState([
-    { value: 5, label: "5 min" },
-    { value: 10, label: "10 min" },
-    { value: 15, label: "15 min" },
-    { value: 20, label: "20 min" },
-    { value: 25, label: "25 min" },
-    { value: 30, label: "30 min" },
-    { value: 35, label: "35 min" },
-    { value: 40, label: "40 min" },
-    { value: 45, label: "45 min" },
-    { value: 50, label: "50 min" },
-    { value: 55, label: "55 min" },
-    { value: 60, label: "60 min" },
-  ]);
+
   const [notes, setNotes] = React.useState("");
   const user = auth().currentUser
 

@@ -30,7 +30,11 @@ class ChartScreen extends React.Component {
       sleepDur: [0, 0, 0, 0, 0, 0, 0],
       stoolTim: [0, 0, 0, 0, 0, 0, 0],
       urineTim: [0, 0, 0, 0, 0, 0, 0],
-      medicine: []
+      medicineArray: [], //all unique selected medicines
+      medicineAmountArray: [], // all selected amounts
+      medicineUnitArray: [], // all selected units
+      medicineAmountRepeatCounter: [], // count of repeated unique medicine amounts
+      medicineCurrentWeekArray: [], // all current weeks of medicines
     }
   }
 
@@ -57,13 +61,10 @@ class ChartScreen extends React.Component {
     let stoolTimesCurrentWeek = null
     let urineTimesWeekArray = []
     let urineTimesCurrentWeek = null
-    let medicineArray = [] //put all selected medicines in this array
-    let uniqueMedicineArray = []
-    let medicineAmountArray = [] // put all selected amounts in this array. each index is an array of that medicine
-    let medicineUnitArray = [] // put all selected units in this array
-    let medicineWeekArray = [] // each index is an array of the day of the week of certain medicine
-    let medicineCurrentWeek = [] // s
-
+    medicineWeekArray = []
+    uniqueMedicineArray = []
+    
+    
 
     firestore()
       .collection('users')
@@ -74,35 +75,48 @@ class ChartScreen extends React.Component {
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
-          medicineArray = [...medicineArray, documentSnapshot.data().selectedMedicine]
+          this.setState({medicineArray: [...this.state.medicineArray, documentSnapshot.data().selectedMedicine]})
         })
 
-        uniqueMedicineArray = [...new Set(medicineArray)]
-        medicineArray = uniqueMedicineArray
 
-        for (i = 0; i < medicineArray.length; i++) { // get medicine Amount Array here
+        uniqueMedicineArray = [...new Set(this.state.medicineArray)]
+        this.setState({medicineArray: uniqueMedicineArray})
+
+        for (i = 0; i < this.state.medicineArray.length; i++) { // get medicine Amount Array here
+          medicineWeekArray = []
+          let z = 0
           firestore()
             .collection('users')
             .doc(user.uid)
             .collection('Medicine')
-            .orderBy('selectedMedicine', 'asc')
             .where('data', '==', 'true')
-            .where('selectedMedicine', '==', medicineArray[i])
+            .where('selectedMedicine', '==', this.state.medicineArray[i])
             .get()
             .then(querySnapshot => {
               querySnapshot.forEach(documentSnapshot => {
-                medicineAmountArray = [...medicineAmountArray, documentSnapshot.data().amountConsumed]
-                medicineUnitArray = [...medicineUnitArray, documentSnapshot.data().unit]
+                z++
+                this.setState({medicineAmountArray: [...this.state.medicineAmountArray, documentSnapshot.data().amountConsumed]}) // all amounts for all medicines
+                this.setState({medicineUnitArray: [...this.state.medicineUnitArray, documentSnapshot.data().unit]}) // all units for all medicines
+                medicineWeekArray = [...medicineWeekArray, documentSnapshot.data().week]
               })
-      //DO WEEK AND CURRENT WEEK NEXT
 
+              this.setState({medicineCurrentWeekArray: [...this.state.medicineCurrentWeekArray, medicineWeekArray[(medicineWeekArray.length - 1)]]})
+              this.setState({medicineAmountRepeatCounter: [...this.state.medicineAmountRepeatCounter, z]}) // number of times amounts repeat on same medicine
+              console.log(this.state.medicineArray)
+              console.log(this.state.medicineAmountArray)
+              console.log(this.state.medicineUnitArray)
+              console.log(medicineWeekArray)
+              console.log(this.state.medicineCurrentWeekArray)
+              console.log(this.state.medicineAmountRepeatCounter)
             }
             )
         }
+        
+
 
       }
       )
-    
+
 
     firestore()
       .collection('users')
