@@ -479,32 +479,56 @@ class ChartScreen extends React.Component {
       },
       {
         tabLabel: "Sleep",
-        backgroundColor: '#000000',
-        backgroundGradientFrom: '#1E2923',
-        backgroundGradientTo: '#08130D',
-        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+        backgroundColor: '#0000000',
+        backgroundGradientFrom: '#ffffff',
+        backgroundGradientTo: '#ffffff',
+        color: (opacity = 255) => `rgba(0, 50, 200, ${opacity})`,
+        propsForVerticalLabels: { fontSize: 13, fontWeight: 500 },
+        propsForHorizontalLabels: { fontSize: 10, fontWeight: 500 },
+        fillShadowGradientToOpacity: 19000,
+        fillShadowGradientFromOpacity: 5000,
+
         style: {
-          borderRadius: 16
+          borderRadius: 10,
+          padding: 5,
+          paddingTop:20,
+
         }
       },
       {
         tabLabel: "Bowel",
-        backgroundColor: '#000000',
-        backgroundGradientFrom: '#1E2923',
-        backgroundGradientTo: '#08130D',
-        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+        backgroundColor: '#0000000',
+        backgroundGradientFrom: '#ffffff',
+        backgroundGradientTo: '#ffffff',
+        color: (opacity = 255) => `rgba(0, 50, 200, ${opacity})`,
+        propsForVerticalLabels: { fontSize: 13, fontWeight: 500 },
+        propsForHorizontalLabels: { fontSize: 10, fontWeight: 500 },
+        fillShadowGradientToOpacity: 19000,
+        fillShadowGradientFromOpacity: 5000,
+
         style: {
-          borderRadius: 16
+          borderRadius: 10,
+          padding: 5,
+          paddingTop:20,
+
         }
       },
       {
         tabLabel: "Medication",
-        backgroundColor: '#000000',
-        backgroundGradientFrom: '#1E2923',
-        backgroundGradientTo: '#08130D',
-        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+        backgroundColor: '#0000000',
+        backgroundGradientFrom: '#ffffff',
+        backgroundGradientTo: '#ffffff',
+        color: (opacity = 255) => `rgba(0, 50, 200, ${opacity})`,
+        propsForVerticalLabels: { fontSize: 13, fontWeight: 500 },
+        propsForHorizontalLabels: { fontSize: 10, fontWeight: 500 },
+        fillShadowGradientToOpacity: 19000,
+        fillShadowGradientFromOpacity: 5000,
+
         style: {
-          borderRadius: 16
+          borderRadius: 10,
+          padding: 5,
+          paddingTop:20,
+
         }
       }
     ]
@@ -544,7 +568,7 @@ class ChartScreen extends React.Component {
                 fontWeight: "bold",
                 fontFamily: 'Verdana',
               }}>
-                Duration
+                Behavior Duration
               </Text>
 
             </View>
@@ -557,37 +581,30 @@ class ChartScreen extends React.Component {
             >
               <View tabLabel='Restless'>
                 <BarChart
-                  width={width - 10}
+                  width={width - 15}
                   height={height}
                   data={restlessnessDuration}
                   chartConfig={chartConfig[0]}
                   style={chartConfig[0].style}
-                  yAxisSuffix=' Hrs'
+                  yAxisSuffix=' min'
                 />
                 <LineChart
                   data={restlessnessDuration}
-                  width={width - 10}
+                  width={width}
                   height={height}
                   chartConfig={chartConfig[0]}
                   style={chartConfig[0].style}
+                  yAxisSuffix=' min'
                 />
               </View>
               <View tabLabel='Refusal'>
                 <BarChart
-                  width={width}
+                  width={width - 15}
                   height={height}
                   data={refusalDuration}
                   chartConfig={chartConfig[0]}
                   style={chartConfig[0].style}
-                />
-                <ContributionGraph
-                  values={contributionData}
-                  width={width}
-                  height={height}
-                  endDate={new Date('2016-05-01')}
-                  numDays={105}
-                  chartConfig={chartConfig[0]}
-                  style={chartConfig[0].style}
+                  yAxisSuffix=' min'
                 />
                 <LineChart
                   data={refusalDuration}
@@ -595,32 +612,17 @@ class ChartScreen extends React.Component {
                   height={height}
                   chartConfig={chartConfig[0]}
                   style={chartConfig[0].style}
-                />
-                <PieChart
-                  data={pieChartData}
-                  height={height}
-                  width={width}
-                  chartConfig={chartConfig[0]}
-                  accessor="population"
-                  style={chartConfig[0].style}
+                  yAxisSuffix=' min'
                 />
               </View>
               <View tabLabel='Yelling'>
                 <BarChart
-                  width={width}
+                  width={width - 15}
                   height={height}
                   data={yellingDuration}
                   chartConfig={chartConfig[0]}
                   style={chartConfig[0].style}
-                />
-                <ContributionGraph
-                  values={contributionData}
-                  width={width}
-                  height={height}
-                  endDate={new Date('2016-05-01')}
-                  numDays={105}
-                  chartConfig={chartConfig[0]}
-                  style={chartConfig[0].style}
+                  yAxisSuffix=' min'
                 />
                 <LineChart
                   data={yellingDuration}
@@ -628,32 +630,17 @@ class ChartScreen extends React.Component {
                   height={height}
                   chartConfig={chartConfig[0]}
                   style={chartConfig[0].style}
-                />
-                <PieChart
-                  data={pieChartData}
-                  height={height}
-                  width={width}
-                  chartConfig={chartConfig[0]}
-                  accessor="population"
-                  style={chartConfig[0].style}
+                  yAxisSuffix=' min'
                 />
               </View>
               <View tabLabel='Wandering'>
                 <BarChart
-                  width={width}
+                  width={width - 15}
                   height={height}
                   data={wanderingDuration}
                   chartConfig={chartConfig[0]}
                   style={chartConfig[0].style}
-                />
-                <ContributionGraph
-                  values={contributionData}
-                  width={width}
-                  height={height}
-                  endDate={new Date('2016-05-01')}
-                  numDays={105}
-                  chartConfig={chartConfig[0]}
-                  style={chartConfig[0].style}
+                  yAxisSuffix=' min'
                 />
                 <LineChart
                   data={wanderingDuration}
@@ -661,32 +648,17 @@ class ChartScreen extends React.Component {
                   height={height}
                   chartConfig={chartConfig[0]}
                   style={chartConfig[0].style}
-                />
-                <PieChart
-                  data={pieChartData}
-                  height={height}
-                  width={width}
-                  chartConfig={chartConfig[0]}
-                  accessor="population"
-                  style={chartConfig[0].style}
+                  yAxisSuffix=' min'
                 />
               </View>
               <View tabLabel='Hallucinations'>
                 <BarChart
-                  width={width}
+                  width={width - 15}
                   height={height}
                   data={hallucinationsDuration}
                   chartConfig={chartConfig[0]}
                   style={chartConfig[0].style}
-                />
-                <ContributionGraph
-                  values={contributionData}
-                  width={width}
-                  height={height}
-                  endDate={new Date('2016-05-01')}
-                  numDays={105}
-                  chartConfig={chartConfig[0]}
-                  style={chartConfig[0].style}
+                  yAxisSuffix=' min'
                 />
                 <LineChart
                   data={hallucinationsDuration}
@@ -694,14 +666,7 @@ class ChartScreen extends React.Component {
                   height={height}
                   chartConfig={chartConfig[0]}
                   style={chartConfig[0].style}
-                />
-                <PieChart
-                  data={pieChartData}
-                  height={height}
-                  width={width}
-                  chartConfig={chartConfig[0]}
-                  accessor="population"
-                  style={chartConfig[0].style}
+                  yAxisSuffix=' min'
                 />
               </View>
             </ScrollableTabView>
@@ -714,15 +679,27 @@ class ChartScreen extends React.Component {
           <ScrollView
             key={Math.random()}
             style={{
-              backgroundColor: chartConfig[1].backgroundColor
+              backgroundColor: 'white'
             }}
           >
-            <Button
-              title="Back"
-              onPress={() => {
-                this.props.navigation.navigate("Section");
-              }}
-            />
+            <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop:30
+               }}>
+              <Text style={{
+                paddingLeft: 15,
+                paddingRight:10,
+              }}>
+                <Icon name="clock" size={30} color="#900" />
+              </Text>
+              <Text style={{
+                fontSize: 20,
+                color: '#000000',
+                fontWeight: "bold",
+                fontFamily: 'Verdana',
+              }}>
+                Sleep Duration
+              </Text>
+
+            </View>
 
             <BarChart
               width={width}
@@ -730,15 +707,7 @@ class ChartScreen extends React.Component {
               data={sleepDuration}
               chartConfig={chartConfig[1]}
               style={chartConfig[1].style}
-            />
-            <ContributionGraph
-              values={contributionData}
-              width={width}
-              height={height}
-              endDate={new Date('2016-05-01')}
-              numDays={105}
-              chartConfig={chartConfig[1]}
-              style={chartConfig[1].style}
+              yAxisSuffix=' Hrs'
             />
             <LineChart
               data={sleepDuration}
@@ -746,14 +715,7 @@ class ChartScreen extends React.Component {
               height={height}
               chartConfig={chartConfig[1]}
               style={chartConfig[1].style}
-            />
-            <PieChart
-              data={pieChartData}
-              height={height}
-              width={width}
-              chartConfig={chartConfig[1]}
-              accessor="population"
-              style={chartConfig[1].style}
+              yAxisSuffix=' Hrs'
             />
           </ScrollView>
         </Text>
@@ -767,30 +729,27 @@ class ChartScreen extends React.Component {
               backgroundColor: chartConfig[2].backgroundColor
             }}
           >
-            <Button
-              title="Back"
-              onPress={() => {
-                this.props.navigation.navigate("Section");
-              }}
-            />
+            <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop:30, paddingLeft: 15, paddingBottom: 10
+               }}>
+              <Text style={{
+                fontSize: 20,
+                color: '#000000',
+                fontWeight: "bold",
+                fontFamily: 'Verdana',
+              }}>
+                Bowel Frequency
+              </Text>
+
+            </View>
             <ScrollableTabView
               initialPage={0}
               style={{ backgroundColor: 'white' }}
             >
               <View tabLabel='Stool'>
                 <BarChart
-                  width={width}
+                  width={width - 15}
                   height={height}
                   data={stoolTimes}
-                  chartConfig={chartConfig[2]}
-                  style={chartConfig[2].style}
-                />
-                <ContributionGraph
-                  values={contributionData}
-                  width={width}
-                  height={height}
-                  endDate={new Date('2016-05-01')}
-                  numDays={105}
                   chartConfig={chartConfig[2]}
                   style={chartConfig[2].style}
                 />
@@ -799,31 +758,14 @@ class ChartScreen extends React.Component {
                   width={width}
                   height={height}
                   chartConfig={chartConfig[2]}
-                  style={chartConfig[2].style}
-                />
-                <PieChart
-                  data={pieChartData}
-                  height={height}
-                  width={width}
-                  chartConfig={chartConfig[2]}
-                  accessor="population"
                   style={chartConfig[2].style}
                 />
               </View>
               <View tabLabel='Urine'>
                 <BarChart
-                  width={width}
+                  width={width - 15}
                   height={height}
                   data={urineTimes}
-                  chartConfig={chartConfig[2]}
-                  style={chartConfig[2].style}
-                />
-                <ContributionGraph
-                  values={contributionData}
-                  width={width}
-                  height={height}
-                  endDate={new Date('2016-05-01')}
-                  numDays={105}
                   chartConfig={chartConfig[2]}
                   style={chartConfig[2].style}
                 />
@@ -832,14 +774,6 @@ class ChartScreen extends React.Component {
                   width={width}
                   height={height}
                   chartConfig={chartConfig[2]}
-                  style={chartConfig[2].style}
-                />
-                <PieChart
-                  data={pieChartData}
-                  height={height}
-                  width={width}
-                  chartConfig={chartConfig[2]}
-                  accessor="population"
                   style={chartConfig[2].style}
                 />
               </View>
