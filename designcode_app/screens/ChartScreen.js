@@ -399,31 +399,31 @@ class ChartScreen extends React.Component {
       datasets: [{ data: this.state.restlessDur }]
     }
     let refusalDuration = {
-      labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       datasets: [{ data: this.state.refusalDur }]
     }
     let yellingDuration = {
-      labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       datasets: [{ data: this.state.yellDur }]
     }
     let wanderingDuration = {
-      labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       datasets: [{ data: this.state.wanderingDur }]
     }
     let hallucinationsDuration = {
-      labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       datasets: [{ data: this.state.hallucinationsDur }]
     }
     let sleepDuration = {
-      labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       datasets: [{ data: this.state.sleepDur }]
     }
     let stoolTimes = {
-      labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       datasets: [{ data: this.state.stoolTim }]
     }
     let urineTimes = {
-      labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       datasets: [{ data: this.state.urineTim }]
     }
 
@@ -473,7 +473,8 @@ class ChartScreen extends React.Component {
         style: {
           borderRadius: 10,
           padding: 5,
-          paddingTop:20
+          paddingTop:20,
+
         }
       },
       {
@@ -529,23 +530,19 @@ class ChartScreen extends React.Component {
             }}
           >
 
-            <View style={{ padding: 10, flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop:30,
+                paddingBottom:5 }}>
               <Text style={{
                 paddingLeft: 20,
-                paddingRight:10
+                paddingRight:10,
               }}>
                 <Icon name="clock" size={30} color="#900" />
               </Text>
               <Text style={{
-                fontSize: 35,
+                fontSize: 20,
                 color: '#000000',
                 fontWeight: "bold",
                 fontFamily: 'Verdana',
-                paddingTop:20,
-                paddingBottom:20
-          
-
-
               }}>
                 Duration
               </Text>
