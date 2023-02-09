@@ -22,7 +22,7 @@ const AppNavigator = createStackNavigator({
   AddMedicine: MedicineScreen,
 },
 {
-  initialRouteName: 'Login'
+  initialRouteName: 'Chart'
 });
 
 export default createAppContainer(AppNavigator);

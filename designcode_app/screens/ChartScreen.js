@@ -6,7 +6,7 @@ import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import update from 'immutability-helper'
-
+import Icon from 'react-native-vector-icons/Entypo';
 
 
 
@@ -63,8 +63,8 @@ class ChartScreen extends React.Component {
     let urineTimesCurrentWeek = null
     medicineWeekArray = []
     uniqueMedicineArray = []
-    
-    
+
+
 
     firestore()
       .collection('users')
@@ -75,12 +75,12 @@ class ChartScreen extends React.Component {
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
-          this.setState({medicineArray: [...this.state.medicineArray, documentSnapshot.data().selectedMedicine]})
+          this.setState({ medicineArray: [...this.state.medicineArray, documentSnapshot.data().selectedMedicine] })
         })
 
 
         uniqueMedicineArray = [...new Set(this.state.medicineArray)]
-        this.setState({medicineArray: uniqueMedicineArray})
+        this.setState({ medicineArray: uniqueMedicineArray })
 
         for (i = 0; i < this.state.medicineArray.length; i++) { // get medicine Amount Array here
           medicineWeekArray = []
@@ -95,13 +95,13 @@ class ChartScreen extends React.Component {
             .then(querySnapshot => {
               querySnapshot.forEach(documentSnapshot => {
                 z++
-                this.setState({medicineAmountArray: [...this.state.medicineAmountArray, documentSnapshot.data().amountConsumed]}) // all amounts for all medicines
-                this.setState({medicineUnitArray: [...this.state.medicineUnitArray, documentSnapshot.data().unit]}) // all units for all medicines
+                this.setState({ medicineAmountArray: [...this.state.medicineAmountArray, documentSnapshot.data().amountConsumed] }) // all amounts for all medicines
+                this.setState({ medicineUnitArray: [...this.state.medicineUnitArray, documentSnapshot.data().unit] }) // all units for all medicines
                 medicineWeekArray = [...medicineWeekArray, documentSnapshot.data().week]
               })
 
-              this.setState({medicineCurrentWeekArray: [...this.state.medicineCurrentWeekArray, medicineWeekArray[(medicineWeekArray.length - 1)]]})
-              this.setState({medicineAmountRepeatCounter: [...this.state.medicineAmountRepeatCounter, z]}) // number of times amounts repeat on same medicine
+              this.setState({ medicineCurrentWeekArray: [...this.state.medicineCurrentWeekArray, medicineWeekArray[(medicineWeekArray.length - 1)]] })
+              this.setState({ medicineAmountRepeatCounter: [...this.state.medicineAmountRepeatCounter, z] }) // number of times amounts repeat on same medicine
               console.log(this.state.medicineArray)
               console.log(this.state.medicineAmountArray)
               console.log(this.state.medicineUnitArray)
@@ -111,7 +111,7 @@ class ChartScreen extends React.Component {
             }
             )
         }
-        
+
 
 
       }
@@ -462,14 +462,18 @@ class ChartScreen extends React.Component {
       {
         tabLabel: "Behaviors",
         backgroundColor: '#0000000',
-        backgroundGradientFrom: '#243F9A',
-        backgroundGradientTo: '#243F9A',
-        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-        propsForLabels: {fontSize:13},
-        barPercetage: 1,
+        backgroundGradientFrom: '#ffffff',
+        backgroundGradientTo: '#ffffff',
+        color: (opacity = 255) => `rgba(0, 50, 200, ${opacity})`,
+        propsForVerticalLabels: { fontSize: 13, fontWeight: 500 },
+        propsForHorizontalLabels: { fontSize: 10, fontWeight: 500 },
+        fillShadowGradientToOpacity: 19000,
+        fillShadowGradientFromOpacity: 5000,
+
         style: {
-          borderRadius: 16,
-          padding: 10
+          borderRadius: 10,
+          padding: 5,
+          paddingTop:20
         }
       },
       {
@@ -516,7 +520,7 @@ class ChartScreen extends React.Component {
       >
         <Text //CHARTS FOR BEHAVIORS SCREEN
           tabLabel={chartConfig[0].tabLabel}
-          
+
         >
           <ScrollView
             key={Math.random()}
@@ -524,48 +528,50 @@ class ChartScreen extends React.Component {
               backgroundColor: chartConfig[0].backgroundColor
             }}
           >
-            <Button
-              title="Back"
-              onPress={() => {
-                this.props.navigation.navigate("Section");
-              }}
-            />
+
+            <View style={{ padding: 10, flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={{
+                paddingLeft: 20,
+                paddingRight:10
+              }}>
+                <Icon name="clock" size={30} color="#900" />
+              </Text>
+              <Text style={{
+                fontSize: 35,
+                color: '#000000',
+                fontWeight: "bold",
+                fontFamily: 'Verdana',
+                paddingTop:20,
+                paddingBottom:20
+          
+
+
+              }}>
+                Duration
+              </Text>
+
+            </View>
+
+
             <ScrollableTabView
               initialPage={0}
               style={{ backgroundColor: 'white' }}
+              tabBarTextStyle={{ fontSize: 10 }}
             >
-              <View tabLabel='Restlessness'>
+              <View tabLabel='Restless'>
                 <BarChart
-                  width={width - 20}
+                  width={width - 10}
                   height={height}
                   data={restlessnessDuration}
                   chartConfig={chartConfig[0]}
                   style={chartConfig[0].style}
-                  withInnerLines = {false}
-                  showValuesOnTopOfBars = {true}
-                />
-                <ContributionGraph
-                  values={contributionData}
-                  width={width - 20}
-                  height={height}
-                  endDate={new Date('2016-05-01')}
-                  numDays={105}
-                  chartConfig={chartConfig[0]}
-                  style={chartConfig[0].style}
+                  yAxisSuffix=' Hrs'
                 />
                 <LineChart
                   data={restlessnessDuration}
-                  width={width - 20}
+                  width={width - 10}
                   height={height}
                   chartConfig={chartConfig[0]}
-                  style={chartConfig[0].style}
-                />
-                <PieChart
-                  data={pieChartData}
-                  height={height}
-                  width={width}
-                  chartConfig={chartConfig[0]}
-                  accessor="population"
                   style={chartConfig[0].style}
                 />
               </View>

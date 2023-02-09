@@ -130,7 +130,7 @@ const MedicineScreen = (navigation) => {
               days = 1 // get days since first data added
             }
             else {
-              days = (((new Date().getTime()- dateArray[0]) / (1000 * 60 * 60 * 24)))
+              days = (((new Date().getTime()- dateArray[0]) / (1000 * 60 * 60 * 24))) + 1
             }
 
             if (daysOfTheWeekArray.length == 0) { // get week of added data
