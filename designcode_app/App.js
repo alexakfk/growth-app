@@ -26,8 +26,9 @@ const reducer = (state = initialState, action) => {
 
 
 const store = createStore(reducer);
-
+console.disableYellowBox = true; 
 const App = () => (
+  
   <Provider store={store}>
     <AppNavigator />
   </Provider>
