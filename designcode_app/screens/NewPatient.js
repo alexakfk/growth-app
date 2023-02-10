@@ -13,7 +13,8 @@ import {
   ViewStyle,
   TextStyle,
   TextInputProps,
-  Button
+  Button,
+  View
 } from "react-native";
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
@@ -113,7 +114,19 @@ class NewPatient extends React.Component {
               onChangeText={rel => this.setState({rel})}
             />
             <Text style={styles.text}>Patient Image</Text>
-            <Button title="Pick an image from camera roll" onPress={pickImage} />
+
+            <Pressable onPress={pickImage} style = {{borderRadius: 4}}> 
+            <Text style = {{
+              marginTop: 10,
+              padding: 10,
+              backgroundColor: '#e5e5e5',
+              width: "65%",
+              textAlign: 'center',
+              fontFamily: 'Verdana'
+            }}>Pick an image from camera roll</Text>
+            </Pressable>
+   
+
             <Pressable
               style={styles.button}
               onPress={onClick}

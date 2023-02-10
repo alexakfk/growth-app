@@ -4,6 +4,8 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Animated,
+  Pressable,
+  Linking
 } from "react-native";
 import styled from "styled-components";
 import Patients from "../components/Patients";
@@ -90,10 +92,10 @@ class HomeScreen extends React.Component {
       }).start();
     }
   };
+  
 
 
   render() {
-
     
     const user = auth().currentUser
     const { navigation } = this.props;
@@ -131,6 +133,25 @@ class HomeScreen extends React.Component {
       
     }
 
+    const openAlzheimers = async () => {
+      const url = 'https://www.alz.org/'
+      const supported = await Linking.canOpenURL(url); //To check if URL is supported or not.
+      if (supported) {
+      await Linking.openURL(url); // It will open the URL on browser.
+      } else {
+      Alert.alert(`Don't know how to open this URL: ${url}`);
+      }
+    }
+
+    const openTeepaSnow = async () => {
+      const url = 'https://teepasnow.com/'
+      const supported = await Linking.canOpenURL(url); //To check if URL is supported or not.
+      if (supported) {
+      await Linking.openURL(url); // It will open the URL on browser.
+      } else {
+      Alert.alert(`Don't know how to open this URL: ${url}`);
+      }
+    }
 
 
     return (
@@ -194,15 +215,21 @@ class HomeScreen extends React.Component {
               </ScrollView>
               
               <Subtitle>News</Subtitle>
-              <ScrollView style={{ paddingBottom: 30, paddingLeft: 10 }}>
-                {cards.map((card, index) => (
+              <ScrollView style={{ paddingBottom: 30, paddingLeft: 10 }}>    
+                  <Pressable onPress = {openAlzheimers}>
                   <Card
-                    key={index}
-                    image={card.image}
-                    title={card.title}
-                    author={card.author}
+                    image= {require("../assets/background1.jpg")}
+                    title= "Alzheimer's Association"
+                    author= "The progression and stages of dementia"
                   />
-                ))}
+                  </Pressable>
+                  <Pressable onPress = {openTeepaSnow}>
+                  <Card
+                    image= {require("../assets/background5.jpg")}
+                    title= "Teepa Snow"
+                    author= "Positive Approach to Care"
+                  />
+                  </Pressable>
               </ScrollView>
             </ScrollView>
           </SafeAreaView>

@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { StyleSheet, Pressable, ScrollView, Dimensions, Button} from "react-native";
-import {LineChart, ProgressChart, BarChart, PieChart, ContributionGraph, StatusBar} from "react-native-chart-kit";
+import { StyleSheet, Pressable, ScrollView, Dimensions, Button, View } from "react-native";
+import { LineChart, ProgressChart, BarChart, PieChart, ContributionGraph, StatusBar } from "react-native-chart-kit";
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
-
+import Icon from 'react-native-vector-icons/AntDesign'; //heart
 
 
 
@@ -13,14 +13,14 @@ class SectionScreen extends React.Component {
     headerShown: false,
   };
 
-  render() {  
+  render() {
     const { navigation } = this.props;
     const section = navigation.getParam("section");
     const width = Dimensions.get('window').width
     const height = 220
 
     return (
-      
+
       <ScrollView>
         <Container>
           <Name>{section.name}</Name>
@@ -37,13 +37,17 @@ class SectionScreen extends React.Component {
               <Bold>Blood Type: </Bold> {section.blood}
             </Info>
           </Close>
+        </Container>
+        <View style={{
+          flexDirection: 'row',
+        }}>
           <Pressable
-            style={styles.button}
+            style={styles.button1}
             onPress={() => {
-              this.props.navigation.navigate("Chart");
+              this.props.navigation.navigate("AddMedicine");
             }}
           >
-            <Text style={styles.text}>Chart</Text>
+            <Text style={styles.text}>Medicine</Text>
           </Pressable>
           <Pressable
             style={styles.button}
@@ -53,12 +57,17 @@ class SectionScreen extends React.Component {
           >
             <Text style={styles.text}>Behaviors</Text>
           </Pressable>
+        </View>
+        <View style={{
+          flexDirection: 'row',
+        }}>
           <Pressable
-            style={styles.button}
+            style={styles.button1}
             onPress={() => {
               this.props.navigation.navigate("AddSleep");
             }}
           >
+
             <Text style={styles.text}>Sleep</Text>
           </Pressable>
           <Pressable
@@ -69,15 +78,31 @@ class SectionScreen extends React.Component {
           >
             <Text style={styles.text}>Bowel Movement</Text>
           </Pressable>
-          <Pressable
-            style={styles.button}
-            onPress={() => {
-              this.props.navigation.navigate("AddMedicine");
-            }}
-          >
-            <Text style={styles.text}>Medicine</Text>
-          </Pressable>
-        </Container>
+        </View>
+        <Pressable
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            paddingVertical: 30,
+            paddingHorizontal: 12,
+            borderRadius: 4,
+            backgroundColor: "#1C8EF0",
+            width: '90%',
+            marginLeft: 20,
+            marginTop: 10,
+            top: 170,
+            fontWeight: 'bold',
+            borderWidth: 1,
+            borderColor: 'black'
+          }}
+          onPress={() => {
+            this.props.navigation.navigate("Chart");
+          }}
+        >
+
+          <Text style={styles.text}>Chart</Text>
+        </Pressable>
+
       </ScrollView>
     );
   }
@@ -143,19 +168,43 @@ const Bold = styled.Text`
 
 const styles = StyleSheet.create({
   button: {
+    flex: 1,
+    textAlign: 'center',
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 5,
-    paddingHorizontal: 32,
-    borderRadius: 4,
-    backgroundColor: "#4775F2",
-    width: "90%",
-    marginLeft: 20,
-    marginTop: 5,
+    paddingVertical: 30,
+    paddingHorizontal: 20,
+    borderRadius: 14,
+    backgroundColor: "#1C8EF0",
+    width: "40%",
+    marginLeft: 5,
+    marginRight: 20,
+    marginTop: 10,
     top: 170,
+    fontWeight: 'bold',
+    borderWidth: 1,
+    borderColor: 'black',
+  },
+  button1: {
+    textAlign: 'center',
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 30,
+    paddingHorizontal: 20,
+    borderRadius: 14,
+    backgroundColor: "#1C8EF0",
+    width: "40%",
+    marginLeft: 20,
+    marginRight: 5,
+    marginTop: 10,
+    top: 170,
+    fontWeight: 'bold',
+    borderWidth: 1,
+    borderColor: 'black',
   },
   text: {
-    fontSize: 16,
+    fontSize: 20,
     lineHeight: 21,
     fontWeight: "bold",
     letterSpacing: 0.25,

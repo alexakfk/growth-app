@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { StyleSheet, Pressable, ScrollView, Dimensions, Text, Button, View } from "react-native";
+import { StyleSheet, Pressable, ScrollView, Dimensions, Text, Button, View, Linking } from "react-native";
 import { LineChart, ProgressChart, BarChart, PieChart, ContributionGraph, StatusBar } from "react-native-chart-kit";
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import firestore from '@react-native-firebase/firestore';
