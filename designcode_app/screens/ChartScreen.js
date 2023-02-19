@@ -27,7 +27,7 @@ class ChartScreen extends React.Component {
       stoolTim: [0, 0, 0, 0, 0, 0, 0],
       urineTim: [0, 0, 0, 0, 0, 0, 0],
       medicineArray: [], //all unique selected medicine
-      medicineAmountArray: [],
+      medicineAmountArray: [0, 0, 0, 0, 0, 0, 0],
       medicineUnitArray: [], // all selected units
       medicineAmountRepeatCounter: [], // count of repeated unique medicine amounts
       medicineCurrentWeek: null, // all current weeks of medicines
@@ -60,8 +60,7 @@ class ChartScreen extends React.Component {
     let urineTimesCurrentWeek = null
     medicineWeekArray = []
     uniqueMedicineArray = []
-    medAmount = null
-    let medicineAmount = []// all selected amounts
+    
 
 
 
@@ -382,22 +381,20 @@ class ChartScreen extends React.Component {
                   querySnapshot.forEach(documentSnapshot => {
                     for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
                       if (documentSnapshot.data().dayOfTheWeek == i) {
-
-                        medicineAmount =  [...medicineAmount, documentSnapshot.data().amountConsumed]
-
-
+                        this.setState({ medicineAmountArray: update(this.state.medicineAmountArray, { [i]: { $set: documentSnapshot.data().amountConsumed } }) })
                       }
-                      
                     }
-     
+
+                    console.log(this.state.medicineAmountArray)
+                    
                       this.setState({
                         medicineAmountDataset: [...this.state.medicineAmountDataset, {
                           labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-                          datasets: [{ data: {medicineAmount} }]
+                          datasets: [{ data: this.state.medicineAmountArray }]
                         }]
                 
                       })
-                      medicineAmount = []
+                      this.setState({medicineAmountArray: [0, 0, 0, 0, 0, 0, 0]})
                       
                     
 
@@ -564,13 +561,14 @@ class ChartScreen extends React.Component {
     let medicineArrayList = null
 
     medicineArrayList = this.state.medicineArray.map((medicine, index) =>
+      
       //call firestore function here and get all medicine data here for specific medicine
       <View key={index} tabLabel={medicine.toString()}>
         <BarChart
           tabLabel={medicine.toString()}
           width={width - 15}
           height={height}
-          data={this.state.medicineAmountDataset[0]}
+          data={this.state.medicineAmountDataset[this.state.medicineArray.indexOf(medicine)]}
           chartConfig={chartConfig[3]}
           style={chartConfig[3].style}
         />
@@ -584,7 +582,7 @@ class ChartScreen extends React.Component {
           style={chartConfig[3].style}
         />
         <LineChart
-          data={this.state.medicineAmountDataset[0]}
+          data={this.state.medicineAmountDataset[this.state.medicineArray.indexOf(medicine)]}
           width={width - 15}
           height={height}
           chartConfig={chartConfig[3]}
