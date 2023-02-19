@@ -126,7 +126,7 @@ const MedicineScreen = (navigation) => {
               daysOfTheWeekArray = [...daysOfTheWeekArray, documentSnapshot.data().dayOfTheWeek]
             })
 
-            if (dateArray.length == 0 || dateArray.length == 1) {
+            if (dateArray.length == 0) {
               days = 1 // get days since first data added
             }
             else {

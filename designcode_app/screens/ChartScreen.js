@@ -6,11 +6,7 @@ import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import update from 'immutability-helper'
-import Icon from 'react-native-vector-icons/Entypo';
-
-
-
-
+import Icon from 'react-native-vector-icons/Entypo'
 
 
 class ChartScreen extends React.Component {
@@ -30,11 +26,12 @@ class ChartScreen extends React.Component {
       sleepDur: [0, 0, 0, 0, 0, 0, 0],
       stoolTim: [0, 0, 0, 0, 0, 0, 0],
       urineTim: [0, 0, 0, 0, 0, 0, 0],
-      medicineArray: [], //all unique selected medicines
-      medicineAmountArray: [], // all selected amounts
+      medicineArray: [], //all unique selected medicine
+      medicineAmountArray: [],
       medicineUnitArray: [], // all selected units
       medicineAmountRepeatCounter: [], // count of repeated unique medicine amounts
-      medicineCurrentWeekArray: [], // all current weeks of medicines
+      medicineCurrentWeek: null, // all current weeks of medicines
+      medicineAmountDataset: [] //data for charts
     }
   }
 
@@ -63,59 +60,13 @@ class ChartScreen extends React.Component {
     let urineTimesCurrentWeek = null
     medicineWeekArray = []
     uniqueMedicineArray = []
+    medAmount = null
+    let medicineAmount = []// all selected amounts
 
 
 
-    firestore()
-      .collection('users')
-      .doc(user.uid)
-      .collection('Medicine')
-      .where('data', '==', 'true')
-      .orderBy('selectedMedicine', 'asc')
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(documentSnapshot => {
-          this.setState({ medicineArray: [...this.state.medicineArray, documentSnapshot.data().selectedMedicine] })
-        })
 
 
-        uniqueMedicineArray = [...new Set(this.state.medicineArray)]
-        this.setState({ medicineArray: uniqueMedicineArray })
-
-        for (i = 0; i < this.state.medicineArray.length; i++) { // get medicine Amount Array here
-          medicineWeekArray = []
-          let z = 0
-          firestore()
-            .collection('users')
-            .doc(user.uid)
-            .collection('Medicine')
-            .where('data', '==', 'true')
-            .where('selectedMedicine', '==', this.state.medicineArray[i])
-            .get()
-            .then(querySnapshot => {
-              querySnapshot.forEach(documentSnapshot => {
-                z++
-                this.setState({ medicineAmountArray: [...this.state.medicineAmountArray, documentSnapshot.data().amountConsumed] }) // all amounts for all medicines
-                this.setState({ medicineUnitArray: [...this.state.medicineUnitArray, documentSnapshot.data().unit] }) // all units for all medicines
-                medicineWeekArray = [...medicineWeekArray, documentSnapshot.data().week]
-              })
-
-              this.setState({ medicineCurrentWeekArray: [...this.state.medicineCurrentWeekArray, medicineWeekArray[(medicineWeekArray.length - 1)]] })
-              this.setState({ medicineAmountRepeatCounter: [...this.state.medicineAmountRepeatCounter, z] }) // number of times amounts repeat on same medicine
-              console.log(this.state.medicineArray)
-              console.log(this.state.medicineAmountArray)
-              console.log(this.state.medicineUnitArray)
-              console.log(medicineWeekArray)
-              console.log(this.state.medicineCurrentWeekArray)
-              console.log(this.state.medicineAmountRepeatCounter)
-            }
-            )
-        }
-
-
-
-      }
-      )
 
 
     firestore()
@@ -388,6 +339,78 @@ class ChartScreen extends React.Component {
       }
       )
 
+    firestore() //get all medicines into an array
+      .collection('users')
+      .doc(user.uid)
+      .collection('Medicine')
+      .where('data', '==', 'true')
+      .orderBy('selectedMedicine', 'asc')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          this.setState({ medicineArray: [...this.state.medicineArray, documentSnapshot.data().selectedMedicine] })
+        })
+
+
+        uniqueMedicineArray = [...new Set(this.state.medicineArray)]
+        this.setState({ medicineArray: uniqueMedicineArray })
+
+        firestore()
+          .collection('users')
+          .doc(user.uid)
+          .collection('Medicine')
+          .where('data', '==', 'true')
+          .orderBy('date', 'asc')
+          .get()
+          .then(querySnapshot => {
+            querySnapshot.forEach(documentSnapshot => {
+              medicineWeekArray = [...medicineWeekArray, documentSnapshot.data().week]
+              this.setState({ medicineCurrentWeek: medicineWeekArray[(medicineWeekArray.length - 1)] })
+
+            })
+
+            for (q = 0; q < this.state.medicineArray.length; q++) { // get all sets of medicineamount from current week into an array
+              firestore()
+                .collection('users')
+                .doc(user.uid)
+                .collection('Medicine')
+                .where('data', '==', 'true')
+                .where('week', '==', this.state.medicineCurrentWeek)
+                .where('selectedMedicine', '==', this.state.medicineArray[q])
+                .get()
+                .then(querySnapshot => {
+                  querySnapshot.forEach(documentSnapshot => {
+                    for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
+                      if (documentSnapshot.data().dayOfTheWeek == i) {
+
+                        medicineAmount =  [...medicineAmount, documentSnapshot.data().amountConsumed]
+
+
+                      }
+                      
+                    }
+     
+                      this.setState({
+                        medicineAmountDataset: [...this.state.medicineAmountDataset, {
+                          labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                          datasets: [{ data: {medicineAmount} }]
+                        }]
+                
+                      })
+                      medicineAmount = []
+                      
+                    
+
+                  })
+                  console.log(this.state.medicineAmountDataset)
+
+
+                })
+            }
+          }
+          )
+      })
+
 
   }
 
@@ -426,6 +449,7 @@ class ChartScreen extends React.Component {
       labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       datasets: [{ data: this.state.urineTim }]
     }
+
 
     // Mock data object used for Contribution Graph
 
@@ -473,7 +497,7 @@ class ChartScreen extends React.Component {
         style: {
           borderRadius: 10,
           padding: 5,
-          paddingTop:20,
+          paddingTop: 20,
 
         }
       },
@@ -491,7 +515,7 @@ class ChartScreen extends React.Component {
         style: {
           borderRadius: 10,
           padding: 5,
-          paddingTop:20,
+          paddingTop: 20,
 
         }
       },
@@ -509,7 +533,7 @@ class ChartScreen extends React.Component {
         style: {
           borderRadius: 10,
           padding: 5,
-          paddingTop:20,
+          paddingTop: 20,
 
         }
       },
@@ -527,7 +551,7 @@ class ChartScreen extends React.Component {
         style: {
           borderRadius: 10,
           padding: 5,
-          paddingTop:20,
+          paddingTop: 20,
 
         }
       }
@@ -537,6 +561,49 @@ class ChartScreen extends React.Component {
     const section = navigation.getParam("section");
     const width = Dimensions.get('window').width
     const height = 220
+    let medicineArrayList = null
+
+    medicineArrayList = this.state.medicineArray.map((medicine, index) =>
+      //call firestore function here and get all medicine data here for specific medicine
+      <View key={index} tabLabel={medicine.toString()}>
+        <BarChart
+          tabLabel={medicine.toString()}
+          width={width - 15}
+          height={height}
+          data={this.state.medicineAmountDataset[0]}
+          chartConfig={chartConfig[3]}
+          style={chartConfig[3].style}
+        />
+        <ContributionGraph
+          values={contributionData}
+          width={width}
+          height={height}
+          endDate={new Date('2016-05-01')}
+          numDays={105}
+          chartConfig={chartConfig[3]}
+          style={chartConfig[3].style}
+        />
+        <LineChart
+          data={this.state.medicineAmountDataset[0]}
+          width={width - 15}
+          height={height}
+          chartConfig={chartConfig[3]}
+          style={chartConfig[3].style}
+        />
+        <PieChart
+          data={pieChartData}
+          height={height}
+          width={width}
+          chartConfig={chartConfig[3]}
+          accessor="population"
+          style={chartConfig[3].style}
+        />
+      </View>
+    );
+
+
+
+
 
     return (
       <ScrollableTabView
@@ -554,11 +621,13 @@ class ChartScreen extends React.Component {
             }}
           >
 
-            <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop:30,
-                paddingBottom:5 }}>
+            <View style={{
+              flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30,
+              paddingBottom: 5
+            }}>
               <Text style={{
                 paddingLeft: 20,
-                paddingRight:10,
+                paddingRight: 10,
               }}>
                 <Icon name="clock" size={30} color="#900" />
               </Text>
@@ -682,11 +751,12 @@ class ChartScreen extends React.Component {
               backgroundColor: 'white'
             }}
           >
-            <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop:30
-               }}>
+            <View style={{
+              flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30
+            }}>
               <Text style={{
                 paddingLeft: 15,
-                paddingRight:10,
+                paddingRight: 10,
               }}>
                 <Icon name="clock" size={30} color="#900" />
               </Text>
@@ -729,8 +799,9 @@ class ChartScreen extends React.Component {
               backgroundColor: chartConfig[2].backgroundColor
             }}
           >
-            <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop:30, paddingLeft: 15, paddingBottom: 10
-               }}>
+            <View style={{
+              flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30, paddingLeft: 15, paddingBottom: 10
+            }}>
               <Text style={{
                 fontSize: 20,
                 color: '#000000',
@@ -790,181 +861,31 @@ class ChartScreen extends React.Component {
               backgroundColor: chartConfig[3].backgroundColor
             }}
           >
-            <Button
-              title="Back"
-              onPress={() => {
-                this.props.navigation.navigate("Section");
-              }}
-            />
+            <View style={{
+              flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30,
+              paddingBottom: 5
+            }}>
+              <Text style={{
+                paddingLeft: 20,
+                paddingRight: 10,
+              }}>
+              </Text>
+              <Text style={{
+                fontSize: 20,
+                color: '#000000',
+                fontWeight: "bold",
+                fontFamily: 'Verdana',
+              }}>
+                Medicine Intake
+              </Text>
+
+            </View>
             <ScrollableTabView
               initialPage={0}
               style={{ backgroundColor: 'white' }}
+              tabBarTextStyle={{ fontSize: 10 }}
             >
-              <View tabLabel='Restlessness'>
-                <BarChart
-                  width={width}
-                  height={height}
-                  data={restlessnessDuration}
-                  chartConfig={chartConfig[3]}
-                  style={chartConfig[3].style}
-                />
-                <ContributionGraph
-                  values={contributionData}
-                  width={width}
-                  height={height}
-                  endDate={new Date('2016-05-01')}
-                  numDays={105}
-                  chartConfig={chartConfig[3]}
-                  style={chartConfig[3].style}
-                />
-                <LineChart
-                  data={restlessnessDuration}
-                  width={width}
-                  height={height}
-                  chartConfig={chartConfig[3]}
-                  style={chartConfig[3].style}
-                />
-                <PieChart
-                  data={pieChartData}
-                  height={height}
-                  width={width}
-                  chartConfig={chartConfig[3]}
-                  accessor="population"
-                  style={chartConfig[3].style}
-                />
-              </View>
-              <View tabLabel='Refusal'>
-                <BarChart
-                  width={width}
-                  height={height}
-                  data={refusalDuration}
-                  chartConfig={chartConfig[3]}
-                  style={chartConfig[3].style}
-                />
-                <ContributionGraph
-                  values={contributionData}
-                  width={width}
-                  height={height}
-                  endDate={new Date('2016-05-01')}
-                  numDays={105}
-                  chartConfig={chartConfig[3]}
-                  style={chartConfig[3].style}
-                />
-                <LineChart
-                  data={refusalDuration}
-                  width={width}
-                  height={height}
-                  chartConfig={chartConfig[3]}
-                  style={chartConfig[3].style}
-                />
-                <PieChart
-                  data={pieChartData}
-                  height={height}
-                  width={width}
-                  chartConfig={chartConfig[3]}
-                  accessor="population"
-                  style={chartConfig[3].style}
-                />
-              </View>
-              <View tabLabel='Yelling'>
-                <BarChart
-                  width={width}
-                  height={height}
-                  data={yellingDuration}
-                  chartConfig={chartConfig[3]}
-                  style={chartConfig[3].style}
-                />
-                <ContributionGraph
-                  values={contributionData}
-                  width={width}
-                  height={height}
-                  endDate={new Date('2016-05-01')}
-                  numDays={105}
-                  chartConfig={chartConfig[3]}
-                  style={chartConfig[3].style}
-                />
-                <LineChart
-                  data={yellingDuration}
-                  width={width}
-                  height={height}
-                  chartConfig={chartConfig[3]}
-                  style={chartConfig[3].style}
-                />
-                <PieChart
-                  data={pieChartData}
-                  height={height}
-                  width={width}
-                  chartConfig={chartConfig[3]}
-                  accessor="population"
-                  style={chartConfig[3].style}
-                />
-              </View>
-              <View tabLabel='Wandering'>
-                <BarChart
-                  width={width}
-                  height={height}
-                  data={wanderingDuration}
-                  chartConfig={chartConfig[3]}
-                  style={chartConfig[3].style}
-                />
-                <ContributionGraph
-                  values={contributionData}
-                  width={width}
-                  height={height}
-                  endDate={new Date('2016-05-01')}
-                  numDays={105}
-                  chartConfig={chartConfig[3]}
-                  style={chartConfig[3].style}
-                />
-                <LineChart
-                  data={wanderingDuration}
-                  width={width}
-                  height={height}
-                  chartConfig={chartConfig[3]}
-                  style={chartConfig[3].style}
-                />
-                <PieChart
-                  data={pieChartData}
-                  height={height}
-                  width={width}
-                  chartConfig={chartConfig[3]}
-                  accessor="population"
-                  style={chartConfig[3].style}
-                />
-              </View>
-              <View tabLabel='Hallucinations'>
-                <BarChart
-                  width={width}
-                  height={height}
-                  data={hallucinationsDuration}
-                  chartConfig={chartConfig[3]}
-                  style={chartConfig[3].style}
-                />
-                <ContributionGraph
-                  values={contributionData}
-                  width={width}
-                  height={height}
-                  endDate={new Date('2016-05-01')}
-                  numDays={105}
-                  chartConfig={chartConfig[3]}
-                  style={chartConfig[3].style}
-                />
-                <LineChart
-                  data={hallucinationsDuration}
-                  width={width}
-                  height={height}
-                  chartConfig={chartConfig[3]}
-                  style={chartConfig[3].style}
-                />
-                <PieChart
-                  data={pieChartData}
-                  height={height}
-                  width={width}
-                  chartConfig={chartConfig[3]}
-                  accessor="population"
-                  style={chartConfig[3].style}
-                />
-              </View>
+              {medicineArrayList}
             </ScrollableTabView>
           </ScrollView>
         </Text>

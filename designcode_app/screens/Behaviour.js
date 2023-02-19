@@ -225,7 +225,7 @@ const BehaviorScreen = (navigation) => {
                 daysOfTheWeekArray2 = [...daysOfTheWeekArray2, documentSnapshot.data().dayOfTheWeek]
               })
 
-              if (dateArray2.length == 0 || dateArray2.length == 1) {
+              if (dateArray2.length == 0) {
                 days2 = 1 // get days since first data added
               }
               else {
@@ -274,7 +274,7 @@ const BehaviorScreen = (navigation) => {
                 daysOfTheWeekArray3 = [...daysOfTheWeekArray3, documentSnapshot.data().dayOfTheWeek]
               })
 
-              if (dateArray3.length == 0 || dateArray3.length == 1) {
+              if (dateArray3.length == 0) {
                 days3 = 1 // get days since first data added
               }
               else {
@@ -323,7 +323,7 @@ const BehaviorScreen = (navigation) => {
                 daysOfTheWeekArray4 = [...daysOfTheWeekArray4, documentSnapshot.data().dayOfTheWeek]
               })
 
-              if (dateArray4.length == 0 || dateArray5.length == 1) {
+              if (dateArray4.length == 0) {
                 days4 = 1 // get days since first data added
               }
               else {
@@ -372,7 +372,7 @@ const BehaviorScreen = (navigation) => {
                 daysOfTheWeekArray5 = [...daysOfTheWeekArray5, documentSnapshot.data().dayOfTheWeek]
               })
 
-              if (dateArray5.length == 0 || dateArray5.length == 1) {
+              if (dateArray5.length == 0) {
                 days5 = 1 // get days since first data added
               }
               else {
