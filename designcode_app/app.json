@@ -40,7 +40,14 @@
     "plugins": [
       "@react-native-google-signin/google-signin",
       "@react-native-firebase/app",
-      "react-native-health",
+      [
+        "react-native-health",
+        {
+          "isClinicalDataEnabled": true,
+          "healthSharePermission": "Custom health share permission",
+          "healthUpdatePermission": "Custom health update permission"
+        }
+      ],
       [
         "expo-image-picker",
         {
