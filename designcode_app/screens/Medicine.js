@@ -84,6 +84,7 @@ const MedicineScreen = (navigation) => {
       })
 
     let medicineArray = []
+    let completeMedicineArray = []
     let selectedMedicineAmount = null
     const Month = (new Date().getMonth())
     const Day = new Date().getDate()
@@ -117,7 +118,6 @@ const MedicineScreen = (navigation) => {
           .doc(user.uid)
           .collection('Medicine')
           .where('data', '==', 'true')
-          .where('selectedMedicine', '==', selectedMedicine)
           .orderBy('date', 'asc')
           .get()
           .then(querySnapshot => {
@@ -126,11 +126,13 @@ const MedicineScreen = (navigation) => {
               daysOfTheWeekArray = [...daysOfTheWeekArray, documentSnapshot.data().dayOfTheWeek]
             })
 
+
+
             if (dateArray.length == 0) {
               days = 1 // get days since first data added
             }
             else {
-              days = (((new Date().getTime()- dateArray[0]) / (1000 * 60 * 60 * 24))) + 1
+              days = (Math.ceil((new Date().getTime()- dateArray[0]) / (1000 * 60 * 60 * 24))) + 1
             }
 
             if (daysOfTheWeekArray.length == 0) { // get week of added data

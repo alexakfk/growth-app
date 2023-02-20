@@ -367,7 +367,7 @@ class ChartScreen extends React.Component {
             querySnapshot.forEach(documentSnapshot => {
               medicineWeekArray = [...medicineWeekArray, documentSnapshot.data().week]
               this.setState({ medicineCurrentWeek: medicineWeekArray[(medicineWeekArray.length - 1)] })
-
+              console.log(this.state.medicineCurrentWeek)
             })
 
             for (q = 0; q < this.state.medicineArray.length; q++) { // get all sets of medicineamount from current week into an array
@@ -376,34 +376,52 @@ class ChartScreen extends React.Component {
                 .doc(user.uid)
                 .collection('Medicine')
                 .where('data', '==', 'true')
-                .where('week', '==', this.state.medicineCurrentWeek)
                 .where('selectedMedicine', '==', this.state.medicineArray[q])
                 .orderBy('date', 'asc')
                 .get()
                 .then(querySnapshot => {
                   querySnapshot.forEach(documentSnapshot => {
-                    for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
-                      if (documentSnapshot.data().dayOfTheWeek == i) {
-                        this.setState({ medicineAmountArray: update(this.state.medicineAmountArray, { [i]: { $set: documentSnapshot.data().amountConsumed } }) })
-                      }
-                    }
 
-                    r = this.state.medicineArray.indexOf(documentSnapshot.data().selectedMedicine)
-                    this.setState({ medicineUnitArray: update(this.state.medicineUnitArray, { [r]: { $set: documentSnapshot.data().unit } }) })
-                    t = this.state.medicineArray.indexOf(documentSnapshot.data().selectedMedicine)
-                    this.setState({
-                      medicineAmountDataset: update(this.state.medicineAmountDataset, {
-                        [t]: {
-                          $set: {
-                            labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-                            datasets: [{ data: this.state.medicineAmountArray }]
-                          }
+                    if (this.state.medicineCurrentWeek == documentSnapshot.data().week) {
+                      
+                      for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
+                        if (documentSnapshot.data().dayOfTheWeek == i) {
+                          this.setState({ medicineAmountArray: update(this.state.medicineAmountArray, { [i]: { $set: documentSnapshot.data().amountConsumed } }) })
                         }
+                      }
+
+                      r = this.state.medicineArray.indexOf(documentSnapshot.data().selectedMedicine)
+                      this.setState({ medicineUnitArray: update(this.state.medicineUnitArray, { [r]: { $set: documentSnapshot.data().unit } }) })
+
+                      t = this.state.medicineArray.indexOf(documentSnapshot.data().selectedMedicine)
+                      this.setState({
+                        medicineAmountDataset: update(this.state.medicineAmountDataset, {
+                          [t]: {
+                            $set: {
+                              labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                              datasets: [{ data: this.state.medicineAmountArray }]
+                            }
+                          }
+                        })
+
                       })
-  
-                    })
+                    }
+                    else {
+                      t = this.state.medicineArray.indexOf(documentSnapshot.data().selectedMedicine)
+                      this.setState({
+                        medicineAmountDataset: update(this.state.medicineAmountDataset, {
+                          [t]: {
+                            $set: {
+                              labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                              datasets: [{ data: [0, 0, 0, 0, 0, 0, 0] }]
+                            }
+                          }
+                        })
+
+                      })
+                    }
                   })
-                  
+
                   this.setState({ medicineAmountArray: [0, 0, 0, 0, 0, 0, 0] })
                   console.log(this.state.medicineUnitArray)
                   console.log(this.state.medicineAmountArray)
