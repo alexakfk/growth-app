@@ -11,6 +11,7 @@ import styled from "styled-components";
 import Patients from "../components/Patients";
 import Card from "../components/Card";
 import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import Menu from "../components/Menu";
 import { connect } from "react-redux";
 import auth from '@react-native-firebase/auth';

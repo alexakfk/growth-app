@@ -31,16 +31,99 @@ class ChartScreen extends React.Component {
       medicineUnitArray: [], // all selected units
       medicineAmountRepeatCounter: [], // count of repeated unique medicine amounts
       medicineCurrentWeek: null, // all current weeks of medicines
-      medicineAmountDataset: [] //data for charts
+      medicineAmountDataset: [
+        {
+          labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0] }]
+        },
+        {
+          labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0] }]
+        },
+        {
+          labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0] }]
+        },
+        {
+          labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0] }]
+        },
+        {
+          labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0] }]
+        },
+        {
+          labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0] }]
+        },
+        {
+          labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0] }]
+        },
+        {
+          labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0] }]
+        },
+        {
+          labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0] }]
+        },
+      ], //data for charts
+      restlessDurM: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // data for monthly charts
+      refusalDurM: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      yellDurM: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      wanderingDurM: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      hallucinationsDurM: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      sleepDurM: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      stoolTimM: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      urineTimM: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      medicineArrayM: [], //all unique selected medicine
+      medicineAmountArrayM: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      medicineUnitArrayM: [], // all selected units
+      medicineCurrentWeekM: null, // all current weeks of medicines
+      medicineAmountDatasetM: [
+        {
+          labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }]
+        },
+        {
+          labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }]
+        },
+        {
+          labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }]
+        },
+        {
+          labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }]
+        },
+        {
+          labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }]
+        },
+        {
+          labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }]
+        },
+        {
+          labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }]
+        },
+        {
+          labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }]
+        },
+        {
+          labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }]
+        },
+      ] //data for charts
     }
   }
 
 
   componentDidMount() {
-    const Month = (new Date().getMonth() + 1)
-    const Day = new Date().getDate()
-    const Year = (new Date().getFullYear())
-    const dayOfTheWeek = new Date().getDay()
     const user = auth().currentUser
     let weekArray = []
     let currentWeek = null
@@ -62,6 +145,15 @@ class ChartScreen extends React.Component {
     uniqueMedicineArray = []
     let r = null
     let t = null
+    let restlessDurationMonth = 0
+    let refusalDurationMonth = 0
+    let yellingDurationMonth = 0
+    let wanderingDurationMonth = 0
+    let hallucinationsDurationMonth = 0
+    let sleepDurationMonth = 0
+    let stoolTimesMonth = 0
+    let urineTimesMonth = 0
+    let medicineAmountMonth = 0
 
 
 
@@ -70,7 +162,8 @@ class ChartScreen extends React.Component {
 
 
 
-    firestore()
+
+    firestore() // Week Behavior Data
       .collection('users')
       .doc(user.uid)
       .collection('Behaviors')
@@ -103,6 +196,8 @@ class ChartScreen extends React.Component {
           })
       }
       )
+
+
 
     firestore()
       .collection('users')
@@ -240,7 +335,120 @@ class ChartScreen extends React.Component {
       }
       )
 
-    firestore()
+    for (i = 0; i < 12; i++) {
+      firestore() // Monthly Behavior Data
+        .collection('users')
+        .doc(user.uid)
+        .collection('Behaviors')
+        .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
+        .where('month', '==', i)
+        .where('selectedOption2', '==', 'Restlessness')
+        .where('data', '==', 'true')
+        .orderBy('date', 'asc')
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(documentSnapshot => {
+
+            restlessDurationMonth = restlessDurationMonth + documentSnapshot.data().restlessnessDuration
+
+          })
+          this.setState({ restlessDurM: update(this.state.restlessDurM, { [Math.abs(i - 11)]: { $set: restlessDurationMonth } }) })
+
+        })
+
+      firestore() // Monthly Behavior Data
+        .collection('users')
+        .doc(user.uid)
+        .collection('Behaviors')
+        .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
+        .where('month', '==', i)
+        .where('selectedOption2', '==', 'Refusal')
+        .where('data', '==', 'true')
+        .orderBy('date', 'asc')
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(documentSnapshot => {
+
+            refusalDurationMonth = refusalDurationMonth + documentSnapshot.data().refusalDuration
+
+          })
+
+          this.setState({ refusalDurM: update(this.state.refusalDurM, { [Math.abs(i - 11)]: { $set: refusalDurationMonth } }) })
+
+        })
+
+      firestore() // Monthly Behavior Data
+        .collection('users')
+        .doc(user.uid)
+        .collection('Behaviors')
+        .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
+        .where('month', '==', i)
+        .where('selectedOption2', '==', 'Yelling')
+        .where('data', '==', 'true')
+        .orderBy('date', 'asc')
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(documentSnapshot => {
+
+            yellingDurationMonth = yellingDurationMonth + documentSnapshot.data().yellingDuration
+
+          })
+
+          this.setState({ yellDurM: update(this.state.yellDurM, { [Math.abs(i - 11)]: { $set: yellingDurationMonth } }) })
+
+        })
+
+      firestore() // Monthly Behavior Data
+        .collection('users')
+        .doc(user.uid)
+        .collection('Behaviors')
+        .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
+        .where('month', '==', i)
+        .where('selectedOption2', '==', 'Wandering')
+        .where('data', '==', 'true')
+        .orderBy('date', 'asc')
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(documentSnapshot => {
+
+            wanderingDurationMonth = wanderingDurationMonth + documentSnapshot.data().wanderingDuration
+
+          })
+
+          this.setState({ wanderingDurM: update(this.state.wanderingDurM, { [Math.abs(i - 11)]: { $set: wanderingDurationMonth } }) })
+
+        })
+
+      firestore() // Monthly Behavior Data
+        .collection('users')
+        .doc(user.uid)
+        .collection('Behaviors')
+        .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
+        .where('month', '==', i)
+        .where('selectedOption2', '==', 'Hallucinations')
+        .where('data', '==', 'true')
+        .orderBy('date', 'asc')
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(documentSnapshot => {
+
+            hallucinationsDurationMonth = hallucinationsDurationMonth + documentSnapshot.data().hallucinationsDuration
+
+          })
+
+          this.setState({ hallucinationsDurM: update(this.state.hallucinationsDurM, { [Math.abs(i - 11)]: { $set: hallucinationsDurationMonth } }) })
+
+        })
+      restlessDurationMonth = 0
+      refusalDurationMonth = 0
+      yellingDurationMonth = 0
+      wanderingDurationMonth = 0
+      hallucinationsDurationMonth = 0
+    }
+
+
+
+    firestore() // Weekly sleep data for charts
       .collection('users')
       .doc(user.uid)
       .collection('Sleep')
@@ -271,8 +479,29 @@ class ChartScreen extends React.Component {
           })
       }
       )
+    for (i = 0; i < 12; i++) {
+      firestore() // Monthly Sleep Data
+        .collection('users')
+        .doc(user.uid)
+        .collection('Sleep')
+        .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
+        .where('month', '==', i)
+        .where('data', '==', 'true')
+        .orderBy('date', 'asc')
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(documentSnapshot => {
 
-    firestore()
+            sleepDurationMonth = sleepDurationMonth + documentSnapshot.data().duration
+
+          })
+
+          this.setState({ sleepDurM: update(this.state.sleepDurM, { [Math.abs(i - 11)]: { $set: sleepDurationMonth } }) })
+
+        })
+    }
+
+    firestore() // Weekly Bowel Data
       .collection('users')
       .doc(user.uid)
       .collection('Bowel')
@@ -340,6 +569,52 @@ class ChartScreen extends React.Component {
       }
       )
 
+    for (i = 0; i < 12; i++) {
+      firestore() // Monthly Bowel Data
+        .collection('users')
+        .doc(user.uid)
+        .collection('Bowel')
+        .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
+        .where('month', '==', i)
+        .where('selectedOption', '==', 'Stool')
+        .where('data', '==', 'true')
+        .orderBy('date', 'asc')
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(documentSnapshot => {
+
+            stoolTimesMonth = stoolTimesMonth + documentSnapshot.data().stoolTimes
+
+          })
+
+          this.setState({ stoolTimM: update(this.state.stoolTimM, { [Math.abs(i - 11)]: { $set: stoolTimesMonth } }) })
+
+        })
+    }
+
+    for (i = 0; i < 12; i++) {
+      firestore() // Monthly Bowel Data
+        .collection('users')
+        .doc(user.uid)
+        .collection('Bowel')
+        .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
+        .where('month', '==', i)
+        .where('selectedOption', '==', 'Urine')
+        .where('data', '==', 'true')
+        .orderBy('date', 'asc')
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(documentSnapshot => {
+
+            urineTimesMonth = urineTimesMonth + documentSnapshot.data().urineTimes
+
+          })
+
+          this.setState({ urineTimM: update(this.state.urineTimM, { [Math.abs(i - 11)]: { $set: urineTimesMonth } }) })
+
+        })
+    }
+
     firestore() //get all medicines into an array
       .collection('users')
       .doc(user.uid)
@@ -383,7 +658,7 @@ class ChartScreen extends React.Component {
                   querySnapshot.forEach(documentSnapshot => {
 
                     if (this.state.medicineCurrentWeek == documentSnapshot.data().week) {
-                      
+
                       for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
                         if (documentSnapshot.data().dayOfTheWeek == i) {
                           this.setState({ medicineAmountArray: update(this.state.medicineAmountArray, { [i]: { $set: documentSnapshot.data().amountConsumed } }) })
@@ -431,13 +706,58 @@ class ChartScreen extends React.Component {
                 })
 
             }
+
           }
           )
+
+        for (q = 0; q < this.state.medicineArray.length; q++) { // monthly medicine data
+          for (j = 0; j < 12; j++) {
+            firestore()
+              .collection('users')
+              .doc(user.uid)
+              .collection('Medicine')
+              .where('data', '==', 'true')
+              .where('selectedMedicine', '==', this.state.medicineArray[q])
+              .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
+              .where('month', '==', j)
+              .orderBy('date', 'asc')
+              .get()
+              .then(querySnapshot => {
+                querySnapshot.forEach(documentSnapshot => {
+
+                  medicineAmountMonth = medicineAmountMonth + documentSnapshot.data().amountConsumed
+
+                })
+
+                this.setState({ medicineAmountArrayM: update(this.state.medicineAmountArrayM, { [Math.abs(j - 11)]: { $set: medicineAmountMonth } }) })
+
+                this.setState({
+                  medicineAmountDatasetM: update(this.state.medicineAmountDatasetM, {
+                    [q]: {
+                      $set: {
+
+                        labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+                        datasets: [{ data: this.state.medicineAmountArrayM }]
+
+                      }
+                    }
+                  })
+
+                })
+               
+
+              })
+              this.setState({ medicineAmountArrayM: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] })
+
+          }
+
+        }
+
+
       })
 
 
   }
-
 
 
   render() {
@@ -472,6 +792,39 @@ class ChartScreen extends React.Component {
     let urineTimes = {
       labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       datasets: [{ data: this.state.urineTim }]
+    }
+
+    let restlessnessDurationM = {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [{ data: this.state.restlessDurM }]
+    }
+    let refusalDurationM = {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [{ data: this.state.refusalDurM }]
+    }
+    let yellingDurationM = {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [{ data: this.state.yellDurM }]
+    }
+    let wanderingDurationM = {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [{ data: this.state.wanderingDurM }]
+    }
+    let hallucinationsDurationM = {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [{ data: this.state.hallucinationsDurM }]
+    }
+    let sleepDurationM = {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [{ data: this.state.sleepDurM }]
+    }
+    let stoolTimesM = {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [{ data: this.state.stoolTimM }]
+    }
+    let urineTimesM = {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [{ data: this.state.urineTimM }]
     }
 
 
@@ -586,6 +939,7 @@ class ChartScreen extends React.Component {
     const width = Dimensions.get('window').width
     const height = 220
     let medicineArrayList = null
+    let medicineArrayListM = null
 
     medicineArrayList = this.state.medicineArray.map((medicine, index) =>
 
@@ -600,15 +954,6 @@ class ChartScreen extends React.Component {
           style={chartConfig[3].style}
           yAxisSuffix={this.state.medicineUnitArray[this.state.medicineArray.indexOf(medicine)]}
         />
-        <ContributionGraph
-          values={contributionData}
-          width={width}
-          height={height}
-          endDate={new Date('2016-05-01')}
-          numDays={105}
-          chartConfig={chartConfig[3]}
-          style={chartConfig[3].style}
-        />
         <LineChart
           data={this.state.medicineAmountDataset[this.state.medicineArray.indexOf(medicine)]}
           width={width - 15}
@@ -617,13 +962,29 @@ class ChartScreen extends React.Component {
           style={chartConfig[3].style}
           yAxisSuffix={this.state.medicineUnitArray[this.state.medicineArray.indexOf(medicine)]}
         />
-        <PieChart
-          data={pieChartData}
+      </View>
+    );
+
+    medicineArrayListM = this.state.medicineArray.map((medicine, index) =>
+
+      //call firestore function here and get all medicine data here for specific medicine
+      <View key={index} tabLabel={medicine.toString()}>
+        <BarChart
+          tabLabel={medicine.toString()}
+          width={width - 15}
           height={height}
-          width={width}
+          data={this.state.medicineAmountDatasetM[this.state.medicineArray.indexOf(medicine)]}
           chartConfig={chartConfig[3]}
-          accessor="population"
           style={chartConfig[3].style}
+          yAxisSuffix={this.state.medicineUnitArray[this.state.medicineArray.indexOf(medicine)]}
+        />
+        <LineChart
+          data={this.state.medicineAmountDatasetM[this.state.medicineArray.indexOf(medicine)]}
+          width={width - 15}
+          height={height}
+          chartConfig={chartConfig[3]}
+          style={chartConfig[3].style}
+          yAxisSuffix={this.state.medicineUnitArray[this.state.medicineArray.indexOf(medicine)]}
         />
       </View>
     );
@@ -637,286 +998,879 @@ class ChartScreen extends React.Component {
         style={{ paddingTop: '15%' }}
         initialPage={0}
       >
-        <Text //CHARTS FOR BEHAVIORS SCREEN
-          tabLabel={chartConfig[0].tabLabel}
-
+        <Text // Weekly Data
+          tabLabel='Week'
         >
-          <ScrollView
-            key={Math.random()}
-            style={{
-              backgroundColor: chartConfig[0].backgroundColor
-            }}
+
+
+          <ScrollableTabView
+            style={{ paddingTop: '3%' }}
+            initialPage={0}
           >
+            <Text //CHARTS FOR BEHAVIORS SCREEN
+              tabLabel={chartConfig[0].tabLabel}
 
-            <View style={{
-              flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30,
-              paddingBottom: 5
-            }}>
-              <Text style={{
-                paddingLeft: 20,
-                paddingRight: 10,
-              }}>
-                <Icon name="clock" size={30} color="#900" />
-              </Text>
-              <Text style={{
-                fontSize: 20,
-                color: '#000000',
-                fontWeight: "bold",
-                fontFamily: 'Verdana',
-              }}>
-                Behavior Duration
-              </Text>
-
-            </View>
-
-
-            <ScrollableTabView
-              initialPage={0}
-              style={{ backgroundColor: 'white' }}
-              tabBarTextStyle={{ fontSize: 10 }}
             >
-              <View tabLabel='Restless'>
-                <BarChart
-                  width={width - 15}
-                  height={height}
-                  data={restlessnessDuration}
-                  chartConfig={chartConfig[0]}
-                  style={chartConfig[0].style}
-                  yAxisSuffix=' min'
-                />
-                <LineChart
-                  data={restlessnessDuration}
-                  width={width}
-                  height={height}
-                  chartConfig={chartConfig[0]}
-                  style={chartConfig[0].style}
-                  yAxisSuffix=' min'
-                />
-              </View>
-              <View tabLabel='Refusal'>
-                <BarChart
-                  width={width - 15}
-                  height={height}
-                  data={refusalDuration}
-                  chartConfig={chartConfig[0]}
-                  style={chartConfig[0].style}
-                  yAxisSuffix=' min'
-                />
-                <LineChart
-                  data={refusalDuration}
-                  width={width}
-                  height={height}
-                  chartConfig={chartConfig[0]}
-                  style={chartConfig[0].style}
-                  yAxisSuffix=' min'
-                />
-              </View>
-              <View tabLabel='Yelling'>
-                <BarChart
-                  width={width - 15}
-                  height={height}
-                  data={yellingDuration}
-                  chartConfig={chartConfig[0]}
-                  style={chartConfig[0].style}
-                  yAxisSuffix=' min'
-                />
-                <LineChart
-                  data={yellingDuration}
-                  width={width}
-                  height={height}
-                  chartConfig={chartConfig[0]}
-                  style={chartConfig[0].style}
-                  yAxisSuffix=' min'
-                />
-              </View>
-              <View tabLabel='Wandering'>
-                <BarChart
-                  width={width - 15}
-                  height={height}
-                  data={wanderingDuration}
-                  chartConfig={chartConfig[0]}
-                  style={chartConfig[0].style}
-                  yAxisSuffix=' min'
-                />
-                <LineChart
-                  data={wanderingDuration}
-                  width={width}
-                  height={height}
-                  chartConfig={chartConfig[0]}
-                  style={chartConfig[0].style}
-                  yAxisSuffix=' min'
-                />
-              </View>
-              <View tabLabel='Hallucinations'>
-                <BarChart
-                  width={width - 15}
-                  height={height}
-                  data={hallucinationsDuration}
-                  chartConfig={chartConfig[0]}
-                  style={chartConfig[0].style}
-                  yAxisSuffix=' min'
-                />
-                <LineChart
-                  data={hallucinationsDuration}
-                  width={width}
-                  height={height}
-                  chartConfig={chartConfig[0]}
-                  style={chartConfig[0].style}
-                  yAxisSuffix=' min'
-                />
-              </View>
-            </ScrollableTabView>
-          </ScrollView>
-        </Text>
+              <ScrollView
+                key={Math.random()}
+                style={{
+                  backgroundColor: chartConfig[0].backgroundColor
+                }}
+              >
 
-        <Text //CHARTS FOR SLEEP SCREEN
-          tabLabel={chartConfig[1].tabLabel}
-        >
-          <ScrollView
-            key={Math.random()}
-            style={{
-              backgroundColor: 'white'
-            }}
-          >
-            <View style={{
-              flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30
-            }}>
-              <Text style={{
-                paddingLeft: 15,
-                paddingRight: 10,
-              }}>
-                <Icon name="clock" size={30} color="#900" />
-              </Text>
-              <Text style={{
-                fontSize: 20,
-                color: '#000000',
-                fontWeight: "bold",
-                fontFamily: 'Verdana',
-              }}>
-                Sleep Duration
-              </Text>
+                <View style={{
+                  flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30,
+                  paddingBottom: 5
+                }}>
+                  <Text style={{
+                    paddingLeft: 20,
+                    paddingRight: 10,
+                  }}>
+                    <Icon name="clock" size={30} color="#900" />
+                  </Text>
+                  <Text style={{
+                    fontSize: 20,
+                    color: '#000000',
+                    fontWeight: "bold",
+                    fontFamily: 'Verdana',
+                  }}>
+                    Behavior Duration
+                  </Text>
 
-            </View>
+                </View>
 
-            <BarChart
-              width={width}
-              height={height}
-              data={sleepDuration}
-              chartConfig={chartConfig[1]}
-              style={chartConfig[1].style}
-              yAxisSuffix=' Hrs'
-            />
-            <LineChart
-              data={sleepDuration}
-              width={width}
-              height={height}
-              chartConfig={chartConfig[1]}
-              style={chartConfig[1].style}
-              yAxisSuffix=' Hrs'
-            />
-          </ScrollView>
-        </Text>
 
-        <Text //CHARTS FOR BOWEL SCREEN
-          tabLabel={chartConfig[2].tabLabel}
-        >
-          <ScrollView
-            key={Math.random()}
-            style={{
-              backgroundColor: chartConfig[2].backgroundColor
-            }}
-          >
-            <View style={{
-              flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30, paddingLeft: 15, paddingBottom: 10
-            }}>
-              <Text style={{
-                fontSize: 20,
-                color: '#000000',
-                fontWeight: "bold",
-                fontFamily: 'Verdana',
-              }}>
-                Bowel Frequency
-              </Text>
+                <ScrollableTabView
+                  initialPage={0}
+                  style={{ backgroundColor: 'white' }}
+                  tabBarTextStyle={{ fontSize: 10 }}
+                >
+                  <View tabLabel='Restless'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={restlessnessDuration}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                    <LineChart
+                      data={restlessnessDuration}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                  </View>
+                  <View tabLabel='Refusal'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={refusalDuration}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                    <LineChart
+                      data={refusalDuration}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                  </View>
+                  <View tabLabel='Yelling'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={yellingDuration}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                    <LineChart
+                      data={yellingDuration}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                  </View>
+                  <View tabLabel='Wandering'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={wanderingDuration}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                    <LineChart
+                      data={wanderingDuration}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                  </View>
+                  <View tabLabel='Hallucinations'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={hallucinationsDuration}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                    <LineChart
+                      data={hallucinationsDuration}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                  </View>
+                </ScrollableTabView>
+              </ScrollView>
+            </Text>
 
-            </View>
-            <ScrollableTabView
-              initialPage={0}
-              style={{ backgroundColor: 'white' }}
+            <Text //CHARTS FOR SLEEP SCREEN
+              tabLabel={chartConfig[1].tabLabel}
             >
-              <View tabLabel='Stool'>
+              <ScrollView
+                key={Math.random()}
+                style={{
+                  backgroundColor: 'white'
+                }}
+              >
+                <View style={{
+                  flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30
+                }}>
+                  <Text style={{
+                    paddingLeft: 15,
+                    paddingRight: 10,
+                  }}>
+                    <Icon name="clock" size={30} color="#900" />
+                  </Text>
+                  <Text style={{
+                    fontSize: 20,
+                    color: '#000000',
+                    fontWeight: "bold",
+                    fontFamily: 'Verdana',
+                  }}>
+                    Sleep Duration
+                  </Text>
+
+                </View>
+
                 <BarChart
-                  width={width - 15}
-                  height={height}
-                  data={stoolTimes}
-                  chartConfig={chartConfig[2]}
-                  style={chartConfig[2].style}
-                />
-                <LineChart
-                  data={stoolTimes}
                   width={width}
                   height={height}
-                  chartConfig={chartConfig[2]}
-                  style={chartConfig[2].style}
-                />
-              </View>
-              <View tabLabel='Urine'>
-                <BarChart
-                  width={width - 15}
-                  height={height}
-                  data={urineTimes}
-                  chartConfig={chartConfig[2]}
-                  style={chartConfig[2].style}
+                  data={sleepDuration}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                  yAxisSuffix=' Hrs'
                 />
                 <LineChart
-                  data={urineTimes}
+                  data={sleepDuration}
                   width={width}
                   height={height}
-                  chartConfig={chartConfig[2]}
-                  style={chartConfig[2].style}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                  yAxisSuffix=' Hrs'
                 />
-              </View>
-            </ScrollableTabView>
-          </ScrollView>
-        </Text>
+              </ScrollView>
+            </Text>
 
-        <Text //CHARTS FOR MEDICATION SCREEN
-          tabLabel={chartConfig[3].tabLabel}
-        >
-          <ScrollView
-            key={Math.random()}
-            style={{
-              backgroundColor: chartConfig[3].backgroundColor
-            }}
-          >
-            <View style={{
-              flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30,
-              paddingBottom: 5
-            }}>
-              <Text style={{
-                paddingLeft: 20,
-                paddingRight: 10,
-              }}>
-              </Text>
-              <Text style={{
-                fontSize: 20,
-                color: '#000000',
-                fontWeight: "bold",
-                fontFamily: 'Verdana',
-              }}>
-                Medicine Intake
-              </Text>
-
-            </View>
-            <ScrollableTabView
-              initialPage={0}
-              style={{ backgroundColor: 'white' }}
-              tabBarTextStyle={{ fontSize: 10 }}
+            <Text //CHARTS FOR BOWEL SCREEN
+              tabLabel={chartConfig[2].tabLabel}
             >
-              {medicineArrayList}
-            </ScrollableTabView>
-          </ScrollView>
-        </Text>
+              <ScrollView
+                key={Math.random()}
+                style={{
+                  backgroundColor: chartConfig[2].backgroundColor
+                }}
+              >
+                <View style={{
+                  flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30, paddingLeft: 15, paddingBottom: 10
+                }}>
+                  <Text style={{
+                    fontSize: 20,
+                    color: '#000000',
+                    fontWeight: "bold",
+                    fontFamily: 'Verdana',
+                  }}>
+                    Bowel Frequency
+                  </Text>
 
+                </View>
+                <ScrollableTabView
+                  initialPage={0}
+                  style={{ backgroundColor: 'white' }}
+                >
+                  <View tabLabel='Stool'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={stoolTimes}
+                      chartConfig={chartConfig[2]}
+                      style={chartConfig[2].style}
+                    />
+                    <LineChart
+                      data={stoolTimes}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[2]}
+                      style={chartConfig[2].style}
+                    />
+                  </View>
+                  <View tabLabel='Urine'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={urineTimes}
+                      chartConfig={chartConfig[2]}
+                      style={chartConfig[2].style}
+                    />
+                    <LineChart
+                      data={urineTimes}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[2]}
+                      style={chartConfig[2].style}
+                    />
+                  </View>
+                </ScrollableTabView>
+              </ScrollView>
+            </Text>
+
+            <Text //CHARTS FOR MEDICATION SCREEN
+              tabLabel={chartConfig[3].tabLabel}
+            >
+              <ScrollView
+                key={Math.random()}
+                style={{
+                  backgroundColor: chartConfig[3].backgroundColor
+                }}
+              >
+                <View style={{
+                  flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30,
+                  paddingBottom: 5
+                }}>
+                  <Text style={{
+                    paddingLeft: 20,
+                    paddingRight: 10,
+                  }}>
+                  </Text>
+                  <Text style={{
+                    fontSize: 20,
+                    color: '#000000',
+                    fontWeight: "bold",
+                    fontFamily: 'Verdana',
+                  }}>
+                    Medicine Intake
+                  </Text>
+
+                </View>
+                <ScrollableTabView
+                  initialPage={0}
+                  style={{ backgroundColor: 'white' }}
+                  tabBarTextStyle={{ fontSize: 10 }}
+                >
+                  {medicineArrayList}
+                </ScrollableTabView>
+              </ScrollView>
+            </Text>
+
+          </ScrollableTabView>
+        </Text>
+        <Text //Monthly Data
+          tabLabel='Month'
+        >
+
+
+          <ScrollableTabView
+            style={{ paddingTop: '3%' }}
+            initialPage={0}
+          >
+            <Text //CHARTS FOR BEHAVIORS SCREEN
+              tabLabel={chartConfig[0].tabLabel}
+
+            >
+              <ScrollView
+                key={Math.random()}
+                style={{
+                  backgroundColor: chartConfig[0].backgroundColor
+                }}
+              >
+
+                <View style={{
+                  flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30,
+                  paddingBottom: 5
+                }}>
+                  <Text style={{
+                    paddingLeft: 20,
+                    paddingRight: 10,
+                  }}>
+                    <Icon name="clock" size={30} color="#900" />
+                  </Text>
+                  <Text style={{
+                    fontSize: 20,
+                    color: '#000000',
+                    fontWeight: "bold",
+                    fontFamily: 'Verdana',
+                  }}>
+                    Behavior Duration
+                  </Text>
+
+                </View>
+
+
+                <ScrollableTabView
+                  initialPage={0}
+                  style={{ backgroundColor: 'white' }}
+                  tabBarTextStyle={{ fontSize: 10 }}
+                >
+                  <View tabLabel='Restless'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={restlessnessDurationM}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                    <LineChart
+                      data={restlessnessDurationM}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                  </View>
+                  <View tabLabel='Refusal'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={refusalDurationM}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                    <LineChart
+                      data={refusalDurationM}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                  </View>
+                  <View tabLabel='Yelling'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={yellingDurationM}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                    <LineChart
+                      data={yellingDurationM}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                  </View>
+                  <View tabLabel='Wandering'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={wanderingDurationM}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                    <LineChart
+                      data={wanderingDurationM}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                  </View>
+                  <View tabLabel='Hallucinations'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={hallucinationsDurationM}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                    <LineChart
+                      data={hallucinationsDurationM}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                  </View>
+                </ScrollableTabView>
+              </ScrollView>
+            </Text>
+
+            <Text //CHARTS FOR SLEEP SCREEN
+              tabLabel={chartConfig[1].tabLabel}
+            >
+              <ScrollView
+                key={Math.random()}
+                style={{
+                  backgroundColor: 'white'
+                }}
+              >
+                <View style={{
+                  flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30
+                }}>
+                  <Text style={{
+                    paddingLeft: 15,
+                    paddingRight: 10,
+                  }}>
+                    <Icon name="clock" size={30} color="#900" />
+                  </Text>
+                  <Text style={{
+                    fontSize: 20,
+                    color: '#000000',
+                    fontWeight: "bold",
+                    fontFamily: 'Verdana',
+                  }}>
+                    Sleep Duration
+                  </Text>
+
+                </View>
+
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={sleepDurationM}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                  yAxisSuffix=' Hrs'
+                />
+                <LineChart
+                  data={sleepDurationM}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                  yAxisSuffix=' Hrs'
+                />
+              </ScrollView>
+            </Text>
+
+            <Text //CHARTS FOR BOWEL SCREEN
+              tabLabel={chartConfig[2].tabLabel}
+            >
+              <ScrollView
+                key={Math.random()}
+                style={{
+                  backgroundColor: chartConfig[2].backgroundColor
+                }}
+              >
+                <View style={{
+                  flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30, paddingLeft: 15, paddingBottom: 10
+                }}>
+                  <Text style={{
+                    fontSize: 20,
+                    color: '#000000',
+                    fontWeight: "bold",
+                    fontFamily: 'Verdana',
+                  }}>
+                    Bowel Frequency
+                  </Text>
+
+                </View>
+                <ScrollableTabView
+                  initialPage={0}
+                  style={{ backgroundColor: 'white' }}
+                >
+                  <View tabLabel='Stool'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={stoolTimesM}
+                      chartConfig={chartConfig[2]}
+                      style={chartConfig[2].style}
+                    />
+                    <LineChart
+                      data={stoolTimesM}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[2]}
+                      style={chartConfig[2].style}
+                    />
+                  </View>
+                  <View tabLabel='Urine'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={urineTimesM}
+                      chartConfig={chartConfig[2]}
+                      style={chartConfig[2].style}
+                    />
+                    <LineChart
+                      data={urineTimesM}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[2]}
+                      style={chartConfig[2].style}
+                    />
+                  </View>
+                </ScrollableTabView>
+              </ScrollView>
+            </Text>
+
+            <Text //CHARTS FOR MEDICATION SCREEN
+              tabLabel={chartConfig[3].tabLabel}
+            >
+              <ScrollView
+                key={Math.random()}
+                style={{
+                  backgroundColor: chartConfig[3].backgroundColor
+                }}
+              >
+                <View style={{
+                  flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30,
+                  paddingBottom: 5
+                }}>
+                  <Text style={{
+                    paddingLeft: 20,
+                    paddingRight: 10,
+                  }}>
+                  </Text>
+                  <Text style={{
+                    fontSize: 20,
+                    color: '#000000',
+                    fontWeight: "bold",
+                    fontFamily: 'Verdana',
+                  }}>
+                    Medicine Intake
+                  </Text>
+
+                </View>
+                <ScrollableTabView
+                  initialPage={0}
+                  style={{ backgroundColor: 'white' }}
+                  tabBarTextStyle={{ fontSize: 10 }}
+                >
+                  {medicineArrayListM}
+                </ScrollableTabView>
+              </ScrollView>
+            </Text>
+
+          </ScrollableTabView>
+        </Text>
+        <Text //Yearly Data
+          tabLabel='Year'
+        >
+
+
+          <ScrollableTabView
+            style={{ paddingTop: '3%' }}
+            initialPage={0}
+          >
+            <Text //CHARTS FOR BEHAVIORS SCREEN
+              tabLabel={chartConfig[0].tabLabel}
+
+            >
+              <ScrollView
+                key={Math.random()}
+                style={{
+                  backgroundColor: chartConfig[0].backgroundColor
+                }}
+              >
+
+                <View style={{
+                  flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30,
+                  paddingBottom: 5
+                }}>
+                  <Text style={{
+                    paddingLeft: 20,
+                    paddingRight: 10,
+                  }}>
+                    <Icon name="clock" size={30} color="#900" />
+                  </Text>
+                  <Text style={{
+                    fontSize: 20,
+                    color: '#000000',
+                    fontWeight: "bold",
+                    fontFamily: 'Verdana',
+                  }}>
+                    Behavior Duration
+                  </Text>
+
+                </View>
+
+
+                <ScrollableTabView
+                  initialPage={0}
+                  style={{ backgroundColor: 'white' }}
+                  tabBarTextStyle={{ fontSize: 10 }}
+                >
+                  <View tabLabel='Restless'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={restlessnessDuration}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                    <LineChart
+                      data={restlessnessDuration}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                  </View>
+                  <View tabLabel='Refusal'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={refusalDuration}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                    <LineChart
+                      data={refusalDuration}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                  </View>
+                  <View tabLabel='Yelling'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={yellingDuration}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                    <LineChart
+                      data={yellingDuration}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                  </View>
+                  <View tabLabel='Wandering'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={wanderingDuration}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                    <LineChart
+                      data={wanderingDuration}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                  </View>
+                  <View tabLabel='Hallucinations'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={hallucinationsDuration}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                    <LineChart
+                      data={hallucinationsDuration}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[0]}
+                      style={chartConfig[0].style}
+                      yAxisSuffix=' min'
+                    />
+                  </View>
+                </ScrollableTabView>
+              </ScrollView>
+            </Text>
+
+            <Text //CHARTS FOR SLEEP SCREEN
+              tabLabel={chartConfig[1].tabLabel}
+            >
+              <ScrollView
+                key={Math.random()}
+                style={{
+                  backgroundColor: 'white'
+                }}
+              >
+                <View style={{
+                  flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30
+                }}>
+                  <Text style={{
+                    paddingLeft: 15,
+                    paddingRight: 10,
+                  }}>
+                    <Icon name="clock" size={30} color="#900" />
+                  </Text>
+                  <Text style={{
+                    fontSize: 20,
+                    color: '#000000',
+                    fontWeight: "bold",
+                    fontFamily: 'Verdana',
+                  }}>
+                    Sleep Duration
+                  </Text>
+
+                </View>
+
+                <BarChart
+                  width={width}
+                  height={height}
+                  data={sleepDuration}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                  yAxisSuffix=' Hrs'
+                />
+                <LineChart
+                  data={sleepDuration}
+                  width={width}
+                  height={height}
+                  chartConfig={chartConfig[1]}
+                  style={chartConfig[1].style}
+                  yAxisSuffix=' Hrs'
+                />
+              </ScrollView>
+            </Text>
+
+            <Text //CHARTS FOR BOWEL SCREEN
+              tabLabel={chartConfig[2].tabLabel}
+            >
+              <ScrollView
+                key={Math.random()}
+                style={{
+                  backgroundColor: chartConfig[2].backgroundColor
+                }}
+              >
+                <View style={{
+                  flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30, paddingLeft: 15, paddingBottom: 10
+                }}>
+                  <Text style={{
+                    fontSize: 20,
+                    color: '#000000',
+                    fontWeight: "bold",
+                    fontFamily: 'Verdana',
+                  }}>
+                    Bowel Frequency
+                  </Text>
+
+                </View>
+                <ScrollableTabView
+                  initialPage={0}
+                  style={{ backgroundColor: 'white' }}
+                >
+                  <View tabLabel='Stool'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={stoolTimes}
+                      chartConfig={chartConfig[2]}
+                      style={chartConfig[2].style}
+                    />
+                    <LineChart
+                      data={stoolTimes}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[2]}
+                      style={chartConfig[2].style}
+                    />
+                  </View>
+                  <View tabLabel='Urine'>
+                    <BarChart
+                      width={width - 15}
+                      height={height}
+                      data={urineTimes}
+                      chartConfig={chartConfig[2]}
+                      style={chartConfig[2].style}
+                    />
+                    <LineChart
+                      data={urineTimes}
+                      width={width}
+                      height={height}
+                      chartConfig={chartConfig[2]}
+                      style={chartConfig[2].style}
+                    />
+                  </View>
+                </ScrollableTabView>
+              </ScrollView>
+            </Text>
+
+            <Text //CHARTS FOR MEDICATION SCREEN
+              tabLabel={chartConfig[3].tabLabel}
+            >
+              <ScrollView
+                key={Math.random()}
+                style={{
+                  backgroundColor: chartConfig[3].backgroundColor
+                }}
+              >
+                <View style={{
+                  flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', paddingTop: 30,
+                  paddingBottom: 5
+                }}>
+                  <Text style={{
+                    paddingLeft: 20,
+                    paddingRight: 10,
+                  }}>
+                  </Text>
+                  <Text style={{
+                    fontSize: 20,
+                    color: '#000000',
+                    fontWeight: "bold",
+                    fontFamily: 'Verdana',
+                  }}>
+                    Medicine Intake
+                  </Text>
+
+                </View>
+                <ScrollableTabView
+                  initialPage={0}
+                  style={{ backgroundColor: 'white' }}
+                  tabBarTextStyle={{ fontSize: 10 }}
+                >
+                  {medicineArrayList}
+                </ScrollableTabView>
+              </ScrollView>
+            </Text>
+
+          </ScrollableTabView>
+        </Text>
       </ScrollableTabView>
 
     );

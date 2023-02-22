@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useId } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -23,6 +23,8 @@ const permissions = {
       AppleHealthKit.Constants.Permissions.HeartRate,
       AppleHealthKit.Constants.Permissions.StepCount,
       AppleHealthKit.Constants.Permissions.Workout,
+      AppleHealthKit.Constants.Permissions.SleepAnalysis,
+
     ],
     write: [AppleHealthKit.Constants.Permissions.Steps],
   },
@@ -41,7 +43,7 @@ AppleHealthKit.initHealthKit(permissions, (error: string) => {
 export default function HealthScreen() {
   const [authStatus, setAuthStatus] = useState<any>({});
 
-  useEffect(() => {
+  useEffect(() => { //WHY DO WE EVEN WANT HEALTH DATA? So that we can track patterns in confluence with the patients other behaviors
     const stepCountOptions = {
       date: new Date().toISOString(), // optional; default now
     };
@@ -102,6 +104,7 @@ export default function HealthScreen() {
       console.log(results)
     })
 
+ 
   });
 
   const handlePressGetAuthStatus = () => {

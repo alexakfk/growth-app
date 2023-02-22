@@ -294,7 +294,9 @@ const BowelLog = (navigation) => {
                   dayOfTheWeek: dayOfTheWeek,
                   week: week,
                   stoolTimes: stoolTimes,
-                  data: 'true'
+                  data: 'true',
+                  month: new Date().getMonth(),
+                  year: new Date().getFullYear()
                 })
 
             })
@@ -343,7 +345,9 @@ const BowelLog = (navigation) => {
                   dayOfTheWeek: dayOfTheWeek,
                   week: week2,
                   urineTimes: urineTimes,
-                  data: 'true'
+                  data: 'true',
+                  month: new Date().getMonth(),
+                  year: new Date().getFullYear()
                 })
 
             })

@@ -204,7 +204,9 @@ const BehaviorScreen = (navigation) => {
                   dayOfTheWeek: dayOfTheWeek,
                   week: week,
                   restlessnessDuration: restlessnessDuration,
-                  data: 'true'
+                  data: 'true',
+                  month: new Date().getMonth(),
+                  year: new Date().getFullYear()
                 })
 
             })
@@ -253,7 +255,9 @@ const BehaviorScreen = (navigation) => {
                   dayOfTheWeek: dayOfTheWeek,
                   week: week2,
                   refusalDuration: refusalDuration,
-                  data: 'true'
+                  data: 'true',
+                  month: new Date().getMonth(),
+                  year: new Date().getFullYear()
                 })
 
             })
@@ -302,7 +306,9 @@ const BehaviorScreen = (navigation) => {
                   dayOfTheWeek: dayOfTheWeek,
                   week: week3,
                   yellingDuration: yellingDuration,
-                  data: 'true'
+                  data: 'true',
+                  month: new Date().getMonth(),
+                  year: new Date().getFullYear()
                 })
 
             })
@@ -351,7 +357,9 @@ const BehaviorScreen = (navigation) => {
                   dayOfTheWeek: dayOfTheWeek,
                   week: week4,
                   wanderingDuration: wanderingDuration,
-                  data: 'true'
+                  data: 'true',
+                  month: new Date().getMonth(),
+                  year: new Date().getFullYear()
                 })
 
             })
@@ -400,7 +408,9 @@ const BehaviorScreen = (navigation) => {
                   dayOfTheWeek: dayOfTheWeek,
                   week: week5,
                   hallucinationsDuration: hallucinationsDuration,
-                  data: 'true'
+                  data: 'true',
+                  month: new Date().getMonth(),
+                  year: new Date().getFullYear()
                 })
 
             })

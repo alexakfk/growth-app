@@ -157,7 +157,9 @@ const MedicineScreen = (navigation) => {
                 week: week,
                 amountConsumed: selectedMedicineAmount,
                 unit: units,
-                data: 'true'
+                data: 'true',
+                month: new Date().getMonth(),
+                year: new Date().getFullYear()
               })
 
           })
