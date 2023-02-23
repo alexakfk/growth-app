@@ -154,6 +154,7 @@ class ChartScreen extends React.Component {
     let stoolTimesMonth = 0
     let urineTimesMonth = 0
     let medicineAmountMonth = 0
+    let selectedMedicine = null
 
 
 
@@ -711,46 +712,47 @@ class ChartScreen extends React.Component {
           )
 
         for (q = 0; q < this.state.medicineArray.length; q++) { // monthly medicine data
-          for (j = 0; j < 12; j++) {
-            firestore()
-              .collection('users')
-              .doc(user.uid)
-              .collection('Medicine')
-              .where('data', '==', 'true')
-              .where('selectedMedicine', '==', this.state.medicineArray[q])
-              .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
-              .where('month', '==', j)
-              .orderBy('date', 'asc')
-              .get()
-              .then(querySnapshot => {
+
+          firestore()
+            .collection('users')
+            .doc(user.uid)
+            .collection('Medicine')
+            .where('data', '==', 'true')
+            .where('selectedMedicine', '==', this.state.medicineArray[q])
+            .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              for (j = 0; j < 12; j++) {
                 querySnapshot.forEach(documentSnapshot => {
-
+                 if(documentSnapshot.data().month == j){
                   medicineAmountMonth = medicineAmountMonth + documentSnapshot.data().amountConsumed
-
+                 }
+                 selectedMedicine = documentSnapshot.data().selectedMedicine
                 })
+                this.setState({ medicineAmountArrayM: update(this.state.medicineAmountArrayM, { [j]: { $set: medicineAmountMonth } }) })
+                console.log(this.state.medicineAmountArrayM)
+                medicineAmountMonth = 0
+              }
 
-                this.setState({ medicineAmountArrayM: update(this.state.medicineAmountArrayM, { [Math.abs(j - 11)]: { $set: medicineAmountMonth } }) })
+              let l = this.state.medicineArray.indexOf(selectedMedicine)
+              this.setState({
+                medicineAmountDatasetM: update(this.state.medicineAmountDatasetM, {
+                  [l]: {
+                    $set: {
 
-                this.setState({
-                  medicineAmountDatasetM: update(this.state.medicineAmountDatasetM, {
-                    [q]: {
-                      $set: {
+                      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+                      datasets: [{ data: this.state.medicineAmountArrayM }]
 
-                        labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-                        datasets: [{ data: this.state.medicineAmountArrayM }]
-
-                      }
                     }
-                  })
-
+                  }
                 })
-               
 
               })
-              this.setState({ medicineAmountArrayM: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] })
+              console.log(this.state.medicineAmountDatasetM)
 
-          }
-
+            })
+          this.setState({ medicineAmountArrayM: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] })
         }
 
 
@@ -969,15 +971,6 @@ class ChartScreen extends React.Component {
 
       //call firestore function here and get all medicine data here for specific medicine
       <View key={index} tabLabel={medicine.toString()}>
-        <BarChart
-          tabLabel={medicine.toString()}
-          width={width - 15}
-          height={height}
-          data={this.state.medicineAmountDatasetM[this.state.medicineArray.indexOf(medicine)]}
-          chartConfig={chartConfig[3]}
-          style={chartConfig[3].style}
-          yAxisSuffix={this.state.medicineUnitArray[this.state.medicineArray.indexOf(medicine)]}
-        />
         <LineChart
           data={this.state.medicineAmountDatasetM[this.state.medicineArray.indexOf(medicine)]}
           width={width - 15}
@@ -1337,14 +1330,6 @@ class ChartScreen extends React.Component {
                   tabBarTextStyle={{ fontSize: 10 }}
                 >
                   <View tabLabel='Restless'>
-                    <BarChart
-                      width={width - 15}
-                      height={height}
-                      data={restlessnessDurationM}
-                      chartConfig={chartConfig[0]}
-                      style={chartConfig[0].style}
-                      yAxisSuffix=' min'
-                    />
                     <LineChart
                       data={restlessnessDurationM}
                       width={width}
@@ -1355,14 +1340,6 @@ class ChartScreen extends React.Component {
                     />
                   </View>
                   <View tabLabel='Refusal'>
-                    <BarChart
-                      width={width - 15}
-                      height={height}
-                      data={refusalDurationM}
-                      chartConfig={chartConfig[0]}
-                      style={chartConfig[0].style}
-                      yAxisSuffix=' min'
-                    />
                     <LineChart
                       data={refusalDurationM}
                       width={width}
@@ -1373,14 +1350,6 @@ class ChartScreen extends React.Component {
                     />
                   </View>
                   <View tabLabel='Yelling'>
-                    <BarChart
-                      width={width - 15}
-                      height={height}
-                      data={yellingDurationM}
-                      chartConfig={chartConfig[0]}
-                      style={chartConfig[0].style}
-                      yAxisSuffix=' min'
-                    />
                     <LineChart
                       data={yellingDurationM}
                       width={width}
@@ -1391,14 +1360,6 @@ class ChartScreen extends React.Component {
                     />
                   </View>
                   <View tabLabel='Wandering'>
-                    <BarChart
-                      width={width - 15}
-                      height={height}
-                      data={wanderingDurationM}
-                      chartConfig={chartConfig[0]}
-                      style={chartConfig[0].style}
-                      yAxisSuffix=' min'
-                    />
                     <LineChart
                       data={wanderingDurationM}
                       width={width}
@@ -1409,14 +1370,6 @@ class ChartScreen extends React.Component {
                     />
                   </View>
                   <View tabLabel='Hallucinations'>
-                    <BarChart
-                      width={width - 15}
-                      height={height}
-                      data={hallucinationsDurationM}
-                      chartConfig={chartConfig[0]}
-                      style={chartConfig[0].style}
-                      yAxisSuffix=' min'
-                    />
                     <LineChart
                       data={hallucinationsDurationM}
                       width={width}
@@ -1459,14 +1412,6 @@ class ChartScreen extends React.Component {
 
                 </View>
 
-                <BarChart
-                  width={width}
-                  height={height}
-                  data={sleepDurationM}
-                  chartConfig={chartConfig[1]}
-                  style={chartConfig[1].style}
-                  yAxisSuffix=' Hrs'
-                />
                 <LineChart
                   data={sleepDurationM}
                   width={width}
@@ -1505,13 +1450,6 @@ class ChartScreen extends React.Component {
                   style={{ backgroundColor: 'white' }}
                 >
                   <View tabLabel='Stool'>
-                    <BarChart
-                      width={width - 15}
-                      height={height}
-                      data={stoolTimesM}
-                      chartConfig={chartConfig[2]}
-                      style={chartConfig[2].style}
-                    />
                     <LineChart
                       data={stoolTimesM}
                       width={width}
@@ -1521,13 +1459,6 @@ class ChartScreen extends React.Component {
                     />
                   </View>
                   <View tabLabel='Urine'>
-                    <BarChart
-                      width={width - 15}
-                      height={height}
-                      data={urineTimesM}
-                      chartConfig={chartConfig[2]}
-                      style={chartConfig[2].style}
-                    />
                     <LineChart
                       data={urineTimesM}
                       width={width}
