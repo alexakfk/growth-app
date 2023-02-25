@@ -61,9 +61,9 @@ const SleepScreen = (navigation) => {
   const [endDate, setEndDate] = useState(new Date());
   const [open2, setOpen2] = useState(false)
   const [notes, setNotes] = React.useState("");
-  var am_pm1 = startDate.getHours() >= 12 ? "PM" : "AM";
-  var am_pm2 = startDate.getHours() >= 12 ? "PM" : "AM";
   const user = auth().currentUser
+  let am_pm1 = startDate.getHours() >= 12 ? "PM" : "AM";
+  let am_pm2 = endDate.getHours() >= 12 ? "PM" : "AM";
 
   const onPress = () => {
     console.log(startDate.getMonth() + '/' + startDate.getDate() + '/' + startDate.getFullYear())
@@ -158,7 +158,7 @@ const SleepScreen = (navigation) => {
                   duration: sleepDuration,
                   data: 'true',
                   month: new Date().getMonth(),
-                  year: new Date().getFullYear()
+                  year: new Date().getFullYear().toString()
                 })
 
             })
@@ -172,39 +172,43 @@ const SleepScreen = (navigation) => {
     <View style={styles.container}>
     <Text style={styles.title}>Sleep</Text>
         <View style={styles.timeContainer}>
-        <Text style={styles.sub}>Sleep Start Time:</Text>
+        <Text style={styles.sub}>Yesterday's Bedtime:</Text>
         <Button title="Open" onPress={() => setOpen1(true)} />
       <DatePicker
         modal
+        mode="time"
         open={open1}
         date={startDate}
         onConfirm={(startDate) => {
           setOpen1(false)
           setStartDate(startDate)
+          am_pm1 = startDate.getHours() >= 12 ? "PM" : "AM";
         }}
         onCancel={() => {
           setOpen1(false)
         }}
       />
-      <Text>{startDate.getMonth() + '/' + startDate.getDate() + '/' + startDate.getFullYear()} {startDate.getHours() + ':' + startDate.getMinutes() + am_pm1}</Text>
+      <Text>{startDate.getHours() + ':' + startDate.getMinutes() + am_pm1}</Text>
     </View>
 
     <View style={styles.timeContainer}>
-      <Text style={styles.sub}>Sleep End Time:</Text>
+      <Text style={styles.sub}>Wake Up Time:</Text>
       <Button title="Open" onPress={() => setOpen2(true)} />
       <DatePicker
         modal
+        mode="time"
         open={open2}
         date={endDate}
         onConfirm={(endDate) => {
           setOpen2(false)
           setEndDate(endDate)
+          am_pm2 = endDate.getHours() >= 12 ? "PM" : "AM";
         }}
         onCancel={() => {
           setOpen2(false)
         }}
       />
-      <Text>{endDate.getMonth() + '/' + endDate.getDate() + '/' + endDate.getFullYear()} {endDate.getHours() + ':' + endDate.getMinutes() + am_pm2}</Text>
+      <Text>{endDate.getHours() + ':' + endDate.getMinutes() + am_pm2}</Text>
       </View>
 
       <TextInput

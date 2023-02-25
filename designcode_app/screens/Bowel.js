@@ -296,7 +296,7 @@ const BowelLog = (navigation) => {
                   stoolTimes: stoolTimes,
                   data: 'true',
                   month: new Date().getMonth(),
-                  year: new Date().getFullYear()
+                  year: new Date().getFullYear().toString()
                 })
 
             })
@@ -347,7 +347,7 @@ const BowelLog = (navigation) => {
                   urineTimes: urineTimes,
                   data: 'true',
                   month: new Date().getMonth(),
-                  year: new Date().getFullYear()
+                  year: new Date().getFullYear().toString()
                 })
 
             })

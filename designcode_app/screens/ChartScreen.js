@@ -124,7 +124,14 @@ class ChartScreen extends React.Component {
       yellDurY: [],
       wanderingDurY: [],
       hallucinationsDurY: [],
-      behaviorYearArray: []
+      behaviorYearArray: [],
+      sleepYearArray: [],
+      sleepDurY: [],
+      bowelYearArray: [],
+      urineTimY: [],
+      stoolTimY: [],
+      medicationYearArray: []
+
     }
   }
 
@@ -168,7 +175,11 @@ class ChartScreen extends React.Component {
     let yellingDurationYear = 0
     let wanderingDurationYear = 0
     let hallucinationsDurationYear = 0
-  
+    let sleepDurationYear = 0
+    let urineTimesYear = 0
+    let stoolTimesYear = 0
+
+
 
 
 
@@ -355,7 +366,7 @@ class ChartScreen extends React.Component {
         .collection('users')
         .doc(user.uid)
         .collection('Behaviors')
-        .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
+        .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
         .where('month', '==', i)
         .where('selectedOption2', '==', 'Restlessness')
         .where('data', '==', 'true')
@@ -365,9 +376,9 @@ class ChartScreen extends React.Component {
           querySnapshot.forEach(documentSnapshot => {
 
             restlessDurationMonth = restlessDurationMonth + documentSnapshot.data().restlessnessDuration
-
+            this.setState({ restlessDurM: update(this.state.restlessDurM, { [documentSnapshot.data().month]: { $set: restlessDurationMonth } }) })
           })
-          this.setState({ restlessDurM: update(this.state.restlessDurM, { [Math.abs(i - 11)]: { $set: restlessDurationMonth } }) })
+
 
         })
 
@@ -375,7 +386,7 @@ class ChartScreen extends React.Component {
         .collection('users')
         .doc(user.uid)
         .collection('Behaviors')
-        .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
+        .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
         .where('month', '==', i)
         .where('selectedOption2', '==', 'Refusal')
         .where('data', '==', 'true')
@@ -385,10 +396,10 @@ class ChartScreen extends React.Component {
           querySnapshot.forEach(documentSnapshot => {
 
             refusalDurationMonth = refusalDurationMonth + documentSnapshot.data().refusalDuration
-
+            this.setState({ refusalDurM: update(this.state.refusalDurM, { [documentSnapshot.data().month]: { $set: refusalDurationMonth } }) })
           })
 
-          this.setState({ refusalDurM: update(this.state.refusalDurM, { [Math.abs(i - 11)]: { $set: refusalDurationMonth } }) })
+
 
         })
 
@@ -396,7 +407,7 @@ class ChartScreen extends React.Component {
         .collection('users')
         .doc(user.uid)
         .collection('Behaviors')
-        .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
+        .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
         .where('month', '==', i)
         .where('selectedOption2', '==', 'Yelling')
         .where('data', '==', 'true')
@@ -406,18 +417,16 @@ class ChartScreen extends React.Component {
           querySnapshot.forEach(documentSnapshot => {
 
             yellingDurationMonth = yellingDurationMonth + documentSnapshot.data().yellingDuration
+            this.setState({ yellDurM: update(this.state.yellDurM, { [documentSnapshot.data().month]: { $set: yellingDurationMonth } }) })
 
           })
-
-          this.setState({ yellDurM: update(this.state.yellDurM, { [Math.abs(i - 11)]: { $set: yellingDurationMonth } }) })
-
         })
 
       firestore() // Monthly Behavior Data
         .collection('users')
         .doc(user.uid)
         .collection('Behaviors')
-        .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
+        .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
         .where('month', '==', i)
         .where('selectedOption2', '==', 'Wandering')
         .where('data', '==', 'true')
@@ -427,18 +436,18 @@ class ChartScreen extends React.Component {
           querySnapshot.forEach(documentSnapshot => {
 
             wanderingDurationMonth = wanderingDurationMonth + documentSnapshot.data().wanderingDuration
+            this.setState({ wanderingDurM: update(this.state.wanderingDurM, { [documentSnapshot.data().month]: { $set: wanderingDurationMonth } }) })
 
           })
 
-          this.setState({ wanderingDurM: update(this.state.wanderingDurM, { [Math.abs(i - 11)]: { $set: wanderingDurationMonth } }) })
-
+          
         })
 
       firestore() // Monthly Behavior Data
         .collection('users')
         .doc(user.uid)
         .collection('Behaviors')
-        .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
+        .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
         .where('month', '==', i)
         .where('selectedOption2', '==', 'Hallucinations')
         .where('data', '==', 'true')
@@ -448,11 +457,11 @@ class ChartScreen extends React.Component {
           querySnapshot.forEach(documentSnapshot => {
 
             hallucinationsDurationMonth = hallucinationsDurationMonth + documentSnapshot.data().hallucinationsDuration
+            this.setState({ hallucinationsDurM: update(this.state.hallucinationsDurM, { [documentSnapshot.data().month]: { $set: hallucinationsDurationMonth } }) })
 
           })
 
-          this.setState({ hallucinationsDurM: update(this.state.hallucinationsDurM, { [Math.abs(i - 11)]: { $set: hallucinationsDurationMonth } }) })
-
+          
         })
       restlessDurationMonth = 0
       refusalDurationMonth = 0
@@ -471,17 +480,17 @@ class ChartScreen extends React.Component {
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
 
-          behaviorYearArray = [...behaviorYearArray, documentSnapshot.data().year]
-
+          this.setState({ behaviorYearArray: [...this.state.behaviorYearArray, documentSnapshot.data().year] })
         })
-        behaviorYearArray = [...new Set(behaviorYearArray)]
+        this.setState({ behaviorYearArray: [...new Set(this.state.behaviorYearArray)] })
+        console.log(this.state.behaviorYearArray)
 
-        for (i = 0; i < behaviorYearArray.length; i++) {
+        for (i = 0; i < this.state.behaviorYearArray.length; i++) {
           firestore() // Yearly Behavior Data
             .collection('users')
             .doc(user.uid)
             .collection('Behaviors')
-            .where('year', '==', behaviorYearArray[i]) //order by date, where year is this year
+            .where('year', '==', this.state.behaviorYearArray[i]) //order by date, where year is this year
             .where('selectedOption2', '==', 'Restlessness')
             .where('data', '==', 'true')
             .orderBy('date', 'asc')
@@ -490,23 +499,24 @@ class ChartScreen extends React.Component {
               querySnapshot.forEach(documentSnapshot => {
 
                 restlessDurationYear = restlessDurationYear + documentSnapshot.data().restlessnessDuration
+                console.log(restlessDurationYear)
+
+
+                this.setState({ restlessDurY: update(this.state.restlessDurY, { [this.state.behaviorYearArray.indexOf(documentSnapshot.data().year)]: { $set: restlessDurationYear } }) })
+                console.log(this.state.restlessDurY)
+
 
               })
-              if (restlessDurationYear != 0) {
-                this.setState({ restlessDurY: update(this.state.restlessDurY, { [i]: { $set: restlessDurationYear } }) })
-              }
-              else {
-                this.setState({ restlessDurY: update(this.state.restlessDurY, { [i]: { $set: 0 } }) })
-              }
+
               restlessDurationYear = 0
 
             })
 
-            firestore() // Yearly Behavior Data
+          firestore() // Yearly Behavior Data
             .collection('users')
             .doc(user.uid)
             .collection('Behaviors')
-            .where('year', '==', behaviorYearArray[i]) //order by date, where year is this year
+            .where('year', '==', this.state.behaviorYearArray[i]) //order by date, where year is this year
             .where('selectedOption2', '==', 'Refusal')
             .where('data', '==', 'true')
             .orderBy('date', 'asc')
@@ -515,23 +525,25 @@ class ChartScreen extends React.Component {
               querySnapshot.forEach(documentSnapshot => {
 
                 refusalDurationYear = refusalDurationYear + documentSnapshot.data().refusalDuration
+                console.log(refusalDurationYear)
+
+
+                this.setState({ refusalDurY: update(this.state.refusalDurY, { [this.state.behaviorYearArray.indexOf(documentSnapshot.data().year)]: { $set: refusalDurationYear } }) })
+                console.log(this.state.refusalDurY)
+
+
 
               })
-              if (refusalDurationYear != 0) {
-                this.setState({ refusalDurY: update(this.state.refusalDurY, { [i]: { $set: refusalDurationYear } }) })
-              }
-              else {
-                this.setState({ refusalDurY: update(this.state.refusalDurY, { [i]: { $set: 0 } }) })
-              }
+
               refusalDurationYear = 0
 
             })
 
-            firestore() // Yearly Behavior Data
+          firestore() // Yearly Behavior Data
             .collection('users')
             .doc(user.uid)
             .collection('Behaviors')
-            .where('year', '==', behaviorYearArray[i]) //order by date, where year is this year
+            .where('year', '==', this.state.behaviorYearArray[i]) //order by date, where year is this year
             .where('selectedOption2', '==', 'Yelling')
             .where('data', '==', 'true')
             .orderBy('date', 'asc')
@@ -540,23 +552,24 @@ class ChartScreen extends React.Component {
               querySnapshot.forEach(documentSnapshot => {
 
                 yellingDurationYear = yellingDurationYear + documentSnapshot.data().yellingDuration
+                console.log(yellingDurationYear)
+
+
+                this.setState({ yellDurY: update(this.state.yellDurY, { [this.state.behaviorYearArray.indexOf(documentSnapshot.data().year)]: { $set: yellingDurationYear } }) })
+                console.log(this.state.yellDurY)
+
 
               })
-              if (yellingDurationYear != 0) {
-                this.setState({ yellDurY: update(this.state.yellDurY, { [i]: { $set: yellingDurationYear } }) })
-              }
-              else {
-                this.setState({ yellDurY: update(this.state.yellDurY, { [i]: { $set: 0 } }) })
-              }
+
               yellingDurationYear = 0
 
             })
 
-            firestore() // Yearly Behavior Data
+          firestore() // Yearly Behavior Data
             .collection('users')
             .doc(user.uid)
             .collection('Behaviors')
-            .where('year', '==', behaviorYearArray[i]) //order by date, where year is this year
+            .where('year', '==', this.state.behaviorYearArray[i]) //order by date, where year is this year
             .where('selectedOption2', '==', 'Wandering')
             .where('data', '==', 'true')
             .orderBy('date', 'asc')
@@ -565,23 +578,24 @@ class ChartScreen extends React.Component {
               querySnapshot.forEach(documentSnapshot => {
 
                 wanderingDurationYear = wanderingDurationYear + documentSnapshot.data().wanderingDuration
+                console.log(wanderingDurationYear)
+
+
+                this.setState({ wanderingDurY: update(this.state.wanderingDurY, { [this.state.behaviorYearArray.indexOf(documentSnapshot.data().year)]: { $set: wanderingDurationYear } }) })
+                console.log(this.state.wanderingDurY)
+
 
               })
-              if (wanderingDurationYear != 0) {
-                this.setState({ wanderingDurY: update(this.state.wanderingDurY, { [i]: { $set: wanderingDurationYear } }) })
-              }
-              else {
-                this.setState({ wanderingDurY: update(this.state.wanderingDurY, { [i]: { $set: 0 } }) })
-              }
+
               wanderingDurationYear = 0
 
             })
 
-            firestore() // Yearly Behavior Data
+          firestore() // Yearly Behavior Data
             .collection('users')
             .doc(user.uid)
             .collection('Behaviors')
-            .where('year', '==', behaviorYearArray[i]) //order by date, where year is this year
+            .where('year', '==', this.state.behaviorYearArray[i]) //order by date, where year is this year
             .where('selectedOption2', '==', 'Hallucinations')
             .where('data', '==', 'true')
             .orderBy('date', 'asc')
@@ -590,14 +604,15 @@ class ChartScreen extends React.Component {
               querySnapshot.forEach(documentSnapshot => {
 
                 hallucinationsDurationYear = hallucinationsDurationYear + documentSnapshot.data().hallucinationsDuration
+                console.log(hallucinationsDurationYear)
+
+
+                this.setState({ hallucinationsDurY: update(this.state.hallucinationsDurY, { [this.state.behaviorYearArray.indexOf(documentSnapshot.data().year)]: { $set: hallucinationsDurationYear } }) })
+                console.log(this.state.hallucinationsDurY)
+
 
               })
-              if (hallucinationsDurationYear != 0) {
-                this.setState({ hallucinationsDurY: update(this.state.hallucinationsDurY, { [i]: { $set: hallucinationsDurationYear } }) })
-              }
-              else {
-                this.setState({ hallucinationsDurY: update(this.state.hallucinationsDurY, { [i]: { $set: 0 } }) })
-              }
+
               hallucinationsDurationYear = 0
 
             })
@@ -639,12 +654,14 @@ class ChartScreen extends React.Component {
           })
       }
       )
+
+
     for (i = 0; i < 12; i++) {
       firestore() // Monthly Sleep Data
         .collection('users')
         .doc(user.uid)
         .collection('Sleep')
-        .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
+        .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
         .where('month', '==', i)
         .where('data', '==', 'true')
         .orderBy('date', 'asc')
@@ -653,13 +670,53 @@ class ChartScreen extends React.Component {
           querySnapshot.forEach(documentSnapshot => {
 
             sleepDurationMonth = sleepDurationMonth + documentSnapshot.data().duration
-
+            this.setState({ sleepDurM: update(this.state.sleepDurM, { [documentSnapshot.data().month]: { $set: sleepDurationMonth } }) })
           })
 
-          this.setState({ sleepDurM: update(this.state.sleepDurM, { [Math.abs(i - 11)]: { $set: sleepDurationMonth } }) })
+         
 
         })
     }
+
+    firestore() // Yearly Sleep Data
+      .collection('users')
+      .doc(user.uid)
+      .collection('Sleep')
+      .where('data', '==', 'true')
+      .orderBy('date', 'asc')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+
+          this.setState({ sleepYearArray: [...this.state.sleepYearArray, documentSnapshot.data().year] })
+        })
+        this.setState({ sleepYearArray: [...new Set(this.state.sleepYearArray)] })
+        console.log(this.state.sleepYearArray)
+
+        for (i = 0; i < this.state.sleepYearArray.length; i++) {
+          firestore() // Yearly Sleep Data
+            .collection('users')
+            .doc(user.uid)
+            .collection('Sleep')
+            .where('year', '==', this.state.sleepYearArray[i]) //order by date, where year is this year
+            .where('data', '==', 'true')
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+
+                sleepDurationYear = sleepDurationYear + documentSnapshot.data().duration
+                console.log(sleepDurationYear)
+                this.setState({ sleepDurY: update(this.state.sleepDurY, { [this.state.sleepYearArray.indexOf(documentSnapshot.data().year)]: { $set: sleepDurationYear } }) })
+                console.log(this.state.sleepDurY)
+              })
+              sleepDurationYear = 0
+            })
+
+        }
+
+      })
+
 
     firestore() // Weekly Bowel Data
       .collection('users')
@@ -694,6 +751,8 @@ class ChartScreen extends React.Component {
           })
       }
       )
+
+
 
     firestore()
       .collection('users')
@@ -734,7 +793,7 @@ class ChartScreen extends React.Component {
         .collection('users')
         .doc(user.uid)
         .collection('Bowel')
-        .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
+        .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
         .where('month', '==', i)
         .where('selectedOption', '==', 'Stool')
         .where('data', '==', 'true')
@@ -744,10 +803,10 @@ class ChartScreen extends React.Component {
           querySnapshot.forEach(documentSnapshot => {
 
             stoolTimesMonth = stoolTimesMonth + documentSnapshot.data().stoolTimes
-
+            this.setState({ stoolTimM: update(this.state.stoolTimM, { [documentSnapshot.data().month]: { $set: stoolTimesMonth } }) })
           })
 
-          this.setState({ stoolTimM: update(this.state.stoolTimM, { [Math.abs(i - 11)]: { $set: stoolTimesMonth } }) })
+          
 
         })
     }
@@ -757,7 +816,7 @@ class ChartScreen extends React.Component {
         .collection('users')
         .doc(user.uid)
         .collection('Bowel')
-        .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
+        .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
         .where('month', '==', i)
         .where('selectedOption', '==', 'Urine')
         .where('data', '==', 'true')
@@ -767,13 +826,77 @@ class ChartScreen extends React.Component {
           querySnapshot.forEach(documentSnapshot => {
 
             urineTimesMonth = urineTimesMonth + documentSnapshot.data().urineTimes
-
+            this.setState({ urineTimM: update(this.state.urineTimM, { [documentSnapshot.data().month]: { $set: urineTimesMonth } }) })
           })
 
-          this.setState({ urineTimM: update(this.state.urineTimM, { [Math.abs(i - 11)]: { $set: urineTimesMonth } }) })
+          
 
         })
     }
+
+    firestore() // Yearly Stool Data
+      .collection('users')
+      .doc(user.uid)
+      .collection('Bowel')
+      .where('selectedOption', '==', 'Stool')
+      .where('data', '==', 'true')
+      .orderBy('date', 'asc')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+
+          this.setState({ bowelYearArray: [...this.state.bowelYearArray, documentSnapshot.data().year] })
+        })
+        this.setState({ bowelYearArray: [...new Set(this.state.bowelYearArray)] })
+        console.log(this.state.bowelYearArray)
+
+        for (i = 0; i < this.state.bowelYearArray.length; i++) {
+          firestore() // Yearly Stool Data
+            .collection('users')
+            .doc(user.uid)
+            .collection('Bowel')
+            .where('year', '==', this.state.bowelYearArray[i]) //order by date, where year is this year
+            .where('selectedOption', '==', 'Stool')
+            .where('data', '==', 'true')
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+
+                stoolTimesYear = stoolTimesYear + documentSnapshot.data().stoolTimes
+                console.log(stoolTimesYear)
+                this.setState({ stoolTimY: update(this.state.stoolTimY, { [this.state.bowelYearArray.indexOf(documentSnapshot.data().year)]: { $set: stoolTimesYear } }) })
+                console.log(this.state.stoolTimY)
+              })
+
+              stoolTimesYear = 0
+
+            })
+
+          firestore() // Yearly Urine Data
+            .collection('users')
+            .doc(user.uid)
+            .collection('Bowel')
+            .where('year', '==', this.state.bowelYearArray[i]) //order by date, where year is this year
+            .where('data', '==', 'true')
+            .where('selectedOption', '==', 'Urine')
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+
+                urineTimesYear = urineTimesYear + documentSnapshot.data().urineTimes
+                this.setState({ urineTimY: update(this.state.urineTimY, { [this.state.bowelYearArray.indexOf(documentSnapshot.data().year)]: { $set: urineTimesYear } }) })
+
+              })
+
+            })
+
+          urineTimesYear = 0
+
+        }
+
+      })
 
     firestore() //get all medicines into an array
       .collection('users')
@@ -994,20 +1117,35 @@ class ChartScreen extends React.Component {
       datasets: [{ data: this.state.restlessDurY }]
     }
     let refusalDurationY = {
-      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      labels: this.state.behaviorYearArray,
       datasets: [{ data: this.state.refusalDurY }]
     }
     let yellingDurationY = {
-      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      labels: this.state.behaviorYearArray,
       datasets: [{ data: this.state.yellDurY }]
     }
     let wanderingDurationY = {
-      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      labels: this.state.behaviorYearArray,
       datasets: [{ data: this.state.wanderingDurY }]
     }
     let hallucinationsDurationY = {
-      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      labels: this.state.behaviorYearArray,
       datasets: [{ data: this.state.hallucinationsDurY }]
+    }
+
+    let sleepDurationY = {
+      labels: this.state.sleepYearArray,
+      datasets: [{ data: this.state.sleepDurY }]
+    }
+
+    let stoolTimesY = {
+      labels: this.state.bowelYearArray,
+      datasets: [{ data: this.state.stoolTimY }]
+    }
+
+    let urineTimesY = {
+      labels: this.state.bowelYearArray,
+      datasets: [{ data: this.state.urineTimY }]
     }
 
 
@@ -1136,6 +1274,7 @@ class ChartScreen extends React.Component {
           chartConfig={chartConfig[3]}
           style={chartConfig[3].style}
           yAxisSuffix={this.state.medicineUnitArray[this.state.medicineArray.indexOf(medicine)]}
+          fromZero='true'
         />
         <LineChart
           data={this.state.medicineAmountDataset[this.state.medicineArray.indexOf(medicine)]}
@@ -1144,6 +1283,7 @@ class ChartScreen extends React.Component {
           chartConfig={chartConfig[3]}
           style={chartConfig[3].style}
           yAxisSuffix={this.state.medicineUnitArray[this.state.medicineArray.indexOf(medicine)]}
+          fromZero='true'
         />
       </View>
     );
@@ -1159,6 +1299,7 @@ class ChartScreen extends React.Component {
           chartConfig={chartConfig[3]}
           style={chartConfig[3].style}
           yAxisSuffix={this.state.medicineUnitArray[this.state.medicineArray.indexOf(medicine)]}
+          fromZero='true'
         />
       </View>
     );
@@ -1227,6 +1368,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                     <LineChart
                       data={restlessnessDuration}
@@ -1235,6 +1377,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                   </View>
                   <View tabLabel='Refusal'>
@@ -1245,6 +1388,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                     <LineChart
                       data={refusalDuration}
@@ -1252,7 +1396,7 @@ class ChartScreen extends React.Component {
                       height={height}
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
-                      yAxisSuffix=' min'
+                      fromZero='true'
                     />
                   </View>
                   <View tabLabel='Yelling'>
@@ -1263,6 +1407,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                     <LineChart
                       data={yellingDuration}
@@ -1271,6 +1416,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                   </View>
                   <View tabLabel='Wandering'>
@@ -1281,6 +1427,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                     <LineChart
                       data={wanderingDuration}
@@ -1289,6 +1436,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                   </View>
                   <View tabLabel='Hallucinations'>
@@ -1299,6 +1447,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                     <LineChart
                       data={hallucinationsDuration}
@@ -1307,6 +1456,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                   </View>
                 </ScrollableTabView>
@@ -1349,6 +1499,7 @@ class ChartScreen extends React.Component {
                   chartConfig={chartConfig[1]}
                   style={chartConfig[1].style}
                   yAxisSuffix=' Hrs'
+                  fromZero='true'
                 />
                 <LineChart
                   data={sleepDuration}
@@ -1357,6 +1508,7 @@ class ChartScreen extends React.Component {
                   chartConfig={chartConfig[1]}
                   style={chartConfig[1].style}
                   yAxisSuffix=' Hrs'
+                  fromZero='true'
                 />
               </ScrollView>
             </Text>
@@ -1394,6 +1546,7 @@ class ChartScreen extends React.Component {
                       data={stoolTimes}
                       chartConfig={chartConfig[2]}
                       style={chartConfig[2].style}
+                      fromZero='true'
                     />
                     <LineChart
                       data={stoolTimes}
@@ -1401,6 +1554,7 @@ class ChartScreen extends React.Component {
                       height={height}
                       chartConfig={chartConfig[2]}
                       style={chartConfig[2].style}
+                      fromZero='true'
                     />
                   </View>
                   <View tabLabel='Urine'>
@@ -1410,6 +1564,7 @@ class ChartScreen extends React.Component {
                       data={urineTimes}
                       chartConfig={chartConfig[2]}
                       style={chartConfig[2].style}
+                      fromZero='true'
                     />
                     <LineChart
                       data={urineTimes}
@@ -1417,6 +1572,7 @@ class ChartScreen extends React.Component {
                       height={height}
                       chartConfig={chartConfig[2]}
                       style={chartConfig[2].style}
+                      fromZero='true'
                     />
                   </View>
                 </ScrollableTabView>
@@ -1518,6 +1674,8 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
+
                     />
                   </View>
                   <View tabLabel='Refusal'>
@@ -1538,6 +1696,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                   </View>
                   <View tabLabel='Wandering'>
@@ -1558,6 +1717,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                   </View>
                 </ScrollableTabView>
@@ -1600,6 +1760,7 @@ class ChartScreen extends React.Component {
                   chartConfig={chartConfig[1]}
                   style={chartConfig[1].style}
                   yAxisSuffix=' Hrs'
+                  fromZero='true'
                 />
               </ScrollView>
             </Text>
@@ -1637,6 +1798,7 @@ class ChartScreen extends React.Component {
                       height={height}
                       chartConfig={chartConfig[2]}
                       style={chartConfig[2].style}
+                      fromZero='true'
                     />
                   </View>
                   <View tabLabel='Urine'>
@@ -1747,6 +1909,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                     <LineChart
                       data={restlessnessDurationY}
@@ -1755,6 +1918,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                   </View>
                   <View tabLabel='Refusal'>
@@ -1765,6 +1929,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                     <LineChart
                       data={refusalDurationY}
@@ -1773,6 +1938,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                   </View>
                   <View tabLabel='Yelling'>
@@ -1783,6 +1949,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                     <LineChart
                       data={yellingDurationY}
@@ -1791,7 +1958,9 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
+
                   </View>
                   <View tabLabel='Wandering'>
                     <BarChart
@@ -1801,6 +1970,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                     <LineChart
                       data={wanderingDurationY}
@@ -1809,6 +1979,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                   </View>
                   <View tabLabel='Hallucinations'>
@@ -1819,6 +1990,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                     <LineChart
                       data={hallucinationsDurationY}
@@ -1827,6 +1999,7 @@ class ChartScreen extends React.Component {
                       chartConfig={chartConfig[0]}
                       style={chartConfig[0].style}
                       yAxisSuffix=' min'
+                      fromZero='true'
                     />
                   </View>
                 </ScrollableTabView>
@@ -1865,18 +2038,20 @@ class ChartScreen extends React.Component {
                 <BarChart
                   width={width}
                   height={height}
-                  data={sleepDuration}
+                  data={sleepDurationY}
                   chartConfig={chartConfig[1]}
                   style={chartConfig[1].style}
                   yAxisSuffix=' Hrs'
+                  fromZero='true'
                 />
                 <LineChart
-                  data={sleepDuration}
+                  data={sleepDurationY}
                   width={width}
                   height={height}
                   chartConfig={chartConfig[1]}
                   style={chartConfig[1].style}
                   yAxisSuffix=' Hrs'
+                  fromZero='true'
                 />
               </ScrollView>
             </Text>
@@ -1911,33 +2086,38 @@ class ChartScreen extends React.Component {
                     <BarChart
                       width={width - 15}
                       height={height}
-                      data={stoolTimes}
+                      data={stoolTimesY}
                       chartConfig={chartConfig[2]}
                       style={chartConfig[2].style}
+                      fromZero='true'
                     />
                     <LineChart
-                      data={stoolTimes}
+                      data={stoolTimesY}
                       width={width}
                       height={height}
                       chartConfig={chartConfig[2]}
                       style={chartConfig[2].style}
+                      fromZero='true'
                     />
                   </View>
                   <View tabLabel='Urine'>
                     <BarChart
                       width={width - 15}
                       height={height}
-                      data={urineTimes}
+                      data={urineTimesY}
                       chartConfig={chartConfig[2]}
                       style={chartConfig[2].style}
+                      fromZero='true'
                     />
                     <LineChart
-                      data={urineTimes}
+                      data={urineTimesY}
                       width={width}
                       height={height}
                       chartConfig={chartConfig[2]}
                       style={chartConfig[2].style}
+                      fromZero='true'
                     />
+
                   </View>
                 </ScrollableTabView>
               </ScrollView>
