@@ -77,9 +77,7 @@ class ChartScreen extends React.Component {
       sleepDurM: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       stoolTimM: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       urineTimM: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      medicineArrayM: [], //all unique selected medicine
       medicineAmountArrayM: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      medicineUnitArrayM: [], // all selected units
       medicineCurrentWeekM: null, // all current weeks of medicines
       medicineAmountDatasetM: [
         {
@@ -118,7 +116,10 @@ class ChartScreen extends React.Component {
           labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
           datasets: [{ data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }]
         },
-      ], //data for charts
+      ],
+      medicineAmountArrayY: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //data for charts
+      medicineAmountDatasetY: [],
+      medicineYearArray: [],
       restlessDurY: [], // data for monthly charts
       refusalDurY: [],
       yellDurY: [],
@@ -178,6 +179,7 @@ class ChartScreen extends React.Component {
     let sleepDurationYear = 0
     let urineTimesYear = 0
     let stoolTimesYear = 0
+    let medicineAmountYear = 0
 
 
 
@@ -440,7 +442,7 @@ class ChartScreen extends React.Component {
 
           })
 
-          
+
         })
 
       firestore() // Monthly Behavior Data
@@ -461,7 +463,7 @@ class ChartScreen extends React.Component {
 
           })
 
-          
+
         })
       restlessDurationMonth = 0
       refusalDurationMonth = 0
@@ -673,7 +675,7 @@ class ChartScreen extends React.Component {
             this.setState({ sleepDurM: update(this.state.sleepDurM, { [documentSnapshot.data().month]: { $set: sleepDurationMonth } }) })
           })
 
-         
+
 
         })
     }
@@ -806,7 +808,7 @@ class ChartScreen extends React.Component {
             this.setState({ stoolTimM: update(this.state.stoolTimM, { [documentSnapshot.data().month]: { $set: stoolTimesMonth } }) })
           })
 
-          
+
 
         })
     }
@@ -829,7 +831,7 @@ class ChartScreen extends React.Component {
             this.setState({ urineTimM: update(this.state.urineTimM, { [documentSnapshot.data().month]: { $set: urineTimesMonth } }) })
           })
 
-          
+
 
         })
     }
@@ -1035,6 +1037,61 @@ class ChartScreen extends React.Component {
 
             })
           this.setState({ medicineAmountArrayM: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] })
+        }
+
+        for (q = 0; q < this.state.medicineArray.length; q++) { // yearly medicine data
+
+          firestore()
+            .collection('users')
+            .doc(user.uid)
+            .collection('Medicine')
+            .where('data', '==', 'true')
+            .where('selectedMedicine', '==', this.state.medicineArray[q])
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+                this.setState({ medicineYearArray: [...this.state.medicineYearArray, documentSnapshot.data().year] })
+              })
+              this.setState({ medicineYearArray: [...new Set(this.state.medicineYearArray)] })
+              console.log(this.state.medicineYearArray)
+
+              for (i = 0; i < this.state.medicineYearArray.length; i++) {
+
+                firestore()
+                  .collection('users')
+                  .doc(user.uid)
+                  .collection('Medicine')
+                  .where('data', '==', 'true')
+                  .where('year', '==', this.state.medicineYearArray[i])
+                  .orderBy('date', 'asc')
+                  .get()
+                  .then(querySnapshot => {
+                    querySnapshot.forEach(documentSnapshot => {
+                      medicineAmountYear = medicineAmountYear + documentSnapshot.data().amountConsumed
+                      this.setState({ medicineAmountArrayY: update(this.state.medicineAmountArrayY, { [this.state.medicineYearArray.indexOf(documentSnapshot.data().year)]: { $set: medicineAmountYear } }) })
+                      this.setState({
+                        medicineAmountDatasetY: update(this.state.medicineAmountDatasetY, {
+                          [this.state.medicineArray.indexOf(documentSnapshot.data().selectedMedicine)]: {
+                            $set: {
+                              labels: this.state.medicineYearArray,
+                              datasets: [{ data: this.state.medicineAmountArrayY }]
+                            }
+                          }
+                        })
+
+                      })
+                    })
+                    medicineAmountYear = 0
+
+                  })
+
+
+              }
+            })
+          this.setState({ medicineAmountArrayY: [] })
+          this.setState({ medicineYearArray: []})
+
         }
 
 
@@ -1261,6 +1318,7 @@ class ChartScreen extends React.Component {
     const height = 220
     let medicineArrayList = null
     let medicineArrayListM = null
+    let medicineArrayListY = null
 
     medicineArrayList = this.state.medicineArray.map((medicine, index) =>
 
@@ -1294,6 +1352,31 @@ class ChartScreen extends React.Component {
       <View key={index} tabLabel={medicine.toString()}>
         <LineChart
           data={this.state.medicineAmountDatasetM[this.state.medicineArray.indexOf(medicine)]}
+          width={width - 15}
+          height={height}
+          chartConfig={chartConfig[3]}
+          style={chartConfig[3].style}
+          yAxisSuffix={this.state.medicineUnitArray[this.state.medicineArray.indexOf(medicine)]}
+          fromZero='true'
+        />
+      </View>
+    );
+
+    medicineArrayListY = this.state.medicineArray.map((medicine, index) =>
+      //call firestore function here and get all medicine data here for specific medicine
+      <View key={index} tabLabel={medicine.toString()}>
+        <BarChart
+          tabLabel={medicine.toString()}
+          width={width - 15}
+          height={height}
+          data={this.state.medicineAmountDatasetY[this.state.medicineArray.indexOf(medicine)]}
+          chartConfig={chartConfig[3]}
+          style={chartConfig[3].style}
+          yAxisSuffix={this.state.medicineUnitArray[this.state.medicineArray.indexOf(medicine)]}
+          fromZero='true'
+        />
+        <LineChart
+          data={this.state.medicineAmountDatasetY[this.state.medicineArray.indexOf(medicine)]}
           width={width - 15}
           height={height}
           chartConfig={chartConfig[3]}
@@ -2156,7 +2239,7 @@ class ChartScreen extends React.Component {
                   style={{ backgroundColor: 'white' }}
                   tabBarTextStyle={{ fontSize: 10 }}
                 >
-                  {medicineArrayList}
+                  {medicineArrayListY}
                 </ScrollableTabView>
               </ScrollView>
             </Text>
