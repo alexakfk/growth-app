@@ -1040,7 +1040,6 @@ class ChartScreen extends React.Component {
         }
 
         for (q = 0; q < this.state.medicineArray.length; q++) { // yearly medicine data
-
           firestore()
             .collection('users')
             .doc(user.uid)
@@ -1049,15 +1048,15 @@ class ChartScreen extends React.Component {
             .where('selectedMedicine', '==', this.state.medicineArray[q])
             .orderBy('date', 'asc')
             .get()
-            .then(querySnapshot => {
+            .then(querySnapshot => {             
               querySnapshot.forEach(documentSnapshot => {
                 this.setState({ medicineYearArray: [...this.state.medicineYearArray, documentSnapshot.data().year] })
               })
               this.setState({ medicineYearArray: [...new Set(this.state.medicineYearArray)] })
               console.log(this.state.medicineYearArray)
-
+              
               for (i = 0; i < this.state.medicineYearArray.length; i++) {
-
+                
                 firestore()
                   .collection('users')
                   .doc(user.uid)
@@ -1081,6 +1080,7 @@ class ChartScreen extends React.Component {
                         })
 
                       })
+                      console.log(medicineAmountYear)
                     })
                     medicineAmountYear = 0
 
