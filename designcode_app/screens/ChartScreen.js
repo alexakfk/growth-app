@@ -117,7 +117,7 @@ class ChartScreen extends React.Component {
           datasets: [{ data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }]
         },
       ],
-      medicineAmountArrayY: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //data for charts
+      medicineAmountArrayY: [], //data for charts
       medicineAmountDatasetY: [],
       medicineYearArray: [],
       restlessDurY: [], // data for monthly charts
@@ -1039,64 +1039,70 @@ class ChartScreen extends React.Component {
           this.setState({ medicineAmountArrayM: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] })
         }
 
-        for (q = 0; q < this.state.medicineArray.length; q++) { // yearly medicine data
-          firestore()
-            .collection('users')
-            .doc(user.uid)
-            .collection('Medicine')
-            .where('data', '==', 'true')
-            .where('selectedMedicine', '==', this.state.medicineArray[q])
-            .orderBy('date', 'asc')
-            .get()
-            .then(querySnapshot => {             
-              querySnapshot.forEach(documentSnapshot => {
-                this.setState({ medicineYearArray: [...this.state.medicineYearArray, documentSnapshot.data().year] })
-              })
-              this.setState({ medicineYearArray: [...new Set(this.state.medicineYearArray)] })
-              console.log(this.state.medicineYearArray)
-              
-              for (i = 0; i < this.state.medicineYearArray.length; i++) {
-                
-                firestore()
-                  .collection('users')
-                  .doc(user.uid)
-                  .collection('Medicine')
-                  .where('data', '==', 'true')
-                  .where('year', '==', this.state.medicineYearArray[i])
-                  .orderBy('date', 'asc')
-                  .get()
-                  .then(querySnapshot => {
-                    querySnapshot.forEach(documentSnapshot => {
-                      medicineAmountYear = medicineAmountYear + documentSnapshot.data().amountConsumed
-                      this.setState({ medicineAmountArrayY: update(this.state.medicineAmountArrayY, { [this.state.medicineYearArray.indexOf(documentSnapshot.data().year)]: { $set: medicineAmountYear } }) })
-                      this.setState({
-                        medicineAmountDatasetY: update(this.state.medicineAmountDatasetY, {
-                          [this.state.medicineArray.indexOf(documentSnapshot.data().selectedMedicine)]: {
-                            $set: {
-                              labels: this.state.medicineYearArray,
-                              datasets: [{ data: this.state.medicineAmountArrayY }]
-                            }
-                          }
-                        })
-
-                      })
-                      console.log(medicineAmountYear)
-                    })
-                    medicineAmountYear = 0
-
-                  })
-
-
-              }
-            })
-          this.setState({ medicineAmountArrayY: [] })
-          this.setState({ medicineYearArray: []})
-
-        }
-
 
       })
 
+    firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('Medicine')
+      .where('data', '==', 'true')
+      .orderBy('date', 'asc')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          this.setState({ medicineArray: [...this.state.medicineArray, documentSnapshot.data().selectedMedicine] })
+          this.setState({ medicineYearArray: [...this.state.medicineYearArray, documentSnapshot.data().year] })
+
+        })
+        this.setState({ medicineYearArray: [...new Set(this.state.medicineYearArray)] })
+        uniqueMedicineArray = [...new Set(this.state.medicineArray)]
+        this.setState({ medicineArray: uniqueMedicineArray })
+
+        for (q = 0; q < this.state.medicineArray.length; q++) { // yearly medicine data
+
+            firestore()
+              .collection('users')
+              .doc(user.uid)
+              .collection('Medicine')
+              .where('data', '==', 'true')
+              .where('selectedMedicine', '==', this.state.medicineArray[q])
+              .orderBy('date', 'asc')
+              .get()
+              .then(querySnapshot => {
+                for (i = 0; i < this.state.medicineYearArray.length; i++) {
+                querySnapshot.forEach(documentSnapshot => {
+                  medicineAmountYear = medicineAmountYear + documentSnapshot.data().amountConsumed
+                  if (documentSnapshot.data().year != this.state.medicineYearArray[i]) {
+                    this.setState({ medicineAmountArrayY: update(this.state.medicineAmountArrayY, { [i]: { $set: 0 } }) })
+                  }
+                  else {
+                    this.setState({ medicineAmountArrayY: update(this.state.medicineAmountArrayY, { [this.state.medicineYearArray.indexOf(documentSnapshot.data().year)]: { $set: medicineAmountYear } }) })
+                  }
+
+                  this.setState({
+                    medicineAmountDatasetY: update(this.state.medicineAmountDatasetY, {
+                      [this.state.medicineArray.indexOf(documentSnapshot.data().selectedMedicine)]: {
+                        $set: {
+                          labels: this.state.medicineYearArray,
+                          datasets: [{ data: this.state.medicineAmountArrayY }]
+                        }
+                      }
+                    })
+                  })
+                  
+                })
+                console.log(medicineAmountYear)
+                console.log(this.state.medicineAmountArrayY)
+                medicineAmountYear = 0
+              }
+              })
+          
+
+        }
+
+      })
+    console.log(this.state.medicineYearArray)
 
   }
 
