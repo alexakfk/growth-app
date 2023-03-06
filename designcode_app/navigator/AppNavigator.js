@@ -10,6 +10,8 @@ import MedicineScreen from "../screens/Medicine";
 import LoginScreen from "../screens/LoginScreen";
 import ChartScreen from "../screens/ChartScreen";
 import HealthScreen from "../screens/HealthScreen"
+import NotificationScreen from "../screens/NotificationScreen";
+
 
 const AppNavigator = createStackNavigator({
   Login: LoginScreen,
@@ -21,7 +23,9 @@ const AppNavigator = createStackNavigator({
   AddSleep: SleepScreen,
   AddBowel: BowelScreen,
   AddMedicine: MedicineScreen,
+  Notification: NotificationScreen,
   Health: HealthScreen,
+    
 },
 {
   initialRouteName: 'Login'

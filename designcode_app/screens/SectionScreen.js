@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { StyleSheet, Pressable, ScrollView, Dimensions, Button, View } from "react-native";
+import { StyleSheet, Pressable, ScrollView, Dimensions, Button, View, TouchableOpacity } from "react-native";
 import { LineChart, ProgressChart, BarChart, PieChart, ContributionGraph, StatusBar } from "react-native-chart-kit";
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import Icon from 'react-native-vector-icons/AntDesign'; //heart
-
+import { Ionicons } from "@expo/vector-icons";
 
 
 
@@ -23,7 +23,16 @@ class SectionScreen extends React.Component {
 
       <ScrollView>
         <Container>
-          <Name>{section.name}</Name>
+          <View>
+            <Name>{section.name}</Name>
+            <TouchableOpacity style={{ position: "absolute", right: 30, top: 70 }}
+              onPress={() => {
+                this.props.navigation.navigate("Notification");
+              }}
+            >
+              <Ionicons name="heart" size={40} color='red' />
+            </TouchableOpacity>
+          </View>
           <Close>
             <Text>Personal Information:</Text>
             <Info>
