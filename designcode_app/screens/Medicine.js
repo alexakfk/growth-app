@@ -6,7 +6,8 @@ import {
   FlatList,
   TouchableOpacity,
   ScrollView,
-  SafeAreaView
+  SafeAreaView,
+  Dimensions
 } from "react-native";
 import axios from "axios";
 import { Picker } from '@react-native-picker/picker';
@@ -19,7 +20,7 @@ const styles = EStyleSheet.create({
     padding: "1rem",
     flexDirection: "column",
     alignItems: "stretch",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   title: {
     fontSize: 30,
@@ -48,7 +49,8 @@ const styles = EStyleSheet.create({
   },
   picker1: {
     flex: 1,
-    marginRight: "0.5rem"
+    marginRight: "0.5rem",
+    zIndex: 0,
   },
   picker2: {
     flex: 1
@@ -69,6 +71,11 @@ const MedicineScreen = (navigation) => {
   const [amountConsumed, setAmountConsumed] = useState("");
   const [units, setUnits] = useState("");
   const user = auth().currentUser
+
+  viewabilityConfig = {
+    waitForInteraction: true,
+    viewAreaCoveragePercentThreshold: 55
+  } 
 
   const handleSubmit = () => {
     console.log(`${selectedMedicine}: ${amountConsumed} ${units}`)
@@ -94,6 +101,7 @@ const MedicineScreen = (navigation) => {
     let daysOfTheWeekArray = []
     let week = null
     let days = null
+    
 
     firestore()
       .collection('users')
@@ -189,7 +197,11 @@ const MedicineScreen = (navigation) => {
     );
   }, [selectedMedicine]);
 
+  const width = Dimensions.get('window').width
+  const height = Dimensions.get('window').height
+
   return (
+    
     <SafeAreaView>
     <ScrollView>
       <View style={styles.container}>
@@ -208,6 +220,9 @@ const MedicineScreen = (navigation) => {
               <Text>{item.name}</Text>
             </TouchableOpacity>
           )}
+          style = {{zIndex: 1, position: 'absolute', left: 30, top: 100, width: width, height: height}}
+          viewabilityConfig={viewabilityConfig}
+          
         />
         {!!selectedMedicine && (
           <Text style={styles.selectedMedicine}>

@@ -131,7 +131,8 @@ class ChartScreen extends React.Component {
       bowelYearArray: [],
       urineTimY: [],
       stoolTimY: [],
-      medicationYearArray: []
+      medicationYearArray: [],
+      restlessDataArray: []
 
     }
   }
@@ -202,7 +203,19 @@ class ChartScreen extends React.Component {
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
           weekArray = [...weekArray, documentSnapshot.data().week] //go through all documents, put each week number in an array
+
+          this.setState({ restlessDataArray: [...this.state.restlessDataArray, documentSnapshot.data().restlessnessDuration] })
+
+          if (documentSnapshot.data().week > 5) {
+            let n = this.state.restlessDataArray.length
+            let restlessWeekAverage = this.state.restlessDataArray.reduce((a, b) => a + b) / n
+            console.log(restlessWeekAverage)
+            let restlessWeekDeviation = Math.sqrt(Math.pow(documentSnapshot.data().restlessnessDuration - restlessWeekAverage, 2))
+            console.log('i' + restlessWeekDeviation)
+          }
         })
+
+
         currentWeek = weekArray[(weekArray.length - 1)] //go through all data in array, get the week of last data in array
 
         firestore() //do another firestore() get()
@@ -1061,16 +1074,16 @@ class ChartScreen extends React.Component {
 
         for (q = 0; q < this.state.medicineArray.length; q++) { // yearly medicine data
 
-            firestore()
-              .collection('users')
-              .doc(user.uid)
-              .collection('Medicine')
-              .where('data', '==', 'true')
-              .where('selectedMedicine', '==', this.state.medicineArray[q])
-              .orderBy('date', 'asc')
-              .get()
-              .then(querySnapshot => {
-                for (i = 0; i < this.state.medicineYearArray.length; i++) {
+          firestore()
+            .collection('users')
+            .doc(user.uid)
+            .collection('Medicine')
+            .where('data', '==', 'true')
+            .where('selectedMedicine', '==', this.state.medicineArray[q])
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              for (i = 0; i < this.state.medicineYearArray.length; i++) {
                 querySnapshot.forEach(documentSnapshot => {
                   medicineAmountYear = medicineAmountYear + documentSnapshot.data().amountConsumed
                   if (documentSnapshot.data().year != this.state.medicineYearArray[i]) {
@@ -1090,14 +1103,14 @@ class ChartScreen extends React.Component {
                       }
                     })
                   })
-                  
+
                 })
                 console.log(medicineAmountYear)
                 console.log(this.state.medicineAmountArrayY)
                 medicineAmountYear = 0
               }
-              })
-          
+            })
+
 
         }
 
