@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   ScrollView,
   SafeAreaView,
-  Dimensions
+  Dimensions,
+  Modal
 } from "react-native";
 import axios from "axios";
 import { Picker } from '@react-native-picker/picker';
@@ -64,6 +65,7 @@ const styles = EStyleSheet.create({
   }
 });
 
+
 const MedicineScreen = (navigation) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [medicines, setMedicines] = useState([]);
@@ -71,11 +73,13 @@ const MedicineScreen = (navigation) => {
   const [amountConsumed, setAmountConsumed] = useState("");
   const [units, setUnits] = useState("");
   const user = auth().currentUser
+  const [showHide, setShowHide] = useState(true)
 
   viewabilityConfig = {
     waitForInteraction: true,
-    viewAreaCoveragePercentThreshold: 55
-  } 
+    viewAreaCoveragePercentThreshold: 100,
+    itemVisiblePercentThreshold: 100
+  }
 
   const handleSubmit = () => {
     console.log(`${selectedMedicine}: ${amountConsumed} ${units}`)
@@ -101,7 +105,7 @@ const MedicineScreen = (navigation) => {
     let daysOfTheWeekArray = []
     let week = null
     let days = null
-    
+
 
     firestore()
       .collection('users')
@@ -140,7 +144,7 @@ const MedicineScreen = (navigation) => {
               days = 1 // get days since first data added
             }
             else {
-              days = (Math.ceil((new Date().getTime()- dateArray[0]) / (1000 * 60 * 60 * 24))) + 1
+              days = (Math.ceil((new Date().getTime() - dateArray[0]) / (1000 * 60 * 60 * 24))) + 1
             }
 
             if (daysOfTheWeekArray.length == 0) { // get week of added data
@@ -177,11 +181,13 @@ const MedicineScreen = (navigation) => {
 
   useEffect(() => {
     const handleSearch = async () => {
+      setShowHide({ showHide: true })
       try {
         const response = await axios.get(
           `https://rxnav.nlm.nih.gov/REST/approximateTerm.json?term=${searchTerm}`
         );
         setMedicines(response.data.approximateGroup.candidate);
+        console.log(medicines)
       } catch (error) {
         console.log(error);
       }
@@ -201,65 +207,75 @@ const MedicineScreen = (navigation) => {
   const height = Dimensions.get('window').height
 
   return (
-    
+
     <SafeAreaView>
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.title}>Medicine</Text>
-        <TextInput
-          style={styles.searchBar}
-          value={searchTerm}
-          onChangeText={setSearchTerm}
-          placeholder="Search for a medicine"
-        />
-        <FlatList
-          data={medicines}
-          keyExtractor={(item) => item.rxcui}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => setSelectedMedicine(item.name)}>
-              <Text>{item.name}</Text>
-            </TouchableOpacity>
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={styles.title}>Medicine</Text>
+          <TextInput
+            style={styles.searchBar}
+            value={searchTerm}
+            onChangeText={setSearchTerm}
+            placeholder="Search for a medicine"
+          />
+
+          {showHide &&
+            <FlatList
+              data={medicines}
+              keyExtractor={(item) => item.rxcui}
+              renderItem={({ item }) => (
+                <TouchableOpacity onPress={() => { 
+                  setSelectedMedicine(item.name); 
+                  setShowHide({ showHide: false}) 
+                  }}>
+                  <Text>{item.name}</Text>
+                </TouchableOpacity>
+              )}
+              style={{ zIndex: 1, position: 'absolute', left: 15, top: 100, backgroundColor: '#CCCCCC', padding: 10, width: width - 30 }}
+              viewabilityConfig={viewabilityConfig}
+              removeClippedSubviews='true'
+              maxToRenderPerBatch='10'
+              initialNumToRender='10'
+
+            />
+          }
+
+          {!!selectedMedicine && (
+            <Text style={styles.selectedMedicine}>
+              Selected Medicine: {selectedMedicine}
+            </Text>
           )}
-          style = {{zIndex: 1, position: 'absolute', left: 30, top: 100, width: width, height: height}}
-          viewabilityConfig={viewabilityConfig}
-          
-        />
-        {!!selectedMedicine && (
-          <Text style={styles.selectedMedicine}>
-            Selected Medicine: {selectedMedicine}
-          </Text>
-        )}
-        <View style={styles.pickerContainer}>
-          <Picker
-            style={styles.picker1}
-            selectedValue={amountConsumed}
-            onValueChange={(itemValue) => setAmountConsumed(itemValue)}
+          <View style={styles.pickerContainer}>
+            <Picker
+              style={styles.picker1}
+              selectedValue={amountConsumed}
+              onValueChange={(itemValue) => setAmountConsumed(itemValue)}
+            >
+              <Picker.Item label="Amount Consumed" value="" />
+              <Picker.Item label="1" value={1} />
+              <Picker.Item label="2" value={2} />
+              <Picker.Item label="3" value={3} />
+              <Picker.Item label="4" value={4} />
+              <Picker.Item label="5" value={5} />
+            </Picker>
+            <Picker
+              style={styles.picker2}
+              selectedValue={units}
+              onValueChange={(itemValue) => setUnits(itemValue)}
+            >
+              <Picker.Item label="Units" value="" />
+              <Picker.Item label="g" value="g" />
+              <Picker.Item label="ml" value="ml" />
+            </Picker>
+          </View>
+          <TouchableOpacity
+            style={styles.submitButton}
+            onPress={handleSubmit}
           >
-            <Picker.Item label="Amount Consumed" value="" />
-            <Picker.Item label="1" value = {1} />
-            <Picker.Item label="2" value= {2} />
-            <Picker.Item label="3" value= {3} />
-            <Picker.Item label="4" value= {4} />
-            <Picker.Item label="5" value= {5} />
-          </Picker>
-          <Picker
-            style={styles.picker2}
-            selectedValue={units}
-            onValueChange={(itemValue) => setUnits(itemValue)}
-          >
-            <Picker.Item label="Units" value="" />
-            <Picker.Item label="g" value="g" />
-            <Picker.Item label="ml" value="ml" />
-          </Picker>
+            <Text>Submit</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={styles.submitButton}
-          onPress={handleSubmit}
-        >
-          <Text>Submit</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+      </ScrollView>
     </SafeAreaView>
   );
 };
