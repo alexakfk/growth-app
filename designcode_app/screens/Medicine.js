@@ -181,7 +181,7 @@ const MedicineScreen = (navigation) => {
 
   useEffect(() => {
     const handleSearch = async () => {
-      setShowHide({ showHide: true })
+      setShowHide(true)
       try {
         const response = await axios.get(
           `https://rxnav.nlm.nih.gov/REST/approximateTerm.json?term=${searchTerm}`
@@ -219,26 +219,38 @@ const MedicineScreen = (navigation) => {
             placeholder="Search for a medicine"
           />
 
-          {showHide &&
+          {showHide && (
             <FlatList
               data={medicines}
               keyExtractor={(item) => item.rxcui}
               renderItem={({ item }) => (
                 <TouchableOpacity onPress={() => { 
+                  setShowHide(false) 
                   setSelectedMedicine(item.name); 
-                  setShowHide({ showHide: false}) 
                   }}>
                   <Text>{item.name}</Text>
                 </TouchableOpacity>
               )}
-              style={{ zIndex: 1, position: 'absolute', left: 15, top: 100, backgroundColor: '#CCCCCC', padding: 10, width: width - 30 }}
+              style={{ 
+                zIndex: 1, 
+                position: 'absolute', 
+                left: 15, 
+                top: 100, 
+                backgroundColor: '#d8d6d6', 
+                padding: 10, 
+                width: width - 30, 
+                borderBottomLeftRadius: 30,
+                borderBottomRightRadius: 30,
+                overflow: 'hidden',
+                height: 300
+              }}
               viewabilityConfig={viewabilityConfig}
               removeClippedSubviews='true'
               maxToRenderPerBatch='10'
               initialNumToRender='10'
 
             />
-          }
+          )}
 
           {!!selectedMedicine && (
             <Text style={styles.selectedMedicine}>

@@ -173,11 +173,8 @@ const SleepScreen = (navigation) => {
     <Text style={styles.title}>Sleep</Text>
         <View style={styles.timeContainer}>
         <Text style={styles.sub}>Yesterday's Bedtime:</Text>
-        <Button title="Open" onPress={() => setOpen1(true)} />
       <DatePicker
-        modal
         mode="time"
-        open={open1}
         date={startDate}
         onConfirm={(startDate) => {
           setOpen1(false)
@@ -188,16 +185,13 @@ const SleepScreen = (navigation) => {
           setOpen1(false)
         }}
       />
-      <Text>{startDate.getHours() + ':' + startDate.getMinutes() + am_pm1}</Text>
     </View>
 
     <View style={styles.timeContainer}>
       <Text style={styles.sub}>Wake Up Time:</Text>
-      <Button title="Open" onPress={() => setOpen2(true)} />
       <DatePicker
-        modal
+        
         mode="time"
-        open={open2}
         date={endDate}
         onConfirm={(endDate) => {
           setOpen2(false)
@@ -208,7 +202,6 @@ const SleepScreen = (navigation) => {
           setOpen2(false)
         }}
       />
-      <Text>{endDate.getHours() + ':' + endDate.getMinutes() + am_pm2}</Text>
       </View>
 
       <TextInput
