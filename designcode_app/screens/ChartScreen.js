@@ -9,7 +9,18 @@ import update from 'immutability-helper'
 import Icon from 'react-native-vector-icons/Entypo'
 
 
+const std = (b, a) => {
+  c = Math.sqrt(Math.pow(a - b, 2))
+  return c
+}
+
+const ave = (array, length) => {
+  d = array.reduce((a, b) => a + b) / length
+  return d
+}
+
 class ChartScreen extends React.Component {
+  
 
   static navigationOptions = {
     headerShown: false,
@@ -206,13 +217,13 @@ class ChartScreen extends React.Component {
 
           this.setState({ restlessDataArray: [...this.state.restlessDataArray, documentSnapshot.data().restlessnessDuration] })
 
-          if (documentSnapshot.data().week > 5) {
-            let n = this.state.restlessDataArray.length
-            let restlessWeekAverage = this.state.restlessDataArray.reduce((a, b) => a + b) / n
-            console.log(restlessWeekAverage)
-            let restlessWeekDeviation = Math.sqrt(Math.pow(documentSnapshot.data().restlessnessDuration - restlessWeekAverage, 2))
-            console.log('i' + restlessWeekDeviation)
-          }
+          
+          let n = this.state.restlessDataArray.length
+          let restlessWeekAverage = ave(this.state.restlessDataArray, n)
+          console.log('AVERAGE' + restlessWeekAverage)
+          let restlessWeekDeviation = std(restlessWeekAverage, documentSnapshot.data().restlessnessDuration)
+          console.log('i' + restlessWeekDeviation)
+
         })
 
 
@@ -1054,7 +1065,7 @@ class ChartScreen extends React.Component {
 
 
       })
-
+    // 3 standard deviations from the me average week, calc
     firestore()
       .collection('users')
       .doc(user.uid)
@@ -1105,7 +1116,7 @@ class ChartScreen extends React.Component {
                   })
 
                 })
-                console.log(medicineAmountYear)
+
                 console.log(this.state.medicineAmountArrayY)
                 medicineAmountYear = 0
               }
@@ -1121,6 +1132,7 @@ class ChartScreen extends React.Component {
 
 
   render() {
+    
     let restlessnessDuration = {
       labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       datasets: [{ data: this.state.restlessDur }]
