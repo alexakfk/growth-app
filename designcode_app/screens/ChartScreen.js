@@ -20,7 +20,7 @@ const ave = (array, length) => {
 }
 
 class ChartScreen extends React.Component {
-  
+
 
   static navigationOptions = {
     headerShown: false,
@@ -217,13 +217,6 @@ class ChartScreen extends React.Component {
 
           this.setState({ restlessDataArray: [...this.state.restlessDataArray, documentSnapshot.data().restlessnessDuration] })
 
-          
-          let n = this.state.restlessDataArray.length
-          let restlessWeekAverage = ave(this.state.restlessDataArray, n)
-          console.log('AVERAGE' + restlessWeekAverage)
-          let restlessWeekDeviation = std(restlessWeekAverage, documentSnapshot.data().restlessnessDuration)
-          console.log('i' + restlessWeekDeviation)
-
         })
 
 
@@ -403,7 +396,18 @@ class ChartScreen extends React.Component {
 
             restlessDurationMonth = restlessDurationMonth + documentSnapshot.data().restlessnessDuration
             this.setState({ restlessDurM: update(this.state.restlessDurM, { [documentSnapshot.data().month]: { $set: restlessDurationMonth } }) })
+
+            let n = this.state.restlessDataArray.length
+            let restlessMonthAverage = ave(this.state.restlessDurM, n)
+            console.log('AVERAGE' + restlessMonthAverage)
+            let restlessMonthDeviation = std(restlessMonthAverage, documentSnapshot.data().restlessnessDuration)
+            console.log('i' + restlessMonthDeviation)
+            
           })
+
+
+
+
 
 
         })
@@ -1132,7 +1136,7 @@ class ChartScreen extends React.Component {
 
 
   render() {
-    
+
     let restlessnessDuration = {
       labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       datasets: [{ data: this.state.restlessDur }]
