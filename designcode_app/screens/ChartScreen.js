@@ -14,8 +14,8 @@ const std = (b, a) => {
   return c
 }
 
-const ave = (array, length) => {
-  d = array.reduce((a, b) => a + b) / length
+const ave = (sum, length) => {
+  d = sum / length
   return d
 }
 
@@ -143,7 +143,22 @@ class ChartScreen extends React.Component {
       urineTimY: [],
       stoolTimY: [],
       medicationYearArray: [],
-      restlessDataArray: []
+      restlessDataArray: [],
+      restlessMonths: [],
+      refusalMonths: [],
+      yellingMonths: [],
+      hallucinationsMonths: [],
+      wanderingMonths: [],
+      weekArray: [],
+      currentWeek: null,
+      weekArray2: [],
+      currentWeek2: null,
+      weekArray3: [],
+      currentWeek3: null,
+      weekArray4: [],
+      currentWeek4: null,
+      weekArray5: [],
+      currentWeek5: null,
 
     }
   }
@@ -151,16 +166,7 @@ class ChartScreen extends React.Component {
 
   componentDidMount() {
     const user = auth().currentUser
-    let weekArray = []
-    let currentWeek = null
-    let weekArray2 = []
-    let currentWeek2 = null
-    let weekArray3 = []
-    let currentWeek3 = null
-    let weekArray4 = []
-    let currentWeek4 = null
-    let weekArray5 = []
-    let currentWeek5 = null
+
     let sleepDurationWeekArray = []
     let sleepDurationCurrentWeek = null
     let stoolTimesWeekArray = []
@@ -193,6 +199,27 @@ class ChartScreen extends React.Component {
     let stoolTimesYear = 0
     let medicineAmountYear = 0
 
+    let restlessMonthAverage = 0
+    let restlessWeekData = 0
+    let restlessWeekAve = 0
+
+    let refusalMonthAverage = 0
+    let refusalWeekData = 0
+    let refusalWeekAve = 0
+
+    let yellingMonthAverage = 0
+    let yellingWeekData = 0
+    let yellingWeekAve = 0
+
+    let wanderingMonthAverage = 0
+    let wanderingWeekData = 0
+    let wanderingWeekAve = 0
+
+    let hallucinationsMonthAverage = 0
+    let hallucinationsWeekData = 0
+    let hallucinationsWeekAve = 0
+
+
 
 
 
@@ -213,20 +240,18 @@ class ChartScreen extends React.Component {
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
-          weekArray = [...weekArray, documentSnapshot.data().week] //go through all documents, put each week number in an array
-
-          this.setState({ restlessDataArray: [...this.state.restlessDataArray, documentSnapshot.data().restlessnessDuration] })
+          this.setState({ weekArray: [...this.state.weekArray, documentSnapshot.data().week] }) //go through all documents, put each week number in an array
 
         })
 
 
-        currentWeek = weekArray[(weekArray.length - 1)] //go through all data in array, get the week of last data in array
+        this.setState({ currentWeek: this.state.weekArray[(this.state.weekArray.length - 1)] }) //go through all data in array, get the week of last data in array
 
         firestore() //do another firestore() get()
           .collection('users')
           .doc(user.uid)
           .collection('Behaviors')
-          .where('week', '==', currentWeek) //order by date, where week = the week of last data in array
+          .where('week', '==', this.state.currentWeek) //order by date, where week = the week of last data in array
           .where('selectedOption2', '==', 'Restlessness')
           .orderBy('date', 'asc')
           .get()
@@ -254,15 +279,18 @@ class ChartScreen extends React.Component {
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
-          weekArray2 = [...weekArray2, documentSnapshot.data().week] //go through all documents, put each week number in an array
+          this.setState({ weekArray2: [...this.state.weekArray2, documentSnapshot.data().week] }) //go through all documents, put each week number in an array
+
         })
-        currentWeek2 = weekArray2[(weekArray2.length - 1)] //go through all data in array, get the week of last data in array
+
+
+        this.setState({ currentWeek2: this.state.weekArray2[(this.state.weekArray2.length - 1)] }) //go through all data in array, get the week of last data in array
 
         firestore() //do another firestore() get()
           .collection('users')
           .doc(user.uid)
           .collection('Behaviors')
-          .where('week', '==', currentWeek2) //order by date, where week = the week of last data in array
+          .where('week', '==', this.state.currentWeek2) //order by date, where week = the week of last data in array
           .where('selectedOption2', '==', 'Refusal')
           .orderBy('date', 'asc')
           .get()
@@ -288,15 +316,18 @@ class ChartScreen extends React.Component {
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
-          weekArray3 = [...weekArray3, documentSnapshot.data().week] //go through all documents, put each week number in an array
+          this.setState({ weekArray3: [...this.state.weekArray3, documentSnapshot.data().week] }) //go through all documents, put each week number in an array
+
         })
-        currentWeek3 = weekArray3[(weekArray3.length - 1)] //go through all data in array, get the week of last data in array
+
+
+        this.setState({ currentWeek3: this.state.weekArray3[(this.state.weekArray3.length - 1)] }) //go through all data in array, get the week of last data in array
 
         firestore() //do another firestore() get()
           .collection('users')
           .doc(user.uid)
           .collection('Behaviors')
-          .where('week', '==', currentWeek3) //order by date, where week = the week of last data in array
+          .where('week', '==', this.state.currentWeek3) //order by date, where week = the week of last data in array
           .where('selectedOption2', '==', 'Yelling')
           .orderBy('date', 'asc')
           .get()
@@ -322,15 +353,17 @@ class ChartScreen extends React.Component {
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
-          weekArray4 = [...weekArray4, documentSnapshot.data().week] //go through all documents, put each week number in an array
-        })
-        currentWeek4 = weekArray4[(weekArray4.length - 1)] //go through all data in array, get the week of last data in array
+          this.setState({ weekArray4: [...this.state.weekArray4, documentSnapshot.data().week] }) //go through all documents, put each week number in an array
 
+        })
+
+
+        this.setState({ currentWeek4: this.state.weekArray4[(this.state.weekArray4.length - 1)] }) //go through all data in array, get the week of last data in array
         firestore() //do another firestore() get()
           .collection('users')
           .doc(user.uid)
           .collection('Behaviors')
-          .where('week', '==', currentWeek4) //order by date, where week = the week of last data in array
+          .where('week', '==', this.state.currentWeek4) //order by date, where week = the week of last data in array
           .where('selectedOption2', '==', 'Wandering')
           .orderBy('date', 'asc')
           .get()
@@ -356,15 +389,17 @@ class ChartScreen extends React.Component {
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
-          weekArray5 = [...weekArray5, documentSnapshot.data().week] //go through all documents, put each week number in an array
-        })
-        currentWeek5 = weekArray5[(weekArray5.length - 1)] //go through all data in array, get the week of last data in array
+          this.setState({ weekArray5: [...this.state.weekArray5, documentSnapshot.data().week] }) //go through all documents, put each week number in an array
 
+        })
+
+
+        this.setState({ currentWeek5: this.state.weekArray5[(this.state.weekArray5.length - 1)] }) //go through all data in array, get the week of last data in array
         firestore() //do another firestore() get()
           .collection('users')
           .doc(user.uid)
           .collection('Behaviors')
-          .where('week', '==', currentWeek5) //order by date, where week = the week of last data in array
+          .where('week', '==', this.state.currentWeek5) //order by date, where week = the week of last data in array
           .where('selectedOption2', '==', 'Hallucinations')
           .orderBy('date', 'asc')
           .get()
@@ -380,125 +415,240 @@ class ChartScreen extends React.Component {
       }
       )
 
-    for (i = 0; i < 12; i++) {
-      firestore() // Monthly Behavior Data
-        .collection('users')
-        .doc(user.uid)
-        .collection('Behaviors')
-        .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
-        .where('month', '==', i)
-        .where('selectedOption2', '==', 'Restlessness')
-        .where('data', '==', 'true')
-        .orderBy('date', 'asc')
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
 
-            restlessDurationMonth = restlessDurationMonth + documentSnapshot.data().restlessnessDuration
-            this.setState({ restlessDurM: update(this.state.restlessDurM, { [documentSnapshot.data().month]: { $set: restlessDurationMonth } }) })
+    firestore() // Monthly Behavior Data
+      .collection('users')
+      .doc(user.uid)
+      .collection('Behaviors')
+      .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
+      .where('selectedOption2', '==', 'Restlessness')
+      .where('data', '==', 'true')
+      .orderBy('date', 'asc')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          this.setState({ restlessMonths: [...this.state.restlessMonths, documentSnapshot.data().month] })
+          this.setState({ restlessMonths: [...new Set(this.state.restlessMonths)] })
 
-            let n = this.state.restlessDataArray.length
-            let restlessMonthAverage = ave(this.state.restlessDurM, n)
-            console.log('AVERAGE' + restlessMonthAverage)
-            let restlessMonthDeviation = std(restlessMonthAverage, documentSnapshot.data().restlessnessDuration)
-            console.log('i' + restlessMonthDeviation)
-            
-          })
+          this.setState({ refusalMonths: [...this.state.refusalMonths, documentSnapshot.data().month] })
+          this.setState({ refusalMonths: [...new Set(this.state.refusalMonths)] })
 
+          this.setState({ yellingMonths: [...this.state.yellingMonths, documentSnapshot.data().month] })
+          this.setState({ yellingMonths: [...new Set(this.state.yellingMonths)] })
 
+          this.setState({ wanderingMonths: [...this.state.wanderingMonths, documentSnapshot.data().month] })
+          this.setState({ wanderingMonths: [...new Set(this.state.wanderingMonths)] })
 
-
-
-
+          this.setState({ hallucinationsMonths: [...this.state.hallucinationsMonths, documentSnapshot.data().month] })
+          this.setState({ hallucinationsMonths: [...new Set(this.state.hallucinationsMonths)] })
         })
 
-      firestore() // Monthly Behavior Data
-        .collection('users')
-        .doc(user.uid)
-        .collection('Behaviors')
-        .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
-        .where('month', '==', i)
-        .where('selectedOption2', '==', 'Refusal')
-        .where('data', '==', 'true')
-        .orderBy('date', 'asc')
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
+        for (i = 0; i < 12; i++) {
+          firestore() // Monthly Behavior Data
+            .collection('users')
+            .doc(user.uid)
+            .collection('Behaviors')
+            .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
+            .where('month', '==', i)
+            .where('selectedOption2', '==', 'Restlessness')
+            .where('data', '==', 'true')
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+                if (documentSnapshot.data().week == this.state.currentWeek) {
+                  restlessWeekData = restlessWeekData + documentSnapshot.data().restlessnessDuration // get total duration from whole week
+                  restlessWeekAve = restlessWeekData / 7 // get average duration from whole week
+                }
+                restlessDurationMonth = restlessDurationMonth + documentSnapshot.data().restlessnessDuration
+                this.setState({ restlessDurM: update(this.state.restlessDurM, { [documentSnapshot.data().month]: { $set: restlessDurationMonth } }) })
+                // put all months in an array
+                // get first month from there
+                if (documentSnapshot.data().month == this.state.restlessMonths[0]) {
+                  let n = new Date(new Date().getFullYear(), this.state.restlessMonths[0], 0).getDate()
+                  restlessMonthAverage = ave(this.state.restlessDurM[this.state.restlessMonths[0]], n)
+                  console.log('AVERAGE' + restlessMonthAverage)
+                }
+                else if (new Date().getDay() == 0) {
+                  let restlessMonthDeviation = std(restlessMonthAverage, restlessWeekAve) //standard deviation of weekly average with monthly average
+                  console.log('i' + restlessMonthDeviation)
+                  if (restlessMonthDeviation >= 5) {
+                    //ALERT THIS IS AN OUTLIER
+                     
+                  }
+                }
 
-            refusalDurationMonth = refusalDurationMonth + documentSnapshot.data().refusalDuration
-            this.setState({ refusalDurM: update(this.state.refusalDurM, { [documentSnapshot.data().month]: { $set: refusalDurationMonth } }) })
-          })
-
-
-
-        })
-
-      firestore() // Monthly Behavior Data
-        .collection('users')
-        .doc(user.uid)
-        .collection('Behaviors')
-        .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
-        .where('month', '==', i)
-        .where('selectedOption2', '==', 'Yelling')
-        .where('data', '==', 'true')
-        .orderBy('date', 'asc')
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-
-            yellingDurationMonth = yellingDurationMonth + documentSnapshot.data().yellingDuration
-            this.setState({ yellDurM: update(this.state.yellDurM, { [documentSnapshot.data().month]: { $set: yellingDurationMonth } }) })
-
-          })
-        })
-
-      firestore() // Monthly Behavior Data
-        .collection('users')
-        .doc(user.uid)
-        .collection('Behaviors')
-        .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
-        .where('month', '==', i)
-        .where('selectedOption2', '==', 'Wandering')
-        .where('data', '==', 'true')
-        .orderBy('date', 'asc')
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-
-            wanderingDurationMonth = wanderingDurationMonth + documentSnapshot.data().wanderingDuration
-            this.setState({ wanderingDurM: update(this.state.wanderingDurM, { [documentSnapshot.data().month]: { $set: wanderingDurationMonth } }) })
-
-          })
+              })
 
 
-        })
-
-      firestore() // Monthly Behavior Data
-        .collection('users')
-        .doc(user.uid)
-        .collection('Behaviors')
-        .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
-        .where('month', '==', i)
-        .where('selectedOption2', '==', 'Hallucinations')
-        .where('data', '==', 'true')
-        .orderBy('date', 'asc')
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-
-            hallucinationsDurationMonth = hallucinationsDurationMonth + documentSnapshot.data().hallucinationsDuration
-            this.setState({ hallucinationsDurM: update(this.state.hallucinationsDurM, { [documentSnapshot.data().month]: { $set: hallucinationsDurationMonth } }) })
-
-          })
 
 
-        })
-      restlessDurationMonth = 0
-      refusalDurationMonth = 0
-      yellingDurationMonth = 0
-      wanderingDurationMonth = 0
-      hallucinationsDurationMonth = 0
-    }
+
+
+            })
+
+          firestore() // Monthly Behavior Data
+            .collection('users')
+            .doc(user.uid)
+            .collection('Behaviors')
+            .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
+            .where('month', '==', i)
+            .where('selectedOption2', '==', 'Refusal')
+            .where('data', '==', 'true')
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+
+                if (documentSnapshot.data().week == this.state.currentWeek) {
+                  refusalWeekData = refusalWeekData + documentSnapshot.data().refusalDuration // get total duration from whole week
+                  refusalWeekAve = refusalWeekData / 7 // get average duration from whole week
+                }
+                refusalDurationMonth = refusalDurationMonth + documentSnapshot.data().refusalDuration
+                this.setState({ refusalDurM: update(this.state.refusalDurM, { [documentSnapshot.data().month]: { $set: refusalDurationMonth } }) })
+                // put all months in an array
+                // get first month from there
+                if (documentSnapshot.data().month == this.state.refusalMonths[0]) {
+                  let n = new Date(new Date().getFullYear(), this.state.refusalMonths[0], 0).getDate()
+                  refusalMonthAverage = ave(this.state.refusalDurM[this.state.refusalMonths[0]], n)
+                  console.log('AVERAGE' + refusalMonthAverage)
+                }
+                else if (new Date().getDay() == 0) {
+                  let refusalMonthDeviation = std(refusalMonthAverage, refusalWeekAve) //standard deviation of weekly average with monthly average
+                  console.log('i' + refusalMonthDeviation)
+                  if (refusalMonthDeviation >= 3) {
+                    //ALERT THIS IS AN OUTLIER
+                  }
+                }
+
+              })
+
+
+
+            })
+
+          firestore() // Monthly Behavior Data
+            .collection('users')
+            .doc(user.uid)
+            .collection('Behaviors')
+            .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
+            .where('month', '==', i)
+            .where('selectedOption2', '==', 'Yelling')
+            .where('data', '==', 'true')
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+
+                if (documentSnapshot.data().week == this.state.currentWeek) {
+                  yellingWeekData = yellingWeekData + documentSnapshot.data().yellingDuration // get total duration from whole week
+                  yellingWeekAve = yellingWeekData / 7 // get average duration from whole week
+                }
+                yellingDurationMonth = yellingDurationMonth + documentSnapshot.data().yellingDuration
+                this.setState({ yellDurM: update(this.state.yellDurM, { [documentSnapshot.data().month]: { $set: yellingDurationMonth } }) })
+                // put all months in an array
+                // get first month from there
+                if (documentSnapshot.data().month == this.state.yellingMonths[0]) {
+                  let n = new Date(new Date().getFullYear(), this.state.yellingMonths[0], 0).getDate()
+                  yellingMonthAverage = ave(this.state.yellDurM[this.state.yellingMonths[0]], n)
+                  console.log('AVERAGE' + yellingMonthAverage)
+                }
+                else if (new Date().getDay() == 0) {
+                  let yellingMonthDeviation = std(yellingMonthAverage, yellingWeekAve) //standard deviation of weekly average with monthly average
+                  console.log('i' + yellingMonthDeviation)
+                  if (yellingMonthDeviation >= 3) {
+                    //ALERT THIS IS AN OUTLIER
+                  }
+                }
+
+              })
+            })
+
+          firestore() // Monthly Behavior Data
+            .collection('users')
+            .doc(user.uid)
+            .collection('Behaviors')
+            .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
+            .where('month', '==', i)
+            .where('selectedOption2', '==', 'Wandering')
+            .where('data', '==', 'true')
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+
+                if (documentSnapshot.data().week == this.state.currentWeek) {
+                  wanderingWeekData = wanderingWeekData + documentSnapshot.data().wanderingDuration // get total duration from whole week
+                  wanderingWeekAve = wanderingWeekData / 7 // get average duration from whole week
+                }
+                wanderingDurationMonth = wanderingDurationMonth + documentSnapshot.data().wanderingDuration
+                this.setState({ wanderingDurM: update(this.state.wanderingDurM, { [documentSnapshot.data().month]: { $set: wanderingDurationMonth } }) })
+                // put all months in an array
+                // get first month from there
+                if (documentSnapshot.data().month == this.state.wanderingMonths[0]) {
+                  let n = new Date(new Date().getFullYear(), this.state.wanderingMonths[0], 0).getDate()
+                  wanderingMonthAverage = ave(this.state.wanderingDurM[this.state.wanderingMonths[0]], n)
+                  console.log('AVERAGE' + wanderingMonthAverage)
+                }
+                else if (new Date().getDay() == 0) {
+                  let wanderingMonthDeviation = std(wanderingMonthAverage, wanderingWeekAve) //standard deviation of weekly average with monthly average
+                  console.log('i' + wanderingMonthDeviation)
+                  if (wanderingMonthDeviation >= 3) {
+                    //ALERT THIS IS AN OUTLIER
+                  }
+                }
+
+              })
+
+
+            })
+
+          firestore() // Monthly Behavior Data
+            .collection('users')
+            .doc(user.uid)
+            .collection('Behaviors')
+            .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
+            .where('month', '==', i)
+            .where('selectedOption2', '==', 'Hallucinations')
+            .where('data', '==', 'true')
+            .orderBy('date', 'asc')
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(documentSnapshot => {
+
+                if (documentSnapshot.data().week == this.state.currentWeek) {
+                  hallucinationsWeekData = hallucinationsWeekData + documentSnapshot.data().hallucinationsDuration // get total duration from whole week
+                  hallucinationsWeekAve = hallucinationsWeekData / 7 // get average duration from whole week
+                }
+                hallucinationsDurationMonth = hallucinationsDurationMonth + documentSnapshot.data().hallucinationsDuration
+                this.setState({ hallucinationsDurM: update(this.state.hallucinationsDurM, { [documentSnapshot.data().month]: { $set: hallucinationsDurationMonth } }) })
+                // put all months in an array
+                // get first month from there
+                if (documentSnapshot.data().month == this.state.hallucinationsMonths[0]) {
+                  let n = new Date(new Date().getFullYear(), this.state.hallucinationsMonths[0], 0).getDate()
+                  hallucinationsMonthAverage = ave(this.state.hallucinationsDurM[this.state.hallucinationsMonths[0]], n)
+                  console.log('AVERAGE' + hallucinationsMonthAverage)
+                }
+                else if (new Date().getDay() == 0) {
+                  let hallucinationsMonthDeviation = std(hallucinationsMonthAverage, hallucinationsWeekAve) //standard deviation of weekly average with monthly average
+                  console.log('i' + hallucinationsMonthDeviation)
+                  if (hallucinationsMonthDeviation >= 3) {
+                    //ALERT THIS IS AN OUTLIER
+                  }
+                }
+
+              })
+
+
+            })
+          restlessDurationMonth = 0
+          refusalDurationMonth = 0
+          yellingDurationMonth = 0
+          wanderingDurationMonth = 0
+          hallucinationsDurationMonth = 0
+        }
+
+      })
 
     firestore() // Yearly Behavior Data
       .collection('users')
@@ -1370,6 +1520,9 @@ class ChartScreen extends React.Component {
           fromZero='true'
         />
         <LineChart
+          onDataPointClick={() => {
+            console.log(this.state.tickers[0]);
+          }}
           data={this.state.medicineAmountDataset[this.state.medicineArray.indexOf(medicine)]}
           width={width - 15}
           height={height}
@@ -1489,6 +1642,9 @@ class ChartScreen extends React.Component {
                       fromZero='true'
                     />
                     <LineChart
+                      onDataPointClick={() => {
+                        console.log('clicked');
+                      }}
                       data={restlessnessDuration}
                       width={width}
                       height={height}

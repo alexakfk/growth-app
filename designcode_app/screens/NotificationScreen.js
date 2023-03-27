@@ -18,7 +18,7 @@ const NotificationScreen = (navigation) => {
             fontSize: 30,
             color: "black",
             fontWeight: "bold",
-            paddingBottom: "0.5rem"
+            padding: "2rem"
         },
     })
     return (
