@@ -25,13 +25,7 @@ class SectionScreen extends React.Component {
         <Container>
           <View>
             <Name>{section.name}</Name>
-            <TouchableOpacity style={{ position: "absolute", right: 30, top: 70 }}
-              onPress={() => {
-                this.props.navigation.navigate("Notification");
-              }}
-            >
-              <Ionicons name="heart" size={40} color='red' />
-            </TouchableOpacity>
+           
           </View>
           <Close>
             <Text>Personal Information:</Text>

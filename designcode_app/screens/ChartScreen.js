@@ -93,7 +93,7 @@ class ChartScreen extends React.Component {
       medicineAmountDatasetM: [
         {
           labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }]
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }],
         },
         {
           labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
@@ -474,7 +474,7 @@ class ChartScreen extends React.Component {
                   console.log('i' + restlessMonthDeviation)
                   if (restlessMonthDeviation >= 5) {
                     //ALERT THIS IS AN OUTLIER
-                     
+
                   }
                 }
 
@@ -1181,21 +1181,26 @@ class ChartScreen extends React.Component {
             .collection('Medicine')
             .where('data', '==', 'true')
             .where('selectedMedicine', '==', this.state.medicineArray[q])
-            .where('year', '==', new Date().getFullYear()) //order by date, where year is this year
+            .where('year', '==', new Date().getFullYear().toString()) //order by date, where year is this year
             .orderBy('date', 'asc')
             .get()
             .then(querySnapshot => {
               for (j = 0; j < 12; j++) {
                 querySnapshot.forEach(documentSnapshot => {
+
                   if (documentSnapshot.data().month == j) {
                     medicineAmountMonth = medicineAmountMonth + documentSnapshot.data().amountConsumed
+                    console.log('MedicineM' + medicineAmountMonth)
                   }
                   selectedMedicine = documentSnapshot.data().selectedMedicine
+
                 })
+
                 this.setState({ medicineAmountArrayM: update(this.state.medicineAmountArrayM, { [j]: { $set: medicineAmountMonth } }) })
-                console.log(this.state.medicineAmountArrayM)
+                console.log('YES' + this.state.medicineAmountArrayM)
                 medicineAmountMonth = 0
               }
+
 
               let l = this.state.medicineArray.indexOf(selectedMedicine)
               this.setState({
@@ -1289,7 +1294,8 @@ class ChartScreen extends React.Component {
 
     let restlessnessDuration = {
       labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-      datasets: [{ data: this.state.restlessDur }]
+      datasets: [{ data: this.state.restlessDur }],
+      note: ['hi', 'hi']
     }
     let refusalDuration = {
       labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -1642,8 +1648,8 @@ class ChartScreen extends React.Component {
                       fromZero='true'
                     />
                     <LineChart
-                      onDataPointClick={() => {
-                        console.log('clicked');
+                      onDataPointClick={(value) => {
+                        console.log(value);
                       }}
                       data={restlessnessDuration}
                       width={width}
@@ -1653,6 +1659,7 @@ class ChartScreen extends React.Component {
                       yAxisSuffix=' min'
                       fromZero='true'
                     />
+                    
                   </View>
                   <View tabLabel='Refusal'>
                     <BarChart

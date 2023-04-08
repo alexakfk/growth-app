@@ -174,13 +174,7 @@ class HomeScreen extends React.Component {
                 </TouchableOpacity>
                 <Title>Welcome back, </Title>
                 <Name>{user.displayName}</Name>
-                <TouchableOpacity style={{ position: "absolute", right: 80, top: 0 }}
-                  onPress={() => {
-                    this.props.navigation.navigate("Health");
-                  }}
-                >
-                  <Ionicons name="heart" size={40} color='red' />
-                </TouchableOpacity>
+                
                 <TouchableOpacity
                   style={{ position: "absolute", right: 30, top: 0 }}
                   onPress={() => {
