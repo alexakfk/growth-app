@@ -7,6 +7,7 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import update from 'immutability-helper'
 import Icon from 'react-native-vector-icons/Entypo'
+import Popup from "../components/Popup";
 
 
 const std = (b, a) => {
@@ -1649,7 +1650,13 @@ class ChartScreen extends React.Component {
                     />
                     <LineChart
                       onDataPointClick={(value) => {
-                        console.log(value);
+                        console.log(value.index);
+                        for (j = 0; j < 7; j++) {
+                          if (value.index = j) {
+
+                          }
+                        }
+
                       }}
                       data={restlessnessDuration}
                       width={width}
@@ -1659,7 +1666,12 @@ class ChartScreen extends React.Component {
                       yAxisSuffix=' min'
                       fromZero='true'
                     />
+                    <Popup trigger = {true}>
+                      <Text>My popup</Text>
+
+                    </Popup>
                     
+
                   </View>
                   <View tabLabel='Refusal'>
                     <BarChart
