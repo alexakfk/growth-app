@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { StyleSheet, Pressable, ScrollView, Dimensions, Text, Button, View, Linking } from "react-native";
+import { StyleSheet, Pressable, ScrollView, Dimensions, Text, Button, View, Linking, TouchableHighlightBase } from "react-native";
 import { LineChart, ProgressChart, BarChart, PieChart, ContributionGraph, StatusBar } from "react-native-chart-kit";
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import firestore from '@react-native-firebase/firestore';
@@ -160,7 +160,24 @@ class ChartScreen extends React.Component {
       currentWeek4: null,
       weekArray5: [],
       currentWeek5: null,
-
+      buttonPopup: false,
+      noteIndex: null,
+      noteRestlessness: ['', '', '', '', '', '', ''],
+      noteRefusal:['', '', '', '', '', '', ''],
+      noteYelling:['', '', '', '', '', '', ''],
+      noteHallucinations:['', '', '', '', '', '', ''],
+      noteWandering:['', '', '', '', '', '', ''],
+      noteSleep:['', '', '', '', '', '', ''],
+      noteUrine:['', '', '', '', '', '', ''],
+      noteStool:['', '', '', '', '', '', ''],
+      noteRestlessnessDisplay: '',
+      noteRefusalDisplay: '',
+      noteYellingDisplay: '',
+      noteWanderingDisplay: '',
+      noteHallucinationsDisplay: '',
+      noteSleepDisplay: '',
+      noteUrineDisplay: '',
+      noteStoolDisplay: '',
     }
   }
 
@@ -261,8 +278,10 @@ class ChartScreen extends React.Component {
               for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
                 if (documentSnapshot.data().dayOfTheWeek == i) {
                   this.setState({ restlessDur: update(this.state.restlessDur, { [i]: { $set: documentSnapshot.data().restlessnessDuration } }) })
+                  this.setState({noteRestlessness: update(this.state.noteRestlessness, { [i]: { $set: documentSnapshot.data().notes}})})
                 }
               }
+              
             })
           })
       }
@@ -1288,6 +1307,11 @@ class ChartScreen extends React.Component {
       })
     console.log(this.state.medicineYearArray)
 
+    firestore()
+    .collection('users')
+    .doc(user.uid)
+    .collection('Behaviors')
+
   }
 
 
@@ -1650,13 +1674,11 @@ class ChartScreen extends React.Component {
                     />
                     <LineChart
                       onDataPointClick={(value) => {
-                        console.log(value.index);
-                        for (j = 0; j < 7; j++) {
-                          if (value.index = j) {
 
-                          }
-                        }
-
+                        this.setState({noteIndex: value.index})
+                        this.setState({buttonPopup: true})
+                        this.setState({noteRestlessnessDisplay: this.state.noteRestlessness[value.index]})
+                        
                       }}
                       data={restlessnessDuration}
                       width={width}
@@ -1666,9 +1688,11 @@ class ChartScreen extends React.Component {
                       yAxisSuffix=' min'
                       fromZero='true'
                     />
-                    <Popup trigger = {true}>
+                    <Popup trigger = {this.state.buttonPopup} >
                       <Text>My popup</Text>
-
+                      <Text>{this.state.noteIndex}</Text>
+                      <Text>{this.state.noteRestlessnessDisplay}</Text>
+                      <Button title = "close" onPress = {() => this.setState({buttonPopup: false})}></Button>
                     </Popup>
                     
 

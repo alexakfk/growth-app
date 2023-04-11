@@ -175,10 +175,10 @@ const BehaviorScreen = (navigation) => {
               })
 
               if (dateArray.length == 0) {
-                days = 1 // get days since first data added
+                days = 0 + daysOfTheWeekArray[0] // get days since first data added
               }
               else {
-                days = (Math.ceil((new Date().getTime() - dateArray[0]) / (1000 * 60 * 60 * 24))) + 1
+                days = (Math.ceil(((new Date().getTime() - dateArray[0]) + daysOfTheWeekArray[0]) / (1000 * 60 * 60 * 24))) + 1
               } // get days since first data added
 
       
@@ -187,7 +187,7 @@ const BehaviorScreen = (navigation) => {
                 week = 1
               }
               else {
-                week = Math.ceil((days + (daysOfTheWeekArray[0])) / 7)
+                week = Math.ceil(days / 7)
               }
 
 

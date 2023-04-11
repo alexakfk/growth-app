@@ -6,7 +6,6 @@ function Popup(props) {
   return (props.trigger) ? (
     <View style = {styles.popup}>
       <View style = {styles.popupInner}>
-        <Button style = {styles.closeBtn} title = "close"></Button>
         {props.children}
       </View>
     
