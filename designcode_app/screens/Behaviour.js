@@ -230,17 +230,19 @@ const BehaviorScreen = (navigation) => {
               })
 
               if (dateArray2.length == 0) {
-                days2 = 1 // get days since first data added
+                days2 = 0 + daysOfTheWeekArray2[0] // get days since first data added
               }
               else {
-                days2 = (Math.ceil((new Date().getTime() - dateArray2[0]) / (1000 * 60 * 60 * 24))) + 1
-              }
+                days2 = (Math.ceil(((new Date().getTime() - dateArray2[0]) + daysOfTheWeekArray2[0]) / (1000 * 60 * 60 * 24))) + 1
+              } // get days since first data added
 
+      
+              
               if (daysOfTheWeekArray2.length == 0) { // get week of added data
                 week2 = 1
               }
               else {
-                week2 = Math.ceil((days2 + (daysOfTheWeekArray2[0])) / 7)
+                week2 = Math.ceil(days2 / 7)
               }
 
 
@@ -281,18 +283,20 @@ const BehaviorScreen = (navigation) => {
                 daysOfTheWeekArray3 = [...daysOfTheWeekArray3, documentSnapshot.data().dayOfTheWeek]
               })
 
-              if (dateArray3.length == 0) {
-                days3 = 1 // get days since first data added
+              if (dateArray.length3 == 0) {
+                days3 = 0 + daysOfTheWeekArray3[0] // get days since first data added
               }
               else {
-                days3 = (Math.ceil((new Date().getTime() - dateArray3[0]) / (1000 * 60 * 60 * 24))) + 1
-              }
+                days3 = (Math.ceil(((new Date().getTime() - dateArray3[0]) + daysOfTheWeekArray3[0]) / (1000 * 60 * 60 * 24))) + 1
+              } // get days since first data added
 
+      
+              
               if (daysOfTheWeekArray3.length == 0) { // get week of added data
                 week3 = 1
               }
               else {
-                week3 = Math.ceil((days3 + (daysOfTheWeekArray3[0])) / 7)
+                week3 = Math.ceil(days3 / 7)
               }
 
 
@@ -334,17 +338,19 @@ const BehaviorScreen = (navigation) => {
               })
 
               if (dateArray4.length == 0) {
-                days4 = 1 // get days since first data added
+                days4 = 0 + daysOfTheWeekArray4[0] // get days since first data added
               }
               else {
-                days4 = (Math.ceil((new Date().getTime() - dateArray4[0]) / (1000 * 60 * 60 * 24))) + 1
-              }
+                days4 = (Math.ceil(((new Date().getTime() - dateArray4[0]) + daysOfTheWeekArray4[0]) / (1000 * 60 * 60 * 24))) + 1
+              } // get days since first data added
 
+      
+              
               if (daysOfTheWeekArray4.length == 0) { // get week of added data
                 week4 = 1
               }
               else {
-                week4 = Math.ceil((days4 + (daysOfTheWeekArray4[0])) / 7)
+                week4 = Math.ceil(days4 / 7)
               }
 
 
@@ -386,17 +392,19 @@ const BehaviorScreen = (navigation) => {
               })
 
               if (dateArray5.length == 0) {
-                days5 = 1 // get days since first data added
+                days5 = 0 + daysOfTheWeekArray5[0] // get days since first data added
               }
               else {
-                days5 = (Math.ceil((new Date().getTime() - dateArray5[0]) / (1000 * 60 * 60 * 24))) + 1
-              }
+                days5 = (Math.ceil(((new Date().getTime() - dateArray5[0]) + daysOfTheWeekArray5[0]) / (1000 * 60 * 60 * 24))) + 1
+              } // get days since first data added
 
+      
+              
               if (daysOfTheWeekArray5.length == 0) { // get week of added data
                 week5 = 1
               }
               else {
-                week5 = Math.ceil((days5 + (daysOfTheWeekArray5[0])) / 7)
+                week5 = Math.ceil(days5 / 7)
               }
 
 

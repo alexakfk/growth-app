@@ -8,6 +8,7 @@ import auth from '@react-native-firebase/auth';
 import update from 'immutability-helper'
 import Icon from 'react-native-vector-icons/Entypo'
 import Popup from "../components/Popup";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 
 const std = (b, a) => {
@@ -1653,6 +1654,11 @@ class ChartScreen extends React.Component {
                   }}>
                     Behavior Duration
                   </Text>
+                  <TouchableOpacity style = {{paddingLeft: 50}} onPress = {() => {
+                    this.props.navigation.navigate("Notes");
+                    }}>
+                    <Icon name = "clipboard" size = {30}/>
+                  </TouchableOpacity>
 
                 </View>
 

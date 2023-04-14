@@ -11,6 +11,7 @@ import LoginScreen from "../screens/LoginScreen";
 import ChartScreen from "../screens/ChartScreen";
 import HealthScreen from "../screens/HealthScreen"
 import NotificationScreen from "../screens/NotificationScreen";
+import Notes from "../screens/Notes";
 
 
 const AppNavigator = createStackNavigator({
@@ -25,6 +26,7 @@ const AppNavigator = createStackNavigator({
   AddMedicine: MedicineScreen,
   Notification: NotificationScreen,
   Health: HealthScreen,
+  Notes: Notes
     
 },
 {
