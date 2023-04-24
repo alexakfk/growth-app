@@ -293,6 +293,7 @@ const BowelLog = (navigation) => {
                   date: (new Date().getTime()),
                   dateString: new Date().toLocaleDateString(),
                   selectedOption: 'Stool',
+                  dataType: 'Bowel',
                   days: days,
                   dayOfTheWeek: dayOfTheWeek,
                   week: week,
@@ -348,6 +349,7 @@ const BowelLog = (navigation) => {
                   date: (new Date().getTime()), // subtract these two dates
                   dateString: new Date().toLocaleDateString(),
                   selectedOption: 'Urine',
+                  dataType: 'Bowel',
                   days: days2,
                   dayOfTheWeek: dayOfTheWeek,
                   week: week2,

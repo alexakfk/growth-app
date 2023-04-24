@@ -167,6 +167,7 @@ const MedicineScreen = (navigation) => {
                 date: (new Date().getTime()),
                 dateString: new Date().toLocaleDateString(),
                 selectedMedicine: selectedMedicine,
+                dataType: 'Medicine',
                 days: days,
                 dayOfTheWeek: dayOfTheWeek,
                 week: week,

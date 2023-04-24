@@ -4,8 +4,17 @@ import { StyleSheet, Pressable, ScrollView, Dimensions, Text, Button, View, Link
 
 function Popup(props) {
   return (props.trigger) ? (
-    <View style = {styles.popup}>
-      <View style = {styles.popupInner}>
+    <View  style = {{
+      backgroundColor: '#D3D3D3', 
+      padding: 15, 
+      borderRadius: 15, 
+      position: 'absolute',
+      width: '100%', 
+      height: '30%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      }}>
+      <View>
         {props.children}
       </View>
     

@@ -155,6 +155,7 @@ const SleepScreen = (navigation) => {
                 ({
                   date: (new Date().getTime()),
                   dateString: new Date().toLocaleDateString(),
+                  dataType: 'Sleep',
                   days: days,
                   dayOfTheWeek: dayOfTheWeek,
                   week: week,

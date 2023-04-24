@@ -1695,9 +1695,8 @@ class ChartScreen extends React.Component {
                       yAxisSuffix=' min'
                       fromZero='true'
                     />
-                    <Popup trigger = {this.state.buttonPopup} >
-                      <Text>My popup</Text>
-                      <Text>{this.state.noteIndex}</Text>
+                    <Popup trigger = {this.state.buttonPopup}>
+                      <Text>Note</Text>
                       <Text>{this.state.noteRestlessnessDisplay}</Text>
                       <Button title = "close" onPress = {() => this.setState({buttonPopup: false})}></Button>
                     </Popup>

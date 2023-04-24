@@ -201,6 +201,7 @@ const BehaviorScreen = (navigation) => {
                   date: (new Date().getTime()),
                   dateString: new Date().toLocaleDateString(),
                   selectedOption2: 'Restlessness',
+                  dataType: 'Behavior',
                   days: days,
                   dayOfTheWeek: dayOfTheWeek,
                   week: week,
@@ -255,7 +256,9 @@ const BehaviorScreen = (navigation) => {
                 .set
                 ({
                   date: (new Date().getTime()),
+                  dateString: new Date().toLocaleDateString(),
                   selectedOption2: 'Refusal',
+                  dataType: 'Behavior',
                   days: days2,
                   dayOfTheWeek: dayOfTheWeek,
                   week: week2,
@@ -309,7 +312,9 @@ const BehaviorScreen = (navigation) => {
                 .set
                 ({
                   date: (new Date().getTime()),
+                  dateString: new Date().toLocaleDateString(),
                   selectedOption2: 'Yelling',
+                  dataType: 'Behavior',
                   days: days3,
                   dayOfTheWeek: dayOfTheWeek,
                   week: week3,
@@ -363,7 +368,9 @@ const BehaviorScreen = (navigation) => {
                 .set
                 ({
                   date: (new Date().getTime()),
+                  dateString: new Date().toLocaleDateString(),
                   selectedOption2: 'Wandering',
+                  dataType: 'Behavior',
                   days: days4,
                   dayOfTheWeek: dayOfTheWeek,
                   week: week4,
@@ -417,7 +424,9 @@ const BehaviorScreen = (navigation) => {
                 .set
                 ({
                   date: (new Date().getTime()),
+                  dateString: new Date().toLocaleDateString(),
                   selectedOption2: 'Hallucinations',
+                  dataType: 'Behavior',
                   days: days5,
                   dayOfTheWeek: dayOfTheWeek,
                   week: week5,
