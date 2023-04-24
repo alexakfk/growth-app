@@ -849,6 +849,7 @@ class ChartScreen extends React.Component {
               for (let i = 0; i < 7; i++) { //for loop, 0-6, if set data for each week 
                 if (documentSnapshot.data().dayOfTheWeek == i) {
                   this.setState({ sleepDur: update(this.state.sleepDur, { [i]: { $set: documentSnapshot.data().duration } }) })
+                  console.log("sleep array" + this.state.sleepDur)
                 }
               }
             })

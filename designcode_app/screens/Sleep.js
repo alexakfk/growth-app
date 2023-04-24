@@ -69,9 +69,11 @@ const SleepScreen = (navigation) => {
     console.log(startDate.getMonth() + '/' + startDate.getDate() + '/' + startDate.getFullYear())
     console.log(endDate.getMonth() + '/' + endDate.getDate() + '/' + startDate.getFullYear())
     console.log(startDate.getHours() + ':' + startDate.getMinutes())
+    console.log(endDate.getHours() + ':' + endDate.getMinutes())
     console.log(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        endDate.getHours() + ':' + endDate.getMinutes())
     console.log(notes)
-    const duration = (Math.abs(endDate - startDate) / (1000 * 60 * 60))                                                                                                                                                                          
+    const duration = (Math.abs(endDate - startDate) / (1000 * 60 * 60))   
+    console.log(duration)                                                                                                                                                                       
     let initialDate = ({ date: startDate, time: startDate.toLocaleTimeString() })
     let finalDate = ({ endDate: endDate, time: endDate.toLocaleTimeString() })
     let sleepDuration = null
@@ -152,6 +154,7 @@ const SleepScreen = (navigation) => {
                 .set
                 ({
                   date: (new Date().getTime()),
+                  dateString: new Date().toLocaleDateString(),
                   days: days,
                   dayOfTheWeek: dayOfTheWeek,
                   week: week,
@@ -174,33 +177,16 @@ const SleepScreen = (navigation) => {
         <View style={styles.timeContainer}>
         <Text style={styles.sub}>Yesterday's Bedtime:</Text>
       <DatePicker
-        mode="time"
         date={startDate}
-        onConfirm={(startDate) => {
-          setOpen1(false)
-          setStartDate(startDate)
-          am_pm1 = startDate.getHours() >= 12 ? "PM" : "AM";
-        }}
-        onCancel={() => {
-          setOpen1(false)
-        }}
+        onDateChange= {setStartDate}
       />
     </View>
 
     <View style={styles.timeContainer}>
       <Text style={styles.sub}>Wake Up Time:</Text>
       <DatePicker
-        
-        mode="time"
         date={endDate}
-        onConfirm={(endDate) => {
-          setOpen2(false)
-          setEndDate(endDate)
-          am_pm2 = endDate.getHours() >= 12 ? "PM" : "AM";
-        }}
-        onCancel={() => {
-          setOpen2(false)
-        }}
+        onDateChange = {setEndDate}
       />
       </View>
 

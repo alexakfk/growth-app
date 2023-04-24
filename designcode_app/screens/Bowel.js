@@ -291,6 +291,7 @@ const BowelLog = (navigation) => {
                 .set
                 ({
                   date: (new Date().getTime()),
+                  dateString: new Date().toLocaleDateString(),
                   selectedOption: 'Stool',
                   days: days,
                   dayOfTheWeek: dayOfTheWeek,
@@ -345,6 +346,7 @@ const BowelLog = (navigation) => {
                 .set
                 ({
                   date: (new Date().getTime()), // subtract these two dates
+                  dateString: new Date().toLocaleDateString(),
                   selectedOption: 'Urine',
                   days: days2,
                   dayOfTheWeek: dayOfTheWeek,

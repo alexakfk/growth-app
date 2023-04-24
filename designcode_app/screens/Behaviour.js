@@ -199,6 +199,7 @@ const BehaviorScreen = (navigation) => {
                 .set
                 ({
                   date: (new Date().getTime()),
+                  dateString: new Date().toLocaleDateString(),
                   selectedOption2: 'Restlessness',
                   days: days,
                   dayOfTheWeek: dayOfTheWeek,
