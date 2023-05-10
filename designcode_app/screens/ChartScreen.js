@@ -131,19 +131,22 @@ class ChartScreen extends React.Component {
         },
       ],
       medicineAmountArrayY: [], //data for charts
-      medicineAmountDatasetY: [],
+      medicineAmountDatasetY: [{
+        labels: [new Date().getFullYear.toString()],
+        datasets: [{ data: [0]}]
+      }],
       medicineYearArray: [],
-      restlessDurY: [], // data for monthly charts
-      refusalDurY: [],
-      yellDurY: [],
-      wanderingDurY: [],
-      hallucinationsDurY: [],
+      restlessDurY: [0], // data for monthly charts
+      refusalDurY: [0],
+      yellDurY: [0],
+      wanderingDurY: [0],
+      hallucinationsDurY: [0],
       behaviorYearArray: [],
       sleepYearArray: [],
-      sleepDurY: [],
+      sleepDurY: [0],
       bowelYearArray: [],
-      urineTimY: [],
-      stoolTimY: [],
+      urineTimY: [0],
+      stoolTimY: [0],
       medicationYearArray: [],
       restlessDataArray: [],
       restlessMonths: [],
@@ -1385,6 +1388,7 @@ class ChartScreen extends React.Component {
       labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
       datasets: [{ data: this.state.urineTimM }]
     }
+    
 
 
     let restlessnessDurationY = {
@@ -1422,6 +1426,8 @@ class ChartScreen extends React.Component {
       labels: this.state.bowelYearArray,
       datasets: [{ data: this.state.urineTimY }]
     }
+
+   
 
 
     // Mock data object used for Contribution Graph
@@ -1655,10 +1661,12 @@ class ChartScreen extends React.Component {
                   }}>
                     Behavior Duration
                   </Text>
-                  <TouchableOpacity style = {{paddingLeft: 50}} onPress = {() => {
+                  <TouchableOpacity style = {{marginLeft: 50, backgroundColor: '#e2e2e2', padding: 7, display: 'flex',
+  alignItems: 'center', justifyContent: 'center', borderStyle: 'solid', borderColor: 'black', borderWidth: 2}} onPress = {() => {
                     this.props.navigation.navigate("Notes");
                     }}>
-                    <Icon name = "clipboard" size = {30}/>
+                    <Icon name = "clipboard" size = {30} containerStyle = {{marginLeft: 5}}/>
+                    <Text>Notes</Text>
                   </TouchableOpacity>
 
                 </View>
